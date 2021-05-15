@@ -6,27 +6,18 @@ import Vehicle from "../../models/vehicle";
 import Popup from "reactjs-popup";
 import {PropertiesVehicleForm} from "./properties/propertiesVehicleForm";
 import {useEffect, useState} from "react";
-import * as VehicleApi from "../../api/vehicleApi";
 import * as VehicleDriverLinkApi from "../../api/vehicleDriverLinkApi";
 import Employee from "../../models/employee";
 import Colors from "../../constants/colors";
 
-
 interface InterfaceProps {
     vehicle: Vehicle;
+    drivers: Employee[]|null|undefined;
     updateVehicles: () => void;
 }
 
 export const VehicleListItem: React.FunctionComponent<InterfaceProps> = (props) => {
-    const { vehicle } = props;
-    const [driver, setDriver] = useState<Employee|null>(null);
-
-
-    useEffect(() => {
-        (async function() {
-            setDriver(await VehicleDriverLinkApi.getCurrentDriver(vehicle.id));
-        })();
-    }, []);
+    const { vehicle, drivers } = props;
 
     return (
         <div style={styles.container}>
@@ -35,10 +26,12 @@ export const VehicleListItem: React.FunctionComponent<InterfaceProps> = (props) 
                 button={true}
                 style={styles.listItem}
             >
-                <div>
+                <div style={{marginRight: 20}}>
                     {vehicle.getFormattedName()}
                     {<br/>}
-                    {`Driver: ${!!driver ? driver.getFullName() : 'none'}`}
+                    <b>Drivers: </b>
+                    {<br/>}
+                    {`${!!drivers ? drivers.map(d => d.getFullName()).join(', ') : 'none'}`}
                 </div>
                 <Popup
                     trigger={

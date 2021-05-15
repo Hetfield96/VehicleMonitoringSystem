@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VMS_Backend.Data.DatabaseModels;
@@ -18,35 +20,58 @@ namespace VMS_Backend.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<VehicleDriverLink>> Create([FromBody] VehicleDriverLink vehicleDriverLink)
+        [Route("{vehicleId}")]
+        public async Task<ActionResult> Create(int vehicleId, [FromBody] List<string> driverIds)
         {
             var now = DateTime.Now;
             
-            var currentDriverLink = await _vehicleDriverLinkService.GetCurrentDriverLink(vehicleDriverLink.VehicleId);
-            if (currentDriverLink != null)
+            var currentDriversLinks = await _vehicleDriverLinkService.GetCurrentDriversLinks(vehicleId);
+            var currentDriversLinksDict = currentDriversLinks.ToDictionary(vdl => vdl.DriverId);
+            
+            // Adding new links
+            foreach (var driverId in driverIds)
             {
-                currentDriverLink.EndDate = now;
-                await _vehicleDriverLinkService.Edit(currentDriverLink);
+                if (!currentDriversLinksDict.ContainsKey(driverId))
+                {
+                    var vehicleDriverLink = new VehicleDriverLink(driverId, vehicleId, now);
+                    await _vehicleDriverLinkService.AddNewItem(vehicleDriverLink, now);
+                }
             }
 
-            var res = await _vehicleDriverLinkService.AddNewItem(vehicleDriverLink, now);
+            // Editing old links
+            foreach (var currentDriverLink in currentDriversLinks)
+            {
+                if (!driverIds.Contains(currentDriverLink.DriverId))
+                {
+                    currentDriverLink.EndDate = now;
+                    await _vehicleDriverLinkService.Edit(currentDriverLink);
+                }
+            }
             
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("getCurrentVehiclesDriversMap/{companyId}")]
+        public async Task<ActionResult<Dictionary<int, List<Employee>>>> GetCurrentVehiclesDriversMap(int companyId)
+        {
+            var res = await _vehicleDriverLinkService.GetCurrentVehiclesDriversMap(companyId);
             return Ok(res);
         }
 
         [HttpGet]
-        [Route("getCurrentDriverLink/{vehicleId}")]
-        public async Task<ActionResult<VehicleDriverLink>> GetCurrentDriverLink(int vehicleId)
+        [Route("getCurrentDriversLinks/{vehicleId}")]
+        public async Task<ActionResult<List<VehicleDriverLink>>> GetCurrentDriverLink(int vehicleId)
         {
-            var res = await _vehicleDriverLinkService.GetCurrentDriverLink(vehicleId);
+            var res = await _vehicleDriverLinkService.GetCurrentDriversLinks(vehicleId);
             return Ok(res);
         }
         
         [HttpGet]
-        [Route("getCurrentDriver/{vehicleId}")]
-        public async Task<ActionResult<Employee>> GetCurrentDriver(int vehicleId)
+        [Route("getCurrentDrivers/{vehicleId}")]
+        public async Task<ActionResult<List<Employee>>> GetCurrentDriver(int vehicleId)
         {
-            var res = await _vehicleDriverLinkService.GetCurrentDriver(vehicleId);
+            var res = await _vehicleDriverLinkService.GetCurrentDrivers(vehicleId);
             return Ok(res);
         }
     }

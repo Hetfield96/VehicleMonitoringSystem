@@ -1,12 +1,14 @@
 import * as React from "react";
-import {Button, FormControl, MenuItem, Select} from '@material-ui/core';
+import {Button, FormControl} from '@material-ui/core';
 import {StylesDictionary} from "../../utils/stylesDictionary";
+import Select from 'react-select'
 import Vehicle from "../../../models/vehicle";
 import {useEffect, useState} from "react";
 import * as EmployeeApi from "../../../api/employeeApi";
 import Employee from "../../../models/employee";
-import VehicleDriverLink from "../../../models/vehicleDriverLink";
 import * as VehicleDriverLinkApi from "../../../api/vehicleDriverLinkApi";
+import chroma from 'chroma-js';
+import Colors from "../../../constants/colors";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -18,25 +20,22 @@ export const PropertiesDriversVehicleFormName = 'Drivers';
 
 export const PropertiesDriversVehicleForm: React.FunctionComponent<InterfaceProps> = (props) => {
     const {vehicle} = props;
-    const [drivers, setDrivers] = useState<Employee[]|null>(null);
-    const [selectedDriver, setSelectedDriver] = useState<number|null>(null);
+    const [driversOptions, setDriversOptions] = useState<Employee[]|null>([]);
+    const [selectedDrivers, setSelectedDrivers] = useState<Employee[]|null>([]);
 
     useEffect(() => {
         (async function() {
-            const varDrivers = await EmployeeApi.getAllDrivers();
-            setDrivers(varDrivers);
-            const varDriver = await VehicleDriverLinkApi.getCurrentDriver(vehicle.id);
-            if (varDriver && varDrivers) {
-                const selectedDriverPos = varDrivers.findIndex(e => e.id === varDriver.id);
-                setSelectedDriver(selectedDriverPos);
-            }
+            const varDriverOptions = await EmployeeApi.getAllDrivers();
+            const currentDrivers = await VehicleDriverLinkApi.getCurrentDrivers(vehicle.id);
+
+            await setSelectedDrivers(currentDrivers);
+            await setDriversOptions(varDriverOptions);
         })();
     }, []);
 
-    async function saveDriverLink() {
-        if (!!drivers && !!selectedDriver) {
-            const vehicleDriverLink = new VehicleDriverLink(drivers[selectedDriver].id, vehicle.id);
-            await VehicleDriverLinkApi.createVehicleDriverLink(vehicleDriverLink);
+    async function saveDriversLinks() {
+        if (!!selectedDrivers && vehicle.id) {
+            await VehicleDriverLinkApi.createVehicleDriverLinks(vehicle.id, selectedDrivers.map(d => d.id));
 
             props.closeModal();
             props.updateVehicles();
@@ -47,19 +46,22 @@ export const PropertiesDriversVehicleForm: React.FunctionComponent<InterfaceProp
         <div style={styles.container}>
             <FormControl style={styles.formControl}>
                 <Select
-                    color={"secondary"}
-                    value={selectedDriver}
-                    onChange={event => setSelectedDriver(event.target.value)}
-                >
-                    {drivers && drivers.map((d: Employee, index) => (
-                        <MenuItem key={index} value={index}>
-                            {d.getFullName()}
-                        </MenuItem>
+                    closeMenuOnSelect={false}
+                    value={selectedDrivers && selectedDrivers.map((d: Employee) => (
+                        {value: d, label: d.getFullName(), color: Colors.primary }
                     ))}
-                </Select>
+                    onChange={event => setSelectedDrivers(event.map(item => item.value))}
+                    isMulti={true}
+                    options={driversOptions
+                    && driversOptions
+                        .filter(dOption => !selectedDrivers || !(selectedDrivers.find(d => d.id === dOption.id)))
+                        .map((d: Employee) => ({value: d, label: d.getFullName(), color: Colors.primary }))
+                    }
+                    styles={selectColorStyles}
+                />
             </FormControl>
 
-            <Button onClick={saveDriverLink} variant='contained' type='submit' color='primary' style={styles.button}>
+            <Button onClick={saveDriversLinks} variant='contained' type='submit' color='primary' style={styles.button}>
                 Save
             </Button>
         </div>
@@ -83,4 +85,54 @@ const styles: StylesDictionary  = {
         maxWidth: 300,
         alignSelf: 'center'
     }
+};
+
+const selectColorStyles = {
+    control: selectStyles => ({ ...selectStyles, backgroundColor: 'white', marginTop: 10, width: 240, alignSelf: 'center' }),
+    option: (selectStyles, { data, isDisabled, isFocused, isSelected }) => {
+        const color = chroma(data.color);
+        return {
+            ...selectStyles,
+            backgroundColor: isDisabled
+                ? null
+                : isSelected
+                    ? data.color
+                    : isFocused
+                        ? color.alpha(0.1).css()
+                        : null,
+            color: isDisabled
+                ? '#ccc'
+                : isSelected
+                    ? chroma.contrast(color, 'white') > 2
+                        ? 'white'
+                        : 'black'
+                    : data.color,
+            cursor: isDisabled ? 'not-allowed' : 'default',
+
+            ':active': {
+                ...selectStyles[':active'],
+                backgroundColor:
+                    !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+            },
+        };
+    },
+    multiValue: (selectStyles, { data }) => {
+        const color = chroma(data.color);
+        return {
+            ...selectStyles,
+            backgroundColor: color.alpha(0.1).css(),
+        };
+    },
+    multiValueLabel: (selectStyles, { data }) => ({
+        ...selectStyles,
+        color: data.color,
+    }),
+    multiValueRemove: (selectStyles, { data }) => ({
+        ...selectStyles,
+        color: data.color,
+        ':hover': {
+            backgroundColor: data.color,
+            color: 'white',
+        },
+    }),
 };

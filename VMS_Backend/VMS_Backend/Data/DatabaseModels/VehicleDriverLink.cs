@@ -7,6 +7,14 @@ namespace VMS_Backend.Data.DatabaseModels
     [Table("vehicle_driver_link")]
     public class VehicleDriverLink
     {
+        public VehicleDriverLink(string driverId, int vehicleId, DateTime startDate)
+        {
+            DriverId = driverId;
+            VehicleId = vehicleId;
+            StartDate = startDate;
+            EndDate = null;
+        }
+        
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
@@ -15,7 +23,7 @@ namespace VMS_Backend.Data.DatabaseModels
         [Column("driver_id")]
         public string DriverId { get; set; }
         [ForeignKey("DriverId")]
-        public Employee Driver;
+        public Employee Driver { get; set; }
         
         [Column("vehicle_id")]
         public int VehicleId { get; set; }

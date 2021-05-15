@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Button, List, Tooltip} from "@material-ui/core";
 import {StylesDictionary} from "../utils/stylesDictionary";
 import * as VehicleApi from "../../api/vehicleApi";
+import * as VehicleDriverLinkApi from "../../api/vehicleDriverLinkApi";
 import Popup from "reactjs-popup";
 import Vehicle from "../../models/vehicle";
 import {VehicleListItem} from "./vehicleListItem";
@@ -15,6 +16,7 @@ import {getDbUser, getRoleRestrictionTooltip, isUserOperator} from "../../utils/
 export const SidebarVehicles: React.FunctionComponent = () => {
     const [dbUser, setDbUser] = useState<Employee|null>();
     const [vehicles, setVehicles] = useState<Vehicle[]|null>(null);
+    const [vehiclesDrivers, setVehiclesDrivers] = useState<Map<number, Employee[]>|null>(null);
 
     useEffect(() => {
         (async function() {
@@ -25,7 +27,8 @@ export const SidebarVehicles: React.FunctionComponent = () => {
 
     const updateVehicles = async () => {
         // TODO driver links not updates, cause drivers are fetching separetly - need to think it through
-        setVehicles(await VehicleApi.getAllCompanyVehicles());
+        await setVehicles(await VehicleApi.getAllCompanyVehicles());
+        await setVehiclesDrivers(await VehicleDriverLinkApi.getCurrentVehiclesDriversMap());
     }
 
     return (
@@ -63,7 +66,12 @@ export const SidebarVehicles: React.FunctionComponent = () => {
 
             <List>
                 {vehicles && vehicles.map((vehicle) => (
-                    <VehicleListItem key={vehicle.id} vehicle={vehicle} updateVehicles={updateVehicles}/>
+                    <VehicleListItem
+                        key={vehicle.id}
+                        drivers={vehiclesDrivers && vehiclesDrivers.get(vehicle.id)}
+                        vehicle={vehicle}
+                        updateVehicles={updateVehicles}
+                    />
                 ))}
             </List>
         </div>

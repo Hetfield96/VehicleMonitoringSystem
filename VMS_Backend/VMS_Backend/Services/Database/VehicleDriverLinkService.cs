@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -18,33 +20,46 @@ namespace VMS_Backend.Services.Database
             return await base.AddNewItem(item);
         }
         
-        public async Task<VehicleDriverLink> GetCurrentDriverLink(int vehicleId)
+        public async Task<List<VehicleDriverLink>> GetCurrentDriversLinks(int vehicleId)
         {
-            var vehicleDriverLink = await _dbContext.VehicleDriverLink
+            var vehicleDriversLinks = await _dbContext.VehicleDriverLink
                 .Where(vdl => vdl.VehicleId == vehicleId && vdl.EndDate == null)
                 .OrderByDescending(vdl => vdl.StartDate)
-                .FirstOrDefaultAsync();
-            return vehicleDriverLink;
+                .ToListAsync();
+            return vehicleDriversLinks;
         }
         
-        public async Task<Employee> GetCurrentDriver(int vehicleId)
+        public async Task<List<Employee>> GetCurrentDrivers(int vehicleId)
         {
-            var vehicleDriverLinkList = _dbContext.VehicleDriverLink
+            var drivers = await _dbContext.VehicleDriverLink
                 .Where(vdl => vdl.VehicleId == vehicleId && vdl.EndDate == null)
-                .OrderByDescending(vdl => vdl.StartDate).ToList();
-            VehicleDriverLink vehicleDriverLink;
-            if (vehicleDriverLinkList.Any())
+                .Include(vdl => vdl.Driver)
+                .Select(vdl => vdl.Driver)
+                .ToListAsync();
+
+            return drivers;
+        }
+        
+        public async Task<Dictionary<int, List<Employee>>> GetCurrentVehiclesDriversMap(int companyId)
+        {
+            var res = new Dictionary<int, List<Employee>>();
+            var links = await _dbContext.VehicleDriverLink
+                .Include(vdl => vdl.Vehicle)
+                .Include(vdl => vdl.Driver)
+                .Where(vdl => vdl.Vehicle.CompanyId == companyId && vdl.EndDate == null)
+                .ToListAsync();
+            foreach (var link in links)
             {
-                vehicleDriverLink = vehicleDriverLinkList.First();
+                if (res.ContainsKey(link.VehicleId))
+                {
+                    res[link.VehicleId].Add(link.Driver);
+                } else 
+                {
+                    res.Add(link.VehicleId, new List<Employee>() {link.Driver});
+                }
             }
-            else
-            {
-                return null;
-            }
-            
-            var driver = await _dbContext.Employee
-                .FirstOrDefaultAsync(e => e.Id == vehicleDriverLink.DriverId);
-            return driver;
+
+            return res;
         }
         
         public async Task<VehicleDriverLink> Edit(VehicleDriverLink vehicleDriverLink)

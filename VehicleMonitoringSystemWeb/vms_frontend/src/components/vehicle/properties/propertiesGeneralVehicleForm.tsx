@@ -22,8 +22,8 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
 
     const [dbUser, setDbUser] = useState<Employee|null>();
 
-    const [name, setName] = useState<string|undefined>(vehicle.name);
-    const [number, setNumber] = useState<string|undefined>(vehicle.number);
+    const [name, setName] = useState<string>(vehicle.name);
+    const [number, setNumber] = useState<string>(vehicle.number);
     const [model, setModel] = useState<string|undefined>(vehicle.model);
     const [productionYear, setProductionYear] = useState<number|undefined>(vehicle.productionYear);
 
