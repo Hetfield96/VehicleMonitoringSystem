@@ -26,7 +26,7 @@ public class LocationService {
     public static LocationService instance;
 
     // Default value, that will be reset by companySettings if they exist
-    public static int RECORDING_INTERVAL_MS = 60000;
+    public static int RECORDING_INTERVAL_MS = 10000;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -55,10 +55,12 @@ public class LocationService {
     }
 
     private void createLocationCallBack() {
+        Log.d(TAG, "createLocationCallBack");
         if (locationCallback == null) {
             locationCallback = new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
+                    Log.d(TAG, "onLocationResult");
                     super.onLocationResult(locationResult);
                     if (locationResult != null) {
                         for (Location location : locationResult.getLocations()) {

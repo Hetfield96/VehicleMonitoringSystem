@@ -20,8 +20,8 @@ public class VehicleData {
     public long id;
     @ColumnInfo(name = "vehicle_id")
     public int vehicle_id;
-    @ColumnInfo(name = "user_id")
-    public String user_id;
+    @ColumnInfo(name = "employee_id")
+    public String employee_id;
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "datetime")
     public Date datetime;
@@ -31,53 +31,60 @@ public class VehicleData {
     public double longitude;
 
     // Control
-    @ColumnInfo(name = "distanceMilControl")
-    public Integer distanceMilControl;
+    // not real data
+//    @ColumnInfo(name = "distanceMilControl")
+//    public Integer distanceMilControl;
 
     /**
      * Distance traveled since codes cleared-up.
      */
-    @ColumnInfo(name = "distanceSinceCcControl")
-    public Integer distanceSinceCcControl;
-
-    /**
-     * Is ignition on
-     */
-    @ColumnInfo(name = "ignitionMonitor")
-    public String ignitionMonitor;
+    // no data
+//    @ColumnInfo(name = "distanceSinceCcControl")
+//    public Integer distanceSinceCcControl;
 
     // Engine
     // Checked
     /**
      * Displays the current engine revolutions per minute (RPM).
      */
-    @ColumnInfo(name = "rpmEngine")
-    public Integer rpmEngine;
+    @ColumnInfo(name = "rpm_engine")
+    public Integer rpm_engine;
 
     // Fuel
     /**
+     * Fuel level percentage
+     */
+    // not real data
+//    @ColumnInfo(name = "levelFuel")
+//    public Byte levelFuel;
+
+    /**
      * Fuel Consumption Rate per hour
      */
-    @ColumnInfo(name = "consumptionRateFuel")
-    public Integer consumptionRateFuel;
+    // no data
+//    @ColumnInfo(name = "consumptionRateFuel")
+//    public Byte consumptionRateFuel;
 
     // Pressure
-    @ColumnInfo(name = "pressureFuel")
-    public Integer pressureFuel;
+    // no data
+//    @ColumnInfo(name = "fuelPressure")
+//    public Byte fuelPressure;
 
     // Temperature
     // Checked
-    @ColumnInfo(name = "engineCoolantTemperature")
-    public Integer engineCoolantTemperature;
+//            not real data
+//    @ColumnInfo(name = "engineCoolantTemperature")
+//    public Byte engineCoolantTemperature;
 
     // Speed
-    @ColumnInfo(name = "speed")
-    public Integer speed;
+    // not real data
+//    @ColumnInfo(name = "speed")
+//    public Byte speed;
 
 
-    public VehicleData(int vehicle_id, String user_id, Date datetime, double latitude, double longitude) {
+    public VehicleData(int vehicle_id, String employee_id, Date datetime, double latitude, double longitude) {
         this.vehicle_id = vehicle_id;
-        this.user_id = user_id;
+        this.employee_id = employee_id;
         this.datetime = datetime;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -87,7 +94,7 @@ public class VehicleData {
     public Map<String, Object> toMap() {
         Map<String, Object> vehicle_data = new HashMap<>();
         vehicle_data.put("vehicle_id", vehicle_id);
-        vehicle_data.put("user_id", user_id);
+        vehicle_data.put("employee_id", employee_id);
         vehicle_data.put("timestamp", datetime);
         vehicle_data.put("latitude", latitude);
         vehicle_data.put("longitude", longitude);
@@ -95,25 +102,24 @@ public class VehicleData {
         // OBD related data
         if (AppController.getInstance().useOBD) {
             // Control
-            vehicle_data.put("distanceMilControl", distanceMilControl);
-            vehicle_data.put("distanceSinceCcControl", distanceSinceCcControl);
-            vehicle_data.put("ignitionMonitor", ignitionMonitor);
+//            vehicle_data.put("distanceMilControl", distanceMilControl);
+//            vehicle_data.put("distanceSinceCcControl", distanceSinceCcControl);
 
             // Engine
-            vehicle_data.put("rpmEngine", rpmEngine);
+            vehicle_data.put("rpm_engine", rpm_engine);
 
             // Fuel
-            vehicle_data.put("consumptionRateFuel", consumptionRateFuel);
+//            vehicle_data.put("levelFuel", levelFuel);
+//            vehicle_data.put("consumptionRateFuel", consumptionRateFuel);
 
             // Pressure
-            vehicle_data.put("pressureFuel", pressureFuel);
+//            vehicle_data.put("pressureFuel", fuelPressure);
 
             // Temperature
-            vehicle_data.put("engineCoolantTemperature", engineCoolantTemperature);
+//            vehicle_data.put("engineCoolantTemperature", engineCoolantTemperature);
 
             // Speed
-            vehicle_data.put("speed", speed);
-            // TODO
+//            vehicle_data.put("speed", speed);
         }
 
         return vehicle_data;
@@ -123,32 +129,31 @@ public class VehicleData {
     @Override
     public String toString() {
         String res = "vehicle_id = " + vehicle_id + ", " +
-                "user_id = " + user_id + ", " +
+                "employee_id = " + employee_id + ", " +
                 "timestamp = " + datetime.toString() + ", " +
                 "latitude = " + latitude + ", " +
                 "longitude = " + longitude;
 
         if (AppController.getInstance().useOBD) {
             // Control
-            res += ", distanceMilControl = " + distanceMilControl;
-            res += ", distanceSinceCcControl = " + distanceSinceCcControl;
-            res += ", ignitionMonitor = " + ignitionMonitor;
+//            res += ", distanceMilControl = " + distanceMilControl;
+//            res += ", distanceSinceCcControl = " + distanceSinceCcControl;
 
             // Engine
-            res += ", rpmEngine = " + rpmEngine;
+            res += ", rpm_engine = " + rpm_engine;
 
             // Fuel
-            res += ", pressureFuel = " + pressureFuel;
+//            res += ", levelFuel = " + levelFuel;
+//            res += ", consumptionRateFuel = " + consumptionRateFuel;
 
             // Pressure
-            res += ", pressureFuel = " + pressureFuel;
+//            res += ", pressureFuel = " + fuelPressure;
 
             // Temperature
-            res += ", engineCoolantTemperature = " + engineCoolantTemperature;
+//            res += ", engineCoolantTemperature = " + engineCoolantTemperature;
 
             // Speed
-            res += ", speed = " + speed;
-            // TODO
+//            res += ", speed = " + speed;
         }
 
         return res;

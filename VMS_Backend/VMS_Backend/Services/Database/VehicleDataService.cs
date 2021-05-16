@@ -25,7 +25,8 @@ namespace VMS_Backend.Services.Database
             await using var con = new NpgsqlConnection(DefaultConnectionString);
             var res = await con.QueryAsync<VehicleData, Vehicle, VehicleData>(
                 $@"SELECT DISTINCT ON (vd.vehicle_id)
-                    vd.*, v.*
+                    vd.id, vd.vehicle_id, vd._employee_id, vd.datetime, vd.latitude, vd.longitude
+                    ,v.*
                     FROM vehicle_data vd
                     JOIN vehicle v on v.id = vd.vehicle_id and v.company_id = @companyId {vehicleFilter}
                     WHERE  vd.datetime >= to_timestamp(@startDateTime, 'YYYY-MM-DD hh24:mi') 
@@ -46,7 +47,8 @@ namespace VMS_Backend.Services.Database
             
             await using var con = new NpgsqlConnection(DefaultConnectionString);
             var vehicleData = (await con.QueryAsync<VehicleData, Vehicle, VehicleData>(
-                $@"SELECT vd.*, v.*
+                $@"SELECT vd.id, vd.vehicle_id, vd._employee_id, vd.datetime, vd.latitude, vd.longitude
+                    ,v.*
                     FROM vehicle_data vd
                     JOIN vehicle v on vd.vehicle_id = v.id and v.company_id = @companyId {vehicleFilter}
                     WHERE  vd.datetime >= to_timestamp(@startDateTime, 'YYYY-MM-DD hh24:mi') 

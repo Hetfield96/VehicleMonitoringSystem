@@ -17,7 +17,6 @@ public class AppController extends Application {
     // TODO to settings
     public boolean useOBD = true;
     public String deviceNameOBD = "OBDII";
-    public String deviceMacOBD = "AA:BB:CC:11:22:33";
 
     @Override
     public void onCreate() {

@@ -38,7 +38,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     public static final String TAG = "OBDService";
 
     // Default value, that will be reset by companySettings if they exist
-    public static int RECORDING_INTERVAL_MS = 60000;
+    public static int RECORDING_INTERVAL_MS = 10000;
 
     // Singleton
     public static OBDService instance;
@@ -101,6 +101,23 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
         }
     }
 
+    // Gather vehicle data object - fires on location updates
+    private VehicleData gatherVehicleData(VehicleData vehicleData) {
+        Log.d(TAG, "gatherVehicleData");
+
+        MyObdMultiCommand obdMultiCommand = new MyObdMultiCommand(ObdCommandsHelper.getDefaultCommands());
+
+        try {
+            obdMultiCommand.sendCommands(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+            ArrayList<String> commandsResults = obdMultiCommand.getCalculatedResults();
+            ObdCommandsHelper.parseDefaultCommandsResult(vehicleData, commandsResults);
+            return vehicleData;
+        } catch (Exception e) {
+            Log.d(TAG, "Error at multiCommand: " + e.getMessage());
+            return null;
+        }
+    }
+
     private void configureBluetooth() {
         Log.d(TAG, "configureBluetooth");
         enableBluetooth();
@@ -120,6 +137,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     }
 
     private BluetoothDevice findBluetoothDevice() {
+        Log.d(TAG, "findBluetoothDevice start");
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             // There are paired devices. Get the name and address of each paired device.
@@ -128,8 +146,8 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
                 String deviceHardwareAddress = device.getAddress(); // MAC address
 
                 // TODO get deviceName from settings
-                if (deviceName.equals(AppController.getInstance().deviceNameOBD)
-                        && deviceHardwareAddress.equals(AppController.getInstance().deviceMacOBD)) {
+                if (deviceName.equals(AppController.getInstance().deviceNameOBD)) {
+                    Log.d(TAG, "bluetoothDeviceFound");
                     return device;
                 }
             }
@@ -212,21 +230,4 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
 //            }, 0, RECORDING_INTERVAL_MS);
 //        }
 //    }
-
-    // Gather vehicle data object - fires on location updates
-    private VehicleData gatherVehicleData(VehicleData vehicleData) {
-        Log.d(TAG, "gatherVehicleData");
-
-        MyObdMultiCommand obdMultiCommand = new MyObdMultiCommand(ObdCommandsHelper.getDefaultCommands());
-
-        try {
-            obdMultiCommand.sendCommands(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
-            ArrayList<String> commandsResults = obdMultiCommand.getCalculatedResults();
-            ObdCommandsHelper.parseDefaultCommandsResult(vehicleData, commandsResults);
-            return vehicleData;
-        } catch (Exception e) {
-            Log.d(TAG, "Error at multiCommand: " + e.getMessage());
-            return null;
-        }
-    }
 }

@@ -28,7 +28,7 @@ public class VehicleDataSynchronizationService {
     public static final String TAG = "LocationDataSyncService";
 
     // Default value, that will be reset by companySettings if they exist
-    public static int SYNCHRONIZATION_INTERVAL = 120000;
+    public static int SYNCHRONIZATION_INTERVAL = 30000;
     private static boolean isSynchronizationTaskScheduled = false;
 
     private static List<VehicleData> vehicleDataList;
@@ -93,12 +93,15 @@ public class VehicleDataSynchronizationService {
         for(int i = 0; i < vehicleDataList.size(); ++i) {
             String datetimeFormat = new SimpleDateFormat("yyMMddHHmmss", Locale.US).format(vehicleDataList.get(i).datetime);
             JSONObject item = new JSONObject();
+            VehicleData vehicleData = vehicleDataList.get(i);
             try {
-                item.put("vehicle_id", vehicleDataList.get(i).vehicle_id);
-                item.put("user_id", vehicleDataList.get(i).user_id);
+                item.put("vehicle_id", vehicleData.vehicle_id);
+                item.put("employee_id", vehicleData.employee_id);
                 item.put("datetime", datetimeFormat);
-                item.put("latitude", vehicleDataList.get(i).latitude);
-                item.put("longitude", vehicleDataList.get(i).longitude);
+                item.put("latitude", vehicleData.latitude);
+                item.put("longitude", vehicleData.longitude);
+                // Obd data
+                item.put("rpm_engine", vehicleData.rpm_engine);
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;

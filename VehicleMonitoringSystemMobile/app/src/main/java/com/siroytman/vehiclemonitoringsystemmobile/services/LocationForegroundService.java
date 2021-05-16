@@ -85,6 +85,7 @@ public class LocationForegroundService extends Service implements ILocationManag
     }
 
     public static void startService(Context context) {
+        Log.d(TAG, "startService");
         Intent serviceIntent = new Intent(context, LocationForegroundService.class);
         ContextCompat.startForegroundService(context, serviceIntent);
 

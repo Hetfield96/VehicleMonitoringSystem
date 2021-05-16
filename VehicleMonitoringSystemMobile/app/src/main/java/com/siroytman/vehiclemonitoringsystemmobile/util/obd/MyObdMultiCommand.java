@@ -33,8 +33,10 @@ public class MyObdMultiCommand {
             throws IOException, InterruptedException {
         Log.d(TAG, "sendCommands");
 
-        for (ObdCommand command : commands)
+        for (ObdCommand command : commands) {
+            // TODO try-catch
             command.run(in, out);
+        }
     }
 
     /**
@@ -43,7 +45,7 @@ public class MyObdMultiCommand {
      * @return a {@link java.lang.String} object.
      */
     public ArrayList<String> getCalculatedResults() {
-        Log.d(TAG, "getCalculatedResults");
+//        Log.d(TAG, "getCalculatedResults");
         ArrayList<String> res = new ArrayList<>(commands.size());
         for (ObdCommand command : commands) {
             res.add(command.getCalculatedResult());
