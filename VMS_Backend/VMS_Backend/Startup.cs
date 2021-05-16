@@ -65,9 +65,10 @@ namespace VMS_Backend
             // CORS middleware
             app.UseCors(builder =>
             {
+                // TODO hide ips
                 builder
                     .WithOrigins("http://localhost:3000") //Web-frontend Source
-                    .WithOrigins("http://192.168.1.111") // Mobile source
+                    .WithOrigins("http://192.168.1.71") // Mobile source
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST", "DELETE", "PUT")
                     .AllowCredentials();
