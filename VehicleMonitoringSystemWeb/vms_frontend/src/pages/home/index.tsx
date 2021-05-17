@@ -93,7 +93,6 @@ export const HomeComponent: React.FunctionComponent = (props) => {
                     disabled={false} // default is false
                     allowPageClickToClose={true} // default is true
                     onConfirm={async (res: string[]) => await setDateTimeRange(res)}
-                    style={styles.timeRangePicker}
                     defaultDates={[getDate(startDateTime), getDate(endDateTime)]}
                     defaultTimes={[getTime(startDateTime), getTime(endDateTime)]}
                     initialDates={[getDate(startDateTime), getDate(endDateTime)]}

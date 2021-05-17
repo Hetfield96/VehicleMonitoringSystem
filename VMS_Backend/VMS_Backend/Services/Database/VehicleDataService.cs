@@ -25,7 +25,7 @@ namespace VMS_Backend.Services.Database
             await using var con = new NpgsqlConnection(DefaultConnectionString);
             var res = await con.QueryAsync<VehicleData, Vehicle, VehicleData>(
                 $@"SELECT DISTINCT ON (vd.vehicle_id)
-                    vd.id, vd.vehicle_id, vd._employee_id, vd.datetime, vd.latitude, vd.longitude
+                    vd.id, vd.vehicle_id as vehicleId, vd.employee_id as employeeId, vd.datetime, vd.latitude, vd.longitude
                     ,v.*
                     FROM vehicle_data vd
                     JOIN vehicle v on v.id = vd.vehicle_id and v.company_id = @companyId {vehicleFilter}

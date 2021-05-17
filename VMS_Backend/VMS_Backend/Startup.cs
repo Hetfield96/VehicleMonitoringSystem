@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VMS_Backend.Data;
 using VMS_Backend.Services.Database;
+using VMS_Backend.Services.Database.Reports;
 using VMS_Backend.Services.SignalR;
 
 namespace VMS_Backend
@@ -36,6 +37,7 @@ namespace VMS_Backend
             services.AddScoped<WorkTaskService>();
             services.AddScoped<WorkTaskCommentService>();
             services.AddScoped<ChatService>();
+            services.AddScoped<ReportService>();
 
             // SignalR services
             // services.AddScoped<ChatHub>();

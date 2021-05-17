@@ -20,6 +20,7 @@ import { Notifications } from 'react-push-notification';
 import {CompanySettings} from "./pages/companySettings";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import Colors from "./constants/colors";
+import {ReportsScreen} from "./pages/reports/reportsScreen";
 
 interface AppComponentState {
   firebaseUser: any;
@@ -103,6 +104,7 @@ class AppComponent extends React.Component<{}, AppComponentState> {
 
                 {/*Auth*/}
                 <Route exact={true} path={routes.HOME} render={(props => <HomeScreen key={this.state.dbUser && this.state.dbUser.id}/>)} />
+                <Route exact={true} path={routes.REPORTS} render={(props => <ReportsScreen key={this.state.dbUser && this.state.dbUser.id}/>)} />
                 <Route exact={true} path={routes.ACCOUNT} render={props => <Account key={this.state.dbUser && this.state.dbUser.id}/>} />
                 <Route exact={true} path={routes.CHAT} render={props => <Chat key={this.state.dbUser && this.state.dbUser.id}/>} />
                 <Route exact={true} path={routes.COMPANY_SETTINGS} render={props => <CompanySettings key={this.state.dbUser && this.state.dbUser.id}/>} />

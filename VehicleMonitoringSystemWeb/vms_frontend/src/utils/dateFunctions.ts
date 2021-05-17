@@ -1,7 +1,10 @@
 import {padStart} from "./stringFunctions";
 import moment, {unitOfTime} from "moment";
 
-export function dateTimeToString(datetime: Date) {
+export function dateTimeToString(datetime: Date|undefined) {
+    if (!datetime) {
+        return null;
+    }
     return moment(datetime).format('DD.MM.YY HH:mm')
 }
 

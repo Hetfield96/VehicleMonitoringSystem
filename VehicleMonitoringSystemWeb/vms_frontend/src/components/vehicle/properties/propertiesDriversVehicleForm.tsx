@@ -9,6 +9,7 @@ import Employee from "../../../models/employee";
 import * as VehicleDriverLinkApi from "../../../api/vehicleDriverLinkApi";
 import chroma from 'chroma-js';
 import Colors from "../../../constants/colors";
+import {selectColorStyles} from "../../../styles/SelectStyles";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -47,17 +48,17 @@ export const PropertiesDriversVehicleForm: React.FunctionComponent<InterfaceProp
             <FormControl style={styles.formControl}>
                 <Select
                     closeMenuOnSelect={false}
+                    isMulti={true}
                     value={selectedDrivers && selectedDrivers.map((d: Employee) => (
                         {value: d, label: d.getFullName(), color: Colors.primary }
                     ))}
                     onChange={event => setSelectedDrivers(event.map(item => item.value))}
-                    isMulti={true}
                     options={driversOptions
                     && driversOptions
                         .filter(dOption => !selectedDrivers || !(selectedDrivers.find(d => d.id === dOption.id)))
                         .map((d: Employee) => ({value: d, label: d.getFullName(), color: Colors.primary }))
                     }
-                    styles={selectColorStyles}
+                    styles={selectColorStyles()}
                 />
             </FormControl>
 
@@ -85,54 +86,4 @@ const styles: StylesDictionary  = {
         maxWidth: 300,
         alignSelf: 'center'
     }
-};
-
-const selectColorStyles = {
-    control: selectStyles => ({ ...selectStyles, backgroundColor: 'white', marginTop: 10, width: 240, alignSelf: 'center' }),
-    option: (selectStyles, { data, isDisabled, isFocused, isSelected }) => {
-        const color = chroma(data.color);
-        return {
-            ...selectStyles,
-            backgroundColor: isDisabled
-                ? null
-                : isSelected
-                    ? data.color
-                    : isFocused
-                        ? color.alpha(0.1).css()
-                        : null,
-            color: isDisabled
-                ? '#ccc'
-                : isSelected
-                    ? chroma.contrast(color, 'white') > 2
-                        ? 'white'
-                        : 'black'
-                    : data.color,
-            cursor: isDisabled ? 'not-allowed' : 'default',
-
-            ':active': {
-                ...selectStyles[':active'],
-                backgroundColor:
-                    !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
-            },
-        };
-    },
-    multiValue: (selectStyles, { data }) => {
-        const color = chroma(data.color);
-        return {
-            ...selectStyles,
-            backgroundColor: color.alpha(0.1).css(),
-        };
-    },
-    multiValueLabel: (selectStyles, { data }) => ({
-        ...selectStyles,
-        color: data.color,
-    }),
-    multiValueRemove: (selectStyles, { data }) => ({
-        ...selectStyles,
-        color: data.color,
-        ':hover': {
-            backgroundColor: data.color,
-            color: 'white',
-        },
-    }),
 };
