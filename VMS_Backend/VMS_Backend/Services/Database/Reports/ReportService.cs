@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Npgsql;
 using VMS_Backend.Data;
 using VMS_Backend.Data.DatabaseModels;
+using VMS_Backend.Data.Models;
 
 namespace VMS_Backend.Services.Database.Reports
 {
@@ -45,6 +47,24 @@ namespace VMS_Backend.Services.Database.Reports
             return res.ToList();
         }
 
-
+        public async Task<List<VehicleWorkingTimeRecord>> GenerateReportVehicleWorkingTime(int companyId, int? vehicleId, string startDateTime, string endDateTime)
+        {
+            var vehicleFilter = vehicleId.HasValue ? "and v.id = @vehicleId" : string.Empty;
+            
+            await using var con = new NpgsqlConnection(DefaultConnectionString);
+            var res = await con.QueryAsync<VehicleWorkingTimeRecord>(
+                $@"select 
+                           concat(v.name, ' ', v.number) as vehicleName,
+                           concat(e.first_name, ' ', e.last_name) as employeeName,
+                           get_working_hours(vd.vehicle_id, vd.employee_id, @startDateTime, @endDateTime) as workingHours
+                    from vehicle_data vd
+                    join vehicle v on vd.vehicle_id = v.id 
+                    join employee e on e.id = vd.employee_id
+                    where v.company_id = @companyId {vehicleFilter}
+                    group by vd.vehicle_id, vd.employee_id, v.name, v.number, e.first_name, e.last_name
+                    order by vd.vehicle_id, vd.employee_id asc",
+                new {companyId, vehicleId, startDateTime, endDateTime});
+            return res.ToList();
+        }
     }
 }

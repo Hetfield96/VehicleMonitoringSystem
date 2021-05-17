@@ -1,6 +1,6 @@
 import chroma from 'chroma-js';
 
-export const selectColorStyles = (controlWidth: number = 240) => {
+export const reactSelectStyles = (controlWidth: number = 240) => {
 	return {
 		control: selectStyles => ({
 			...selectStyles,

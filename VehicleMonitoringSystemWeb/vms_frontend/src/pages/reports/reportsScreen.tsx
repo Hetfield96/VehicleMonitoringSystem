@@ -18,10 +18,9 @@ import {
     getDefaultStartDateTime,
     getTime
 } from "../../utils/dateFunctions";
-import moment from "moment";
 import {AllVehicleDataReportGrid} from "../../components/reportGrids/allVehicleDataReportGrid";
-import Employee from "../../models/employee";
-import {selectColorStyles} from "../../styles/SelectStyles";
+import {reactSelectStyles} from "../../styles/reactSelectStyles";
+import {VehicleWorkingTimeDataReportGrid} from "../../components/reportGrids/vehicleWorkingTimeDataReportGrid";
 
 export const ReportsComponent : React.FunctionComponent = () => {
     const [reportOptions, setReportOptions] = useState<Report[]|null>(null);
@@ -49,12 +48,9 @@ export const ReportsComponent : React.FunctionComponent = () => {
 
     const generateReport = async () => {
         if (selectedReport) {
-            console.log(`generateReport, selectedReport: ${JSON.stringify(selectedReport)}`);
+            // console.log(`generateReport, selectedReport: ${JSON.stringify(selectedReport)}`);
             const rows =
                 await ReportApi.generate(selectedReport.id, selectedVehicle ? selectedVehicle.id : null, startDateTime, endDateTime);
-            // const rows = [
-            //     { id: 299, vehicleId: '2', employeeId: '6rCZ9FrOAMd4SdEDNaNENoY1Gku2', datetime: moment().toDate(), latitude: 56.0121715, longitude: 37.8598038, rpmEngine: 858  }
-            // ];
             await setReportData(rows);
         }
     }
@@ -72,15 +68,14 @@ export const ReportsComponent : React.FunctionComponent = () => {
     }
 
     const buildReportGrid = (varReportData: any) => {
-        console.log(`buildReportGrid start`);
         if (selectedReport && varReportData) {
             switch (selectedReport.id) {
                 case 1:
-                    console.log(`AllVehicleDataReportGrid is building`);
                     return (<AllVehicleDataReportGrid reportData={varReportData}/>);
+                case 2:
+                    return (<VehicleWorkingTimeDataReportGrid reportData={varReportData}/>);
             }
         }
-        console.log(`buildReportGrid - unsecessful`);
         return null;
     }
 
@@ -97,18 +92,19 @@ export const ReportsComponent : React.FunctionComponent = () => {
                     options={
                         reportOptions && reportOptions.map((r: Report) => ({value: r, label: r.name, color: Colors.primary }))
                     }
-                    styles={selectColorStyles(300)}
+                    styles={reactSelectStyles(320)}
                 />
                 <FormHelperText>Template</FormHelperText>
 
                 <Select
                     value={
                         {value: selectedVehicle, label: selectedVehicle && selectedVehicle.getFormattedName(), color: Colors.primary }}
-                    onChange={event => setSelectedVehicle(event.value)}
+                    onChange={event => setSelectedVehicle(event && event.value)}
                     options={
                         vehicleOptions && vehicleOptions.map((v: Vehicle) => ({value: v, label: v.getFormattedName(), color: Colors.primary }))
                     }
-                    styles={selectColorStyles(300)}
+                    isClearable={true}
+                    styles={reactSelectStyles(320)}
                 />
                 <FormHelperText>Vehicle</FormHelperText>
 
@@ -156,22 +152,18 @@ const styles: StylesDictionary  = {
     reportSettings: {
         display: 'flex',
         flexDirection: 'column',
-        width: 300,
-    },
-    select: {
-        width: 300,
-        marginTop: 10,
-        alignSelf: 'start'
+        width: 320,
     },
     button: {
-        width: 200,
+        width: 210,
         marginTop: 20,
         marginLeft: 50,
         alignSelf: 'start',
     },
     timeRangePicker: {
-        width: 300,
-        marginTop: 10
+        width: 320,
+        marginTop: 10,
+        alignSelf: 'start'
     },
     dataGrid: {
         height: 370,

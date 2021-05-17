@@ -1,7 +1,8 @@
 export default class Report {
 	public static getStandardTemplates() {
 		return [
-			new Report(1, 'All data')
+			new Report(1, 'All data'),
+			new Report(2, 'Vehicle working time')
 		]
 	}
 

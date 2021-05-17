@@ -14,28 +14,51 @@ export async function generate(reportId: number, vehicleId: number|null, startDa
 
   try {
     const response = await axios.get<VehicleData[]>(`report/${reportId}/${companyId}/${startDateTime}/${endDateTime}`, {params: {vehicleId}});
-    console.log(`generate.response: ${JSON.stringify(response.data)}`);
-    response.data.forEach((vd: VehicleData) => {
-      Object.setPrototypeOf(vd, VehicleData.prototype);
-      Object.setPrototypeOf(vd.vehicle, Vehicle.prototype);
-      Object.setPrototypeOf(vd.employee, Employee.prototype);
-    });
+    // console.log(`generate.response: ${JSON.stringify(response.data)}`);
 
-     const vehicleData = response.data.map((vd: VehicleData) =>
-        ({
-          id: vd.id,
-          datetime: dateTimeToString(vd.datetime),
-          employeeName: vd.employee && vd.employee.getFullName(),
-          vehicleName: vd.vehicle && vd.vehicle.getFormattedName(),
-          latitude: vd.latitude,
-          longitude: vd.longitude,
-          rpmEngine: vd.rpmEngine,
-        }));
-    console.log(`\ngenerate.vehicleData: ${JSON.stringify(vehicleData)}`);
+    switch (reportId) {
+        case 1:
+            return formatReportAllVehicleData(response.data);
+        case 2:
+            return formatReportVehicleWorkingTimeData(response.data);
+    }
 
-    return vehicleData
+    return null
   } catch (e) {
     // console.log("Error:getAllVehicles ", e.response);
     return null;
   }
+}
+
+function formatReportAllVehicleData(data: any) {
+    data.forEach((vd: VehicleData) => {
+        Object.setPrototypeOf(vd, VehicleData.prototype);
+        Object.setPrototypeOf(vd.vehicle, Vehicle.prototype);
+        Object.setPrototypeOf(vd.employee, Employee.prototype);
+    });
+
+    const vehicleData = data.map((vd: VehicleData) =>
+        ({
+            id: vd.id,
+            datetime: dateTimeToString(vd.datetime),
+            employeeName: vd.employee && vd.employee.getFullName(),
+            vehicleName: vd.vehicle && vd.vehicle.getFormattedName(),
+            latitude: vd.latitude,
+            longitude: vd.longitude,
+            rpmEngine: vd.rpmEngine,
+        }));
+
+    return vehicleData;
+}
+
+function formatReportVehicleWorkingTimeData(data: any) {
+    const vehicleData = data.map((d: any, index: number) =>
+        ({
+            id: index + 1,
+            vehicleName: d.vehicleName,
+            employeeName: d.employeeName,
+            workingHours: d.workingHours
+        }));
+
+    return vehicleData;
 }

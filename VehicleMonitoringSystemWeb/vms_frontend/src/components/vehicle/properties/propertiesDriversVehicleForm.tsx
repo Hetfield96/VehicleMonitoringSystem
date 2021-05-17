@@ -7,9 +7,8 @@ import {useEffect, useState} from "react";
 import * as EmployeeApi from "../../../api/employeeApi";
 import Employee from "../../../models/employee";
 import * as VehicleDriverLinkApi from "../../../api/vehicleDriverLinkApi";
-import chroma from 'chroma-js';
 import Colors from "../../../constants/colors";
-import {selectColorStyles} from "../../../styles/SelectStyles";
+import {reactSelectStyles} from "../../../styles/reactSelectStyles";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -58,7 +57,7 @@ export const PropertiesDriversVehicleForm: React.FunctionComponent<InterfaceProp
                         .filter(dOption => !selectedDrivers || !(selectedDrivers.find(d => d.id === dOption.id)))
                         .map((d: Employee) => ({value: d, label: d.getFullName(), color: Colors.primary }))
                     }
-                    styles={selectColorStyles()}
+                    styles={reactSelectStyles()}
                 />
             </FormControl>
 
