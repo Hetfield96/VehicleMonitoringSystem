@@ -116,7 +116,6 @@ public class ChatDialog implements IDialog<ChatMessage>, Parcelable {
         dialogPhoto = in.readString();
         dialogName = in.readString();
         user = in.readParcelable(Employee.class.getClassLoader());
-//        lastMessage = in.readParcelable(ChatMessage.class.getClassLoader());
         messages = new ArrayList<>();
         in.readTypedList(messages, ChatMessage.CREATOR);
 //        unreadCount = in.readInt();

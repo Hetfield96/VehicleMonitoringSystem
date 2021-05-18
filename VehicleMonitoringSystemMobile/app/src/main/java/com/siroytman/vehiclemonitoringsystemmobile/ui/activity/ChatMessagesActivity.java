@@ -17,6 +17,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
+import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -25,7 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ChatMessagesActivity extends AppCompatActivity implements MessageInput.InputListener,
+public class ChatMessagesActivity extends AppCompatActivity
+        implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
         MessagesListAdapter.SelectionListener {
 
@@ -90,7 +92,7 @@ public class ChatMessagesActivity extends AppCompatActivity implements MessageIn
         String userId = user.getId();
         int companyId = user.getCompanyId();
 
-        ChatMessage message = new ChatMessage(companyId, userId, dialog.getId(), input.toString());
+        ChatMessage message = new ChatMessage(companyId, userId, dialog.getId(), input.toString(), "text", null);
         chatController.sendMessage(message);
         return true;
     }
