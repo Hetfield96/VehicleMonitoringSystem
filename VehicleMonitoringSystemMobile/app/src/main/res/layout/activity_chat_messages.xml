@@ -8,7 +8,13 @@
         android:id="@+id/chat_messages__messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/chat_messages__input" />
+        android:layout_above="@+id/chat_messages__input"
+        app:outcomingDefaultBubbleColor="@color/secondaryColor"
+        app:outcomingDefaultBubblePressedColor="@color/secondaryColor"
+        app:outcomingDefaultBubbleSelectedColor="@color/selectionColor"
+        app:outcomingTextColor="@color/white"
+        app:incomingDefaultBubbleSelectedColor="@color/selectionColor"
+    />
 
     <View
         android:layout_width="match_parent"
@@ -16,7 +22,7 @@
         android:layout_above="@+id/chat_messages__input"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/gray_light" />
+        android:background="@color/grayLightColor" />
 
     <com.stfalcon.chatkit.messages.MessageInput
         android:id="@+id/chat_messages__input"
@@ -24,6 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:inputHint="Type a message"
-        app:showAttachmentButton="true" />
+        app:showAttachmentButton="true"
+        app:attachmentButtonDefaultIconColor="@color/primaryColor"
+        app:attachmentButtonDefaultIconPressedColor="@color/primaryVariantColor"
+    />
 
 </RelativeLayout>
