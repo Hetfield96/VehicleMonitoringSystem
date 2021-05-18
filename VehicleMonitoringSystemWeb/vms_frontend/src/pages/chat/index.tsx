@@ -229,12 +229,12 @@ const styles: StylesDictionary  = {
         backgroundColor: Colors.contactList
     },
     messageList: {
-        flex: 0.88,
+        height: '88vh',
         backgroundColor: Colors.background,
         overflowY: 'scroll'
     },
     input: {
-        flex: 0.12
+        height: '12vh',
     },
     addContactIcon: {
         // blockSize: 50,

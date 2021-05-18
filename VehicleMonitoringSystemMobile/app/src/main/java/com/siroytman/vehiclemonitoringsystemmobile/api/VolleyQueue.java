@@ -13,7 +13,8 @@ import com.siroytman.vehiclemonitoringsystemmobile.BuildConfig;
 /**
  * Volley queue for executing requests to server
  */
-class VolleyQueue {
+// TODO make private again
+public class VolleyQueue {
     /**
      * Log or request TAG
      */
@@ -61,7 +62,7 @@ class VolleyQueue {
      * @param req
      * @param tag
      */
-    <T> void addToRequestQueue(Request<T> req, String tag) {
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
 
@@ -75,7 +76,7 @@ class VolleyQueue {
      *
      * @param req
      */
-    <T> void addToRequestQueue(Request<T> req) {
+    public <T> void addToRequestQueue(Request<T> req) {
         // set the default tag if tag is empty
         req.setTag(TAG);
 

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using VMS_Backend.Data;
 using VMS_Backend.Data.DatabaseModels;
+using VMS_Backend.Data.Migrations;
 
 namespace VMS_Backend.Services.Database
 {
@@ -26,6 +27,16 @@ namespace VMS_Backend.Services.Database
                 .OrderBy(m => m.Date)
                 .ToListAsync();
             return messages;
+        }
+        
+        public async Task<ChatMessage> GetMessageById(long messageId)
+        {
+            var message = await _dbContext.ChatMessage
+                .Include(m => m.Sender)
+                .Include(m => m.Receiver)
+                .Where(m => m.Id.Equals(messageId))
+                .FirstOrDefaultAsync();
+            return message;
         }
     }
 }

@@ -25,7 +25,7 @@ public class ApiController {
     private static final int RESPONSE_TIMEOUT = 100000;
 
     // Volley queue for executing requests to server
-    private final VolleyQueue volleyQueue;
+    public final VolleyQueue volleyQueue;
 
     // A singleton instance of the application class for easy access in other places
     private static ApiController instance;
