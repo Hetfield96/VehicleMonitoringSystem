@@ -44,13 +44,20 @@ export async function createComment(comment: TaskComment) {
   }
 }
 
-// export async function createMessageWithAttachment(companyId: number, senderId: string, receiverId: string, text: string, attachment: FormData) {
-//   try {
-//     const response = await axios.post(`${basicUrl}/withAttachment/${companyId}/${senderId}/${receiverId}/${text}`, attachment);
-//     // console.log(`createMessage: ${JSON.stringify(response.data)}`);
-//     return response.data;
-//   } catch (e) {
-//     // console.log("Error:createMessage ", e.response);
-//     return null;
-//   }
-// }
+export async function createCommentWithAttachment(taskId: number|undefined, text: string, attachment: FormData) {
+  const dbUser = await getDbUser();
+  if (!dbUser) {
+    return null;
+  }
+  const companyId = dbUser.companyId;
+  const authorId = dbUser.id;
+
+  try {
+    const response = await axios.post(`${basicUrl}/withAttachment/${companyId}/${authorId}/${taskId}/${text}`, attachment);
+    // console.log(`createMessage: ${JSON.stringify(response.data)}`);
+    return response.data;
+  } catch (e) {
+    // console.log("Error:createMessage ", e.response);
+    return null;
+  }
+}

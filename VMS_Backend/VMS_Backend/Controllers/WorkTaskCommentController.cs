@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VMS_Backend.Data.DatabaseModels;
+using VMS_Backend.Data.Models;
 using VMS_Backend.Services.Database;
+using VMS_Backend.Services.Utils;
 
 namespace VMS_Backend.Controllers
 {
@@ -25,6 +27,18 @@ namespace VMS_Backend.Controllers
             
             var res = await _workTaskCommentService.AddNewItem(taskComment);
             return Ok(res);
+        }
+        
+        [HttpPost]
+        [Route("withAttachment/{companyId}/{authorId}/{taskId}/{text}")]
+        public async Task<ActionResult<WorkTaskComment>> UploadFile(int companyId, string authorId, int taskId, string text, [FromForm] FileModel attachment)
+        {
+            attachment.FileName = string.IsNullOrEmpty(attachment.FileName) ? attachment.FormFile.FileName : attachment.FileName;
+            var savedFileName = await FileSaver.SaveFile(attachment);
+            var comment = new WorkTaskComment(companyId, authorId, taskId, text, savedFileName);
+            var newComment = await _workTaskCommentService.AddNewItem(comment);
+
+            return Ok(newComment);
         }
         
         [HttpGet]

@@ -7,7 +7,7 @@ import {StylesDictionary} from "../../components/utils/stylesDictionary";
 import * as ChatApi from "../../api/chatApi";
 import ChatContact from "../../models/chatContact";
 import {getContactsList} from "../../utils/chatUtil";
-import ChatMessage, {MessageTypeConstants} from "../../models/chatMessage";
+import ChatMessage from "../../models/chatMessage";
 import {getDbUser} from "../../utils/userUtil";
 import {IconButton} from "@material-ui/core";
 import {PersonAdd} from "@material-ui/icons";
@@ -16,6 +16,7 @@ import {AddEmployeeContactForm} from "../../components/employee/addEmployeeConta
 import Employee from "../../models/employee";
 import Colors from "../../constants/colors";
 import {AttachImageForm} from "../../components/utils/attachImageForm";
+import {MessageTypeConstants} from "../../utils/attachmentUtil";
 
 export const ChatComponent = () => {
     const [chatContacts, setChatContacts] = useState<ChatContact[]>();

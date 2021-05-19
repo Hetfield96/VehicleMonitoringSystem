@@ -1,12 +1,27 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using VMS_Backend.Services.Utils;
 
 namespace VMS_Backend.Data.DatabaseModels
 {
     [Table("work_task_comment")]
     public class WorkTaskComment
     {
+        public WorkTaskComment(int companyId, string authorId, int taskId, string text, string attachmentName)
+        {
+            Date = DateTime.Now;
+            CompanyId = companyId;
+            AuthorId = authorId;
+            Text = text;
+            TaskId = taskId;
+            AttachmentName = attachmentName;
+            if (!string.IsNullOrEmpty(attachmentName))
+            {
+                Type = FileSaver.IsImage(attachmentName) ? "photo" : "file";
+            }
+        }
+        
         [Key]
         [Column("id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,13 +44,16 @@ namespace VMS_Backend.Data.DatabaseModels
         [Column("date")] 
         public DateTime Date { get; set; }
         
-        // [Column("file_path")]
-        // [MaxLength(200)]
-        // public string FilePath { get; set; }
-        
         [Column("task_id")] 
         public int TaskId { get; set; }
         [ForeignKey("TaskId")]
         public WorkTask Task { get; set; }
+        
+        // text, file, photo
+        [Column("type")]
+        public string Type { get; set; }
+        
+        [Column("attachment_name")]
+        public string AttachmentName { get; set; }
     }
 }

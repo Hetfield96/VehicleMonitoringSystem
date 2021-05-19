@@ -1,12 +1,6 @@
 import Employee from "./employee";
 import {getDbUserId} from "../utils/userUtil";
-import {getAttachmentUrl} from "../utils/attachmentUtil";
-
-export enum MessageTypeConstants {
-  TEXT = 'text',
-  PHOTO = 'photo',
-  // FILE = 'file'
-}
+import {getAttachmentUrl, MessageTypeConstants} from "../utils/attachmentUtil";
 
 export default class ChatMessage {
   public id: number|undefined;

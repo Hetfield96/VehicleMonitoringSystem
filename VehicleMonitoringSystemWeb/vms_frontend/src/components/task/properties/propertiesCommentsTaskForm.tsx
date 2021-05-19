@@ -7,7 +7,9 @@ import TaskComment from "../../../models/taskComment";
 import Colors from "../../../constants/colors";
 import {Button, Input, MessageList,} from 'react-chat-elements'
 import {getDbUser} from "../../../utils/userUtil";
-import {MessageTypeConstants} from "../../../models/chatMessage";
+import Popup from "reactjs-popup";
+import {AttachImageForm} from "../../utils/attachImageForm";
+import {MessageTypeConstants} from "../../../utils/attachmentUtil";
 
 interface InterfaceProps {
     closeModal: () => void;
@@ -44,17 +46,28 @@ export const PropertiesCommentsTaskForm: React.FunctionComponent<InterfaceProps>
                     dbUser, MessageTypeConstants.TEXT, null, task.id);
                 await TaskCommentApi.createComment(comment);
             } else {
-                // const formData = new FormData();
-                // formData.append("formFile", attachmentFile);
-                // formData.append("fileName", attachmentFileName);
-                //
-                // await ChatApi.createMessageWithAttachment(dbUser.companyId, dbUser.id, receiver.employee.id, inputMessage, formData);
+                const formData = new FormData();
+                formData.append("formFile", attachmentFile);
+                formData.append("fileName", attachmentFileName);
+
+                await TaskCommentApi.createCommentWithAttachment(task.id, inputMessage, formData);
             }
             if (messageInputRef) {
                 messageInputRef.value = '';
             }
             setInputMessage('');
             await updateComments();
+        }
+    }
+
+    const saveAttachment = (file: any, fileName: string) => {
+        setAttachmentFile(file);
+        setAttachmentFileName(fileName);
+
+        const inputText = `[${fileName}]`;
+        setInputMessage(inputText);
+        if (messageInputRef) {
+            messageInputRef.value = inputText;
         }
     }
 
@@ -75,6 +88,29 @@ export const PropertiesCommentsTaskForm: React.FunctionComponent<InterfaceProps>
 
                     rightButtons={
                         <div>
+                            {/*TODO change on icons*/}
+                            <Popup
+                                trigger={
+                                    <Button
+                                        color='white'
+                                        backgroundColor={Colors.primary}
+                                        text='Attach'
+                                    />
+                                }
+                                modal={true}
+                                nested={true}
+                            >
+                                {(close: any) => {
+                                    return (
+                                        <div className="modal">
+                                            <button className="close" onClick={close}>
+                                                &times;
+                                            </button>
+                                            <AttachImageForm closeModal={close} saveAttachment={saveAttachment}/>
+                                        </div>
+                                    )
+                                }}
+                            </Popup>
                             <Button
                                 // TODO may be removed
                                 color='white'

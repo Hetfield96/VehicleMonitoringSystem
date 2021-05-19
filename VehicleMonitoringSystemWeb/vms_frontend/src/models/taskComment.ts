@@ -1,6 +1,6 @@
 import Employee from "./employee";
-import {MessageTypeConstants} from "./chatMessage";
 import {getDbUserId} from "../utils/userUtil";
+import {getAttachmentUrl, MessageTypeConstants} from "../utils/attachmentUtil";
 
 export default class TaskComment {
 
@@ -43,12 +43,12 @@ export default class TaskComment {
     this.author = author;
 
     this.type = type;
-    // if (type === MessageTypeConstants.PHOTO) {
-    //   this.attachmentName = attachmentName;
-    //   this.data = {
-    //     uri: `${getBackendServerUrl()}chat/attachment/${attachmentName}`,
-    //   };
-    // }
+    if (type === MessageTypeConstants.PHOTO) {
+      this.attachmentName = attachmentName;
+      this.data = {
+        uri: getAttachmentUrl(attachmentName),
+      };
+    }
   }
 
 }
