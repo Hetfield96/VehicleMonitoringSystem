@@ -1,6 +1,6 @@
 import Employee from "./employee";
 import {getDbUserId} from "../utils/userUtil";
-import {getBackendServerUrl} from "../api";
+import {getAttachmentUrl} from "../utils/attachmentUtil";
 
 export enum MessageTypeConstants {
   TEXT = 'text',
@@ -51,7 +51,7 @@ export default class ChatMessage {
     if (type === MessageTypeConstants.PHOTO) {
       this.attachmentName = attachmentName;
       this.data = {
-        uri: `${getBackendServerUrl()}chat/attachment/${attachmentName}`,
+        uri: getAttachmentUrl(attachmentName),
       };
     }
   }

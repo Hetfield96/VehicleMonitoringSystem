@@ -27,24 +27,6 @@ namespace VMS_Backend.Controllers
             _hubContext = hubContext;
         }
 
-        [HttpGet]
-        [Route("attachment/{fileName}")]
-        public ActionResult GetAttachment(string fileName)
-        {
-            try
-            {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
-
-                return File(fileBytes, "application/force-download", fileName);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         [HttpPost]
         [Route("withAttachment/{companyId}/{senderId}/{receiverId}/{text}")]
         public async Task<ActionResult<ChatMessage>> UploadFile(int companyId, string senderId, string receiverId, string text, [FromForm] FileModel attachment)
