@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function configureAxios() {
     // URL бэкенд сервера
-    axios.defaults.baseURL = process.env.REACT_APP_BACKEND_SERVER_URL; // home wifi
+    axios.defaults.baseURL = process.env.REACT_APP_BACKEND_SERVER_URL;
     // Axios все реквесты вместе с куки-авторизации
     // axios.defaults.withCredentials = true;
     // Content Type - json

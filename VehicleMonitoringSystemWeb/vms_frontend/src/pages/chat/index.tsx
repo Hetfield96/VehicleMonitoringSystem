@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {withAuthorization} from "../../firebase/withAuthorization";
 import 'react-chat-elements/dist/main.css';
 import {Button, ChatList, Input, MessageList,} from 'react-chat-elements'
@@ -16,8 +16,6 @@ import {AddEmployeeContactForm} from "../../components/employee/addEmployeeConta
 import Employee from "../../models/employee";
 import Colors from "../../constants/colors";
 import {AttachImageForm} from "../../components/utils/attachImageForm";
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
 
 export const ChatComponent = () => {
     const [chatContacts, setChatContacts] = useState<ChatContact[]>();
@@ -80,6 +78,9 @@ export const ChatComponent = () => {
                 formData.append("fileName", attachmentFileName);
 
                 await ChatApi.createMessageWithAttachment(dbUser.companyId, dbUser.id, receiver.employee.id, inputMessage, formData);
+            }
+            if (messageInputRef) {
+                messageInputRef.value = '';
             }
             setInputMessage('');
             await updateChat();

@@ -4,6 +4,7 @@ import {useState} from "react";
 import {PropertiesGeneralTaskForm, PropertiesGeneralTaskFormName} from "./propertiesGeneralTaskForm";
 import Task from "../../../models/task";
 import "../../../styles/navigation.scss";
+import {PropertiesCommentsTaskForm, PropertiesCommentsTaskFormName} from "./propertiesCommentsTaskForm";
 
 interface InterfaceProps {
   closeModal: () => void;
@@ -18,6 +19,8 @@ export const PropertiesTaskForm: React.FunctionComponent<InterfaceProps> = (prop
         switch (contentComponentName) {
             case PropertiesGeneralTaskFormName:
                 return <PropertiesGeneralTaskForm closeModal={props.closeModal} updateTasks={props.updateTasks} task={props.task}/>
+            case PropertiesCommentsTaskFormName:
+                return <PropertiesCommentsTaskForm closeModal={props.closeModal} task={props.task}/>
             default:
                 return null;
         }
@@ -29,6 +32,9 @@ export const PropertiesTaskForm: React.FunctionComponent<InterfaceProps> = (prop
                 <ul>
                     <li>
                         <a onClick={() => setContentComponentName(PropertiesGeneralTaskFormName)}>{PropertiesGeneralTaskFormName}</a>
+                    </li>
+                    <li>
+                        <a onClick={() => setContentComponentName(PropertiesCommentsTaskFormName)}>{PropertiesCommentsTaskFormName}</a>
                     </li>
                 </ul>
             </div>
@@ -42,8 +48,8 @@ export const PropertiesTaskForm: React.FunctionComponent<InterfaceProps> = (prop
 const styles: StylesDictionary  = {
     container: {
         flexDirection: 'column',
-        width: 400,
-        height: 450
+        width: 500,
+        height: 550
     },
     content: {
         flexDirection: 'column'
