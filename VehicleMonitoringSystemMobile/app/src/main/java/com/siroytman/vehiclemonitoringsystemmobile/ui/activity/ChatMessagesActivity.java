@@ -29,9 +29,11 @@ import com.siroytman.vehiclemonitoringsystemmobile.api.DataPart;
 import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyMultipartRequest;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.ChatController;
+import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IAttachmentManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
+import com.siroytman.vehiclemonitoringsystemmobile.util.AttachmentPicker;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
@@ -49,20 +51,10 @@ import java.util.Map;
 public class ChatMessagesActivity extends AppCompatActivity
         implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
-        MessagesListAdapter.SelectionListener {
+        MessagesListAdapter.SelectionListener,
+        IAttachmentManager {
 
     public static final String TAG = "ChatMessagesActivity";
-
-    // Permissions for accessing the storage
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private Bitmap bitmap;
-    private String filePath;
 
     protected ImageLoader imageLoader;
     protected MessagesListAdapter<ChatMessage> messagesAdapter;
@@ -74,6 +66,8 @@ public class ChatMessagesActivity extends AppCompatActivity
     private ChatDialog dialog;
 
     private ChatController chatController;
+
+    private AttachmentPicker attachmentPicker;
 
     private static ChatMessagesActivity instance;
 
@@ -108,6 +102,8 @@ public class ChatMessagesActivity extends AppCompatActivity
             Log.e(TAG, "Error: Arguments are null!");
         }
 
+        this.attachmentPicker = new AttachmentPicker(this, this);
+
         this.messagesList = findViewById(R.id.chat_messages__messagesList);
         initAdapter();
 
@@ -115,8 +111,7 @@ public class ChatMessagesActivity extends AppCompatActivity
         input.setInputListener(this);
         input.setAttachmentsListener(this);
     }
-
-
+    
     @Override
     public boolean onSubmit(CharSequence input) {
         Employee user = AppController.getInstance().getDbUser();
@@ -132,67 +127,12 @@ public class ChatMessagesActivity extends AppCompatActivity
         messagesAdapter.addToStart(message, true);
     }
 
-    // TODO put into some util service
-    void showImagePicker() {
-        verifyStoragePermissions(ChatMessagesActivity.this);
-
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
-    // this function is triggered when user
-    // selects the image from the imageChooser
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri picUri = data.getData();
-            filePath = getPath(picUri);
-            if (filePath != null) {
-                try {
-
-                    Log.d(TAG, "filePath = " + String.valueOf(filePath));
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), picUri);
-                    uploadBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(
-                        this, "no image selected",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public String getPath(Uri uri) {
-        String path = null;
-        String[] imageProjection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, imageProjection, null, null, null);
-        if(cursor != null) {
-            cursor.moveToFirst();
-            int indexImage = cursor.getColumnIndex(imageProjection[0]);
-            path = cursor.getString(indexImage);
-        }
-
-        return path;
-    }
-
-
-    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-    private void uploadBitmap(final Bitmap bitmap) {
+    @Override
+    public void fileAttached(byte[] fileContent) {
         Employee dbUser = AppController.getInstance().getDbUser();
         int companyId = dbUser.getCompanyId();
         String userId = dbUser.getId();
         String receiverId = dialog.getId();
-        // TODO text
         String text = "[image]";
         // TODO Put into API controller
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST,
@@ -220,8 +160,8 @@ public class ChatMessagesActivity extends AppCompatActivity
             @Override
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
-                long imagename = System.currentTimeMillis();
-                params.put("formFile", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap), "image/png"));
+                long imageName = System.currentTimeMillis();
+                params.put("formFile", new DataPart(imageName + ".png", fileContent, "image/png"));
                 return params;
             }
         };
@@ -230,23 +170,14 @@ public class ChatMessagesActivity extends AppCompatActivity
         ApiController.getInstance().volleyQueue.addToRequestQueue(volleyMultipartRequest);
     }
 
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        this.attachmentPicker.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onAddAttachments() {
-        showImagePicker();
+        this.attachmentPicker.showImagePicker();
     }
 
     private void initAdapter() {

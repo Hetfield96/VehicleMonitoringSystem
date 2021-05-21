@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IChatMessage;
-import com.siroytman.vehiclemonitoringsystemmobile.util.AttachmentUtil;
+import com.siroytman.vehiclemonitoringsystemmobile.util.AttachmentPicker;
 import com.siroytman.vehiclemonitoringsystemmobile.util.DateUtil;
 import com.stfalcon.chatkit.commons.models.IUser;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
@@ -180,7 +180,7 @@ public class ChatMessage implements Parcelable,
     @Override
     public String getImageUrl() {
         return type.equals("photo")
-                ? AttachmentUtil.getAttachmentUrl(this.attachment_name)
+                ? AttachmentPicker.getAttachmentUrl(this.attachment_name)
                 : null;
     }
 
