@@ -48,8 +48,6 @@ public class ChatMessage implements Parcelable,
     };
 
     public static ChatMessage parseChatMessage(JSONObject json) {
-        String userId = AppController.getInstance().getDbUser().getId();
-
         ChatMessage chatMessage = new ChatMessage();
 
         try {

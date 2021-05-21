@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IChatMessage;
+import com.siroytman.vehiclemonitoringsystemmobile.util.AttachmentPicker;
 import com.siroytman.vehiclemonitoringsystemmobile.util.DateUtil;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
@@ -21,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskComment implements Parcelable,
-        IChatMessage,
+        IChatMessage<TaskComment>,
         MessageContentType.Image, /*this is for default image messages implementation*/
         MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
     public static final String TAG = "TaskComment";
@@ -32,6 +33,8 @@ public class TaskComment implements Parcelable,
         date = new Date(in.readLong());
         author = in.readParcelable(Employee.class.getClassLoader());
         taskId = in.readInt();
+        type = in.readString();
+        attachment_name = in.readString();
     }
 
     public static final Creator<TaskComment> CREATOR = new Creator<TaskComment>() {
@@ -47,8 +50,6 @@ public class TaskComment implements Parcelable,
     };
 
     public static TaskComment parseTaskComment(JSONObject json) {
-        String userId = AppController.getInstance().getDbUser().getId();
-
         TaskComment taskComment = new TaskComment();
 
         try {
@@ -57,6 +58,8 @@ public class TaskComment implements Parcelable,
             taskComment.date = DateUtil.getDateFromString(json.getString("date"));
             taskComment.author = Employee.parseEmployee(json.getJSONObject("author"));
             taskComment.taskId = json.getInt("taskId");
+            taskComment.type = json.getString("type");
+            taskComment.attachment_name = json.getString("attachmentName");
         } catch (JSONException e) {
             Log.d(TAG, "Parse error: " + e.getMessage());
             return null;
@@ -91,7 +94,9 @@ public class TaskComment implements Parcelable,
     private Employee author;
     private String authorId;
 
-    private Image image;
+    private String type;
+    private String attachment_name;
+
 
     public TaskComment() {
     }
@@ -124,12 +129,13 @@ public class TaskComment implements Parcelable,
     }
 
     @Override
-    public IMessage getLastMessage() {
+    public TaskComment getLastMessage() {
         return null;
     }
 
     @Override
-    public void setLastMessage(IMessage message) {
+    public void setLastMessage(TaskComment message) {
+
     }
 
     @Override
@@ -158,7 +164,9 @@ public class TaskComment implements Parcelable,
 
     @Override
     public String getImageUrl() {
-        return image == null ? null : image.url;
+        return type.equals("photo")
+                ? AttachmentPicker.getAttachmentUrl(this.attachment_name)
+                : null;
     }
 
     public void setText(String text) {
@@ -169,8 +177,12 @@ public class TaskComment implements Parcelable,
         this.date = date;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -185,6 +197,8 @@ public class TaskComment implements Parcelable,
         dest.writeLong(date.getTime());
         dest.writeParcelable(author, flags);
         dest.writeInt(taskId);
+        dest.writeString(type);
+        dest.writeString(attachment_name);
     }
 
     public JSONObject toJSONObject() {
@@ -193,15 +207,9 @@ public class TaskComment implements Parcelable,
         param.put("authorId", authorId);
         param.put("text", text);
         param.put("taskId", taskId);
+        param.put("type", type);
+        param.put("attachment_name", attachment_name);
         return new JSONObject(param);
-    }
-
-    public static class Image {
-        private String url;
-
-        public Image(String url) {
-            this.url = url;
-        }
     }
 }
 

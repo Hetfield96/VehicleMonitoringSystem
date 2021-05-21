@@ -2,25 +2,36 @@ package com.siroytman.vehiclemonitoringsystemmobile.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
+import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackFormData;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.TaskController;
+import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IAttachmentManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Task;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskComment;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskStatus;
+import com.siroytman.vehiclemonitoringsystemmobile.util.AttachmentPicker;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +41,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TaskActivity extends AppCompatActivity
-        implements MessageInput.InputListener, MessageInput.AttachmentsListener {
+        implements MessageInput.InputListener,
+        MessageInput.AttachmentsListener,
+        IAttachmentManager {
     public static final String TAG = "TaskActivity";
 
     private Task task;
@@ -49,6 +62,7 @@ public class TaskActivity extends AppCompatActivity
 
     private MessagesListAdapter<TaskComment> commentsListAdapter;
     private ImageLoader imageLoader;
+    private AttachmentPicker attachmentPicker;
 
     private TaskController taskController;
 
@@ -68,6 +82,8 @@ public class TaskActivity extends AppCompatActivity
         else {
             Log.e(TAG, "Error: Arguments are null!");
         }
+
+        this.attachmentPicker = new AttachmentPicker(this, this);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm");
 
@@ -122,11 +138,6 @@ public class TaskActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAddAttachments() {
-        // TODO task onAddAttachments
-    }
-
-    @Override
     public boolean onSubmit(CharSequence input) {
         Employee user = AppController.getInstance().getDbUser();
         String userId = user.getId();
@@ -152,5 +163,44 @@ public class TaskActivity extends AppCompatActivity
         this.commentsList.setAdapter(commentsListAdapter);
 
         taskController.getAllTaskComments(task.getId(), this);
+    }
+
+    @Override
+    public void onAddAttachments() {
+        this.attachmentPicker.showImagePicker();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        this.attachmentPicker.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onFileAttached(byte[] fileContent) {
+        Employee dbUser = AppController.getInstance().getDbUser();
+        int companyId = dbUser.getCompanyId();
+        String userId = dbUser.getId();
+        String text = "[image]";
+        ApiController.getInstance().getFormDataResponse(Request.Method.POST,
+                ApiController.BACKEND_URL,
+                "taskComment/withAttachment/" + companyId + "/" + userId + "/" + task.getId() + "/" + text,
+                fileContent,
+                new IVolleyCallbackFormData() {
+                    @Override
+                    public void onSuccessResponse(NetworkResponse response) {
+                        try {
+                            JSONObject json = new JSONObject(new String(response.data));
+                            TaskComment comment = TaskComment.parseTaskComment(json);
+                            addNewTaskComment(comment);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG,"Error while sending attachment: " + error.getMessage());
+                    }
+                });
     }
 }

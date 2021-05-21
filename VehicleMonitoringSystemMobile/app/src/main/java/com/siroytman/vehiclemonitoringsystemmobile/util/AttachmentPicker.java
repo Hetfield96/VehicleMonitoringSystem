@@ -70,7 +70,7 @@ public class AttachmentPicker {
                     bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), picUri);
                     byte[] fileContent = getFileDataFromDrawable(bitmap);
 
-                    this.attachmentManager.fileAttached(fileContent);
+                    this.attachmentManager.onFileAttached(fileContent);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

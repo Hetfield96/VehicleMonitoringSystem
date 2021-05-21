@@ -166,7 +166,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/task_activity__next_status"
-        android:layout_above="@+id/task_activity__comment_input" />
+        android:layout_above="@+id/task_activity__comment_input"
+        app:outcomingDefaultBubbleColor="@color/secondaryColor"
+        app:outcomingDefaultBubblePressedColor="@color/secondaryColor"
+        app:outcomingDefaultBubbleSelectedColor="@color/selectionColor"
+        app:outcomingTextColor="@color/white"
+        app:incomingDefaultBubbleSelectedColor="@color/selectionColor"
+    />
 
     <View
         android:layout_width="match_parent"
@@ -182,6 +188,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:inputHint="Type a message"
-        app:showAttachmentButton="true" />
+        app:showAttachmentButton="true"
+        app:attachmentButtonDefaultIconColor="@color/primaryColor"
+        app:attachmentButtonDefaultIconPressedColor="@color/primaryVariantColor"/>
 
 </RelativeLayout>

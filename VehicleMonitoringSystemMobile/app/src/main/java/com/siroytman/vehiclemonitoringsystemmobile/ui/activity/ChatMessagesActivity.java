@@ -129,7 +129,7 @@ public class ChatMessagesActivity extends AppCompatActivity
     }
 
     @Override
-    public void fileAttached(byte[] fileContent) {
+    public void onFileAttached(byte[] fileContent) {
         Employee dbUser = AppController.getInstance().getDbUser();
         int companyId = dbUser.getCompanyId();
         String userId = dbUser.getId();
@@ -143,8 +143,8 @@ public class ChatMessagesActivity extends AppCompatActivity
                     @Override
                     public void onSuccessResponse(NetworkResponse response) {
                         try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            ChatMessage message = ChatMessage.parseChatMessage(obj);
+                            JSONObject json = new JSONObject(new String(response.data));
+                            ChatMessage message = ChatMessage.parseChatMessage(json);
                             onNewMessageUpdateView(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
