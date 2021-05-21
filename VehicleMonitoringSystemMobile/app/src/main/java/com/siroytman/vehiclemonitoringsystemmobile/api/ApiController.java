@@ -1,7 +1,10 @@
 package com.siroytman.vehiclemonitoringsystemmobile.api;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
@@ -10,8 +13,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
+import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -25,7 +30,7 @@ public class ApiController {
     private static final int RESPONSE_TIMEOUT = 100000;
 
     // Volley queue for executing requests to server
-    public final VolleyQueue volleyQueue;
+    private final VolleyQueue volleyQueue;
 
     // A singleton instance of the application class for easy access in other places
     private static ApiController instance;
@@ -59,7 +64,7 @@ public class ApiController {
      * @param apiUrl api address
      * @param callback function to call when got response
      */
-    public void getStringResponse(int method, String serverUrl, String apiUrl, final VolleyCallbackString callback) {
+    public void getStringResponse(int method, String serverUrl, String apiUrl, final IVolleyCallbackString callback) {
         StringRequest request = new StringRequest(method,
                 serverUrl + "/" + apiUrl,
         new Response.Listener <String> () {
@@ -99,7 +104,7 @@ public class ApiController {
         volleyQueue.addToRequestQueue(request);
     }
 
-    public void getJSONObjectResponse(int method, String serverUrl, String apiUrl, JSONObject json, final VolleyCallbackJSONObject callback) {
+    public void getJSONObjectResponse(int method, String serverUrl, String apiUrl, JSONObject json, final IVolleyCallbackJSONObject callback) {
         JsonObjectRequest request = new JsonObjectRequest(method, serverUrl + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONObject>() {
@@ -141,7 +146,7 @@ public class ApiController {
         });
     }
 
-    public void getJSONArrayResponse(int method, String serverUrl, String apiUrl, JSONArray json, final VolleyCallbackJSONArray callback) {
+    public void getJSONArrayResponse(int method, String serverUrl, String apiUrl, JSONArray json, final IVolleyCallbackJSONArray callback) {
         String jsonString = String.valueOf(json);
         JsonArrayRequest request = new JsonArrayRequest(method, serverUrl + "/" + apiUrl,
                 json,
@@ -191,4 +196,46 @@ public class ApiController {
         volleyQueue.addToRequestQueue(request);
     }
 
+    public void getFormDataResponse(int method, String serverUrl, String apiUrl, byte[] fileContent, final IVolleyCallbackFormData callback) {
+        VolleyMultipartRequest request = new VolleyMultipartRequest(method, serverUrl + "/" + apiUrl,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccessResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onErrorResponse(error);
+                    }
+                }) {
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imageName = System.currentTimeMillis();
+                params.put("formFile", new DataPart(imageName + ".png", fileContent, "image/png"));
+                return params;
+            }
+        };
+        volleyQueue.addToRequestQueue(request);
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return RESPONSE_TIMEOUT;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return RESPONSE_TIMEOUT;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+    }
 }

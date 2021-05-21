@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.DataPart;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackFormData;
 import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyMultipartRequest;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.ChatController;
@@ -111,7 +112,7 @@ public class ChatMessagesActivity extends AppCompatActivity
         input.setInputListener(this);
         input.setAttachmentsListener(this);
     }
-    
+
     @Override
     public boolean onSubmit(CharSequence input) {
         Employee user = AppController.getInstance().getDbUser();
@@ -134,12 +135,13 @@ public class ChatMessagesActivity extends AppCompatActivity
         String userId = dbUser.getId();
         String receiverId = dialog.getId();
         String text = "[image]";
-        // TODO Put into API controller
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST,
-                ApiController.BACKEND_URL + "/chat/withAttachment/" + companyId + "/" + userId + "/" + receiverId + "/" + text,
-                new Response.Listener<NetworkResponse>() {
+        ApiController.getInstance().getFormDataResponse(Request.Method.POST,
+                ApiController.BACKEND_URL,
+                "chat/withAttachment/" + companyId + "/" + userId + "/" + receiverId + "/" + text,
+                fileContent,
+                new IVolleyCallbackFormData() {
                     @Override
-                    public void onResponse(NetworkResponse response) {
+                    public void onSuccessResponse(NetworkResponse response) {
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             ChatMessage message = ChatMessage.parseChatMessage(obj);
@@ -148,26 +150,12 @@ public class ChatMessagesActivity extends AppCompatActivity
                             e.printStackTrace();
                         }
                     }
-                },
-                new Response.ErrorListener() {
+
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e(TAG,""+error.getMessage());
+                        Log.e(TAG,"Error while sending attachment: " + error.getMessage());
                     }
-                }) {
-
-            @Override
-            protected Map<String, DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
-                long imageName = System.currentTimeMillis();
-                params.put("formFile", new DataPart(imageName + ".png", fileContent, "image/png"));
-                return params;
-            }
-        };
-
-        //adding the request to volley
-        ApiController.getInstance().volleyQueue.addToRequestQueue(volleyMultipartRequest);
+                });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

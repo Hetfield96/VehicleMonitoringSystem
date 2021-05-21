@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.AuthActivity;
 
@@ -46,7 +46,7 @@ public class AuthController {
                         ApiController.BACKEND_URL,
                         "auth/current/" + firebaseUserId,
                         null,
-                        new VolleyCallbackJSONObject() {
+                        new IVolleyCallbackJSONObject() {
                             @Override
                             public void onSuccessResponse(JSONObject result) {
                                 Employee user = Employee.parseEmployee(result);

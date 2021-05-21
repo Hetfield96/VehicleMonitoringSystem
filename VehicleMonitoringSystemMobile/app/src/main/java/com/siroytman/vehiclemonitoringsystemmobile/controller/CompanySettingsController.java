@@ -5,21 +5,13 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONArray;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONObject;
-import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
-import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.model.CompanySettings;
 import com.siroytman.vehiclemonitoringsystemmobile.services.LocationService;
 import com.siroytman.vehiclemonitoringsystemmobile.services.OBDService;
 import com.siroytman.vehiclemonitoringsystemmobile.services.VehicleDataSynchronizationService;
-import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.ChatMessagesActivity;
-import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.ChatDialogFragment;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class CompanySettingsController {
@@ -48,7 +40,7 @@ public class CompanySettingsController {
                 ApiController.BACKEND_URL,
                 "companySettings/" + companyId,
                 null,
-                new VolleyCallbackJSONObject() {
+                new IVolleyCallbackJSONObject() {
                     @Override
                     public void onSuccessResponse(JSONObject result) {
                         CompanySettings companySettings = CompanySettings.parseCompanySettings(result);

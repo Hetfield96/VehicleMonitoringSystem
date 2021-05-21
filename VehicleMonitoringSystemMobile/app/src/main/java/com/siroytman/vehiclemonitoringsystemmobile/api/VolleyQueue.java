@@ -13,8 +13,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.BuildConfig;
 /**
  * Volley queue for executing requests to server
  */
-// TODO make private again
-public class VolleyQueue {
+class VolleyQueue {
     /**
      * Log or request TAG
      */

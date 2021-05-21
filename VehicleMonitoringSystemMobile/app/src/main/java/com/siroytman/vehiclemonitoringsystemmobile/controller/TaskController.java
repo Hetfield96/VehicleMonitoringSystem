@@ -5,8 +5,8 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONArray;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONArray;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Task;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskComment;
@@ -46,7 +46,7 @@ public class TaskController {
                         ApiController.BACKEND_URL,
                         "task/getAllForDriver/" + companyId + "/" + driverId,
                         null,
-                        new VolleyCallbackJSONArray() {
+                        new IVolleyCallbackJSONArray() {
                             @Override
                             public void onSuccessResponse(JSONArray result) {
                                 ArrayList<Task> tasks = Task.parseTaskArray(result);
@@ -65,7 +65,7 @@ public class TaskController {
                 ApiController.BACKEND_URL,
                 "task/updateStatus/" + task.getId() + "/" + task.getStatusId(),
                 null,
-                new VolleyCallbackJSONObject() {
+                new IVolleyCallbackJSONObject() {
                     @Override
                     public void onSuccessResponse(JSONObject result) {
                     }
@@ -86,7 +86,7 @@ public class TaskController {
                         ApiController.BACKEND_URL,
                         "taskComment/getAllForTask/" + companyId + "/" + taskId,
                         null,
-                        new VolleyCallbackJSONArray() {
+                        new IVolleyCallbackJSONArray() {
                             @Override
                             public void onSuccessResponse(JSONArray result) {
                                 ArrayList<TaskComment> taskComments = TaskComment.parseTaskCommentsArray(result);
@@ -105,7 +105,7 @@ public class TaskController {
                 ApiController.BACKEND_URL,
                 "taskComment",
                 taskComment.toJSONObject(),
-                new VolleyCallbackJSONObject() {
+                new IVolleyCallbackJSONObject() {
                     @Override
                     public void onSuccessResponse(JSONObject result) {
                         TaskComment comment = TaskComment.parseTaskComment(result);

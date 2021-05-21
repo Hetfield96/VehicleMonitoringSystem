@@ -2,9 +2,9 @@ package com.siroytman.vehiclemonitoringsystemmobile.api;
 
 import com.android.volley.VolleyError;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
-public interface VolleyCallbackJSONArray {
-    void onSuccessResponse(JSONArray result);
+public interface IVolleyCallbackJSONObject {
+    void onSuccessResponse(JSONObject result);
     void onErrorResponse(VolleyError error);
 }

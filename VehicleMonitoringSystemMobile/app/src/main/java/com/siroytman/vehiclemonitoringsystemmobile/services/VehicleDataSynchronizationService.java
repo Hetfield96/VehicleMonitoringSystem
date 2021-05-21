@@ -9,7 +9,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONArray;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONArray;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.VehicleData;
 import com.siroytman.vehiclemonitoringsystemmobile.room.AppRoomDatabase;
@@ -54,7 +54,7 @@ public class VehicleDataSynchronizationService {
 
                         ApiController.getInstance()
                                 .getJSONArrayResponse(Request.Method.POST, ApiController.GEODATA_PROCESSING_SERVICE_URL,
-                                        "vehicleData", vehicleDataArray, new VolleyCallbackJSONArray() {
+                                        "vehicleData", vehicleDataArray, new IVolleyCallbackJSONArray() {
                                     @Override
                                     public void onSuccessResponse(JSONArray result)
                                     {

@@ -5,8 +5,8 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONArray;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONArray;
+import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class ChatController {
@@ -46,7 +45,7 @@ public class ChatController {
                         ApiController.BACKEND_URL,
                         "chat/getAllEmployeeMessages/" + companyId + "/" + senderId,
                         null,
-                        new VolleyCallbackJSONArray() {
+                        new IVolleyCallbackJSONArray() {
                             @Override
                             public void onSuccessResponse(JSONArray result) {
                                 ArrayList<ChatMessage> chatMessages = ChatMessage.parseChatMessageArray(result);
@@ -66,7 +65,7 @@ public class ChatController {
                 ApiController.BACKEND_URL,
                 "chat",
                 message.toJSONObject(),
-                new VolleyCallbackJSONObject() {
+                new IVolleyCallbackJSONObject() {
                     @Override
                     public void onSuccessResponse(JSONObject result) {
                         ChatMessage message = ChatMessage.parseChatMessage(result);
