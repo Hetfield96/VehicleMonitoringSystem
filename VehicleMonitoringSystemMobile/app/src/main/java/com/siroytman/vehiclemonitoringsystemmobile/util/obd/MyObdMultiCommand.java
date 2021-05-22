@@ -16,9 +16,11 @@ public class MyObdMultiCommand {
     public static final String TAG = "MyObdMultiCommand";
 
     private ArrayList<ObdCommand> commands;
+    private ArrayList<ObdCommandResult> commandsResults;
 
     public MyObdMultiCommand(ArrayList<ObdCommand> commands) {
         this.commands = commands;
+        this.commandsResults = new ArrayList<>(commands.size());
     }
 
     /**
@@ -29,13 +31,19 @@ public class MyObdMultiCommand {
      * @throws java.io.IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
-    public void sendCommands(InputStream in, OutputStream out)
-            throws IOException, InterruptedException {
+    public void sendCommands(InputStream in, OutputStream out) throws IOException, InterruptedException {
         Log.d(TAG, "sendCommands");
 
-        for (ObdCommand command : commands) {
-            // TODO try-catch
-            command.run(in, out);
+        for (int i = 0; i < commands.size(); i++) {
+            ObdCommand command = commands.get(i);
+            commandsResults.add(new ObdCommandResult(command.getName()));
+            try {
+                command.run(in, out);
+            } catch (Exception e) {
+                commandsResults.get(i).calculated = false;
+                commandsResults.get(i).error = e.getMessage();
+//                Log.e(TAG, "command " + command.getName() + " was not excecuted: " + e.getMessage());
+            }
         }
     }
 
@@ -44,13 +52,15 @@ public class MyObdMultiCommand {
      *
      * @return a {@link java.lang.String} object.
      */
-    public ArrayList<String> getCalculatedResults() {
-//        Log.d(TAG, "getCalculatedResults");
-        ArrayList<String> res = new ArrayList<>(commands.size());
-        for (ObdCommand command : commands) {
-            res.add(command.getCalculatedResult());
+    public ArrayList<ObdCommandResult> getCalculatedResults() {
+        Log.d(TAG, "getCalculatedResults");
+
+        for (int i = 0; i < commands.size(); i++) {
+            if (commandsResults.get(i).calculated) {
+                commandsResults.get(i).result = commands.get(i).getCalculatedResult();
+            }
         }
 
-        return res;
+        return commandsResults;
     }
 }

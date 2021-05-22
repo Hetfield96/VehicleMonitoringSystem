@@ -9,9 +9,12 @@ import androidx.room.TypeConverters;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.room.Converters;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 
 @Entity
 public class VehicleData {
@@ -31,55 +34,54 @@ public class VehicleData {
     public double longitude;
 
     // Control
-    // not real data
-//    @ColumnInfo(name = "distanceMilControl")
-//    public Integer distanceMilControl;
+    @ColumnInfo(name = "distance_mil_control") //1
+    public Integer distance_mil_control;
 
-    /**
-     * Distance traveled since codes cleared-up.
-     */
-    // no data
-//    @ColumnInfo(name = "distanceSinceCcControl")
-//    public Integer distanceSinceCcControl;
+    @ColumnInfo(name = "distance_since_cc_control")//2
+    public Integer distance_since_cc_control;
+
+    @ColumnInfo(name = "dtc_number")//3
+    public Byte dtc_number;
+
+    @ColumnInfo(name = "pending_trouble_codes")//4
+    public String pending_trouble_codes;
+
+    @ColumnInfo(name = "permanent_trouble_codes")//5
+    public String permanent_trouble_codes;
+
+    @ColumnInfo(name = "trouble_codes")//6
+    public String trouble_codes;
 
     // Engine
-    // Checked
-    /**
-     * Displays the current engine revolutions per minute (RPM).
-     */
-    @ColumnInfo(name = "rpm_engine")
+    @ColumnInfo(name = "rpm_engine")//7
     public Integer rpm_engine;
 
+    @ColumnInfo(name = "absolute_load")//8
+    public double absolute_load;
+
+    @ColumnInfo(name = "load")//9
+    public double load;
+
     // Fuel
-    /**
-     * Fuel level percentage
-     */
-    // not real data
-//    @ColumnInfo(name = "levelFuel")
-//    public Byte levelFuel;
+    @ColumnInfo(name = "level_fuel")//10
+    public double level_fuel;
 
-    /**
-     * Fuel Consumption Rate per hour
-     */
-    // no data
-//    @ColumnInfo(name = "consumptionRateFuel")
-//    public Byte consumptionRateFuel;
-
-    // Pressure
-    // no data
-//    @ColumnInfo(name = "fuelPressure")
-//    public Byte fuelPressure;
+    @ColumnInfo(name = "air_fuel_ratio")//11
+    public double air_fuel_ratio;
 
     // Temperature
-    // Checked
-//            not real data
-//    @ColumnInfo(name = "engineCoolantTemperature")
-//    public Byte engineCoolantTemperature;
+    @ColumnInfo(name = "engine_coolant_temperature")//12
+    public Double engine_coolant_temperature;
+
+    @ColumnInfo(name = "air_intake_temperature")//13
+    public Double air_intake_temperature;
+
+    @ColumnInfo(name = "ambient_air_temperature")//14
+    public double ambient_air_temperature;
 
     // Speed
-    // not real data
-//    @ColumnInfo(name = "speed")
-//    public Byte speed;
+    @ColumnInfo(name = "speed")//15
+    public Byte speed;
 
 
     public VehicleData(int vehicle_id, String employee_id, Date datetime, double latitude, double longitude) {
@@ -91,38 +93,50 @@ public class VehicleData {
     }
 
 
-    public Map<String, Object> toMap() {
-        Map<String, Object> vehicle_data = new HashMap<>();
-        vehicle_data.put("vehicle_id", vehicle_id);
-        vehicle_data.put("employee_id", employee_id);
-        vehicle_data.put("timestamp", datetime);
-        vehicle_data.put("latitude", latitude);
-        vehicle_data.put("longitude", longitude);
+    public JSONObject toJSON() {
+        JSONObject item = new JSONObject();
 
-        // OBD related data
-        if (AppController.getInstance().useOBD) {
-            // Control
-//            vehicle_data.put("distanceMilControl", distanceMilControl);
-//            vehicle_data.put("distanceSinceCcControl", distanceSinceCcControl);
+        try {
+            item.put("vehicle_id", vehicle_id);
+            item.put("employee_id", employee_id);
+            String datetimeFormat = new SimpleDateFormat("yyMMddHHmmss", Locale.US).format(datetime);
+            item.put("datetime", datetimeFormat);
+            item.put("latitude", latitude);
+            item.put("longitude", longitude);
 
-            // Engine
-            vehicle_data.put("rpm_engine", rpm_engine);
+            // OBD related data
+            if (AppController.getInstance().useOBD) {
+                // Control
+                item.put("distance_mil_control", distance_mil_control);
+                item.put("distance_since_cc_control", distance_since_cc_control);
+                item.put("dtc_number", dtc_number);
+                item.put("pending_trouble_codes", pending_trouble_codes);
+                item.put("permanent_trouble_codes", permanent_trouble_codes);
+                item.put("trouble_codes", trouble_codes);
 
-            // Fuel
-//            vehicle_data.put("levelFuel", levelFuel);
-//            vehicle_data.put("consumptionRateFuel", consumptionRateFuel);
+                // Engine
+                item.put("rpm_engine", rpm_engine);
+                item.put("absolute_load", absolute_load);
+                item.put("load", load);
 
-            // Pressure
-//            vehicle_data.put("pressureFuel", fuelPressure);
+                // Fuel
+                item.put("level_fuel", level_fuel);
+                item.put("air_fuel_ratio", air_fuel_ratio);
 
-            // Temperature
-//            vehicle_data.put("engineCoolantTemperature", engineCoolantTemperature);
+                // Temperature
+                item.put("engine_coolant_Temperature", engine_coolant_temperature);
+                item.put("air_intake_temperature", air_intake_temperature);
+                item.put("ambient_air_temperature", ambient_air_temperature);
 
-            // Speed
-//            vehicle_data.put("speed", speed);
+                // Speed
+                item.put("speed", speed);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
 
-        return vehicle_data;
+        return item;
     }
 
     @NonNull
@@ -136,24 +150,29 @@ public class VehicleData {
 
         if (AppController.getInstance().useOBD) {
             // Control
-//            res += ", distanceMilControl = " + distanceMilControl;
-//            res += ", distanceSinceCcControl = " + distanceSinceCcControl;
+            res += ", distance_mil_control = " + distance_mil_control;
+            res += ", distance_since_cc_control = " + distance_since_cc_control;
+            res += ", dtc_number = " + dtc_number;
+            res += ", pending_trouble_codes = " + pending_trouble_codes;
+            res += ", permanent_trouble_codes = " + permanent_trouble_codes;
+            res += ", trouble_codes = " + trouble_codes;
 
             // Engine
             res += ", rpm_engine = " + rpm_engine;
+            res += ", absolute_load = " + absolute_load;
+            res += ", load = " + load;
 
             // Fuel
-//            res += ", levelFuel = " + levelFuel;
-//            res += ", consumptionRateFuel = " + consumptionRateFuel;
-
-            // Pressure
-//            res += ", pressureFuel = " + fuelPressure;
+            res += ", level_fuel = " + level_fuel;
+            res += ", air_fuel_ratio = " + air_fuel_ratio;
 
             // Temperature
-//            res += ", engineCoolantTemperature = " + engineCoolantTemperature;
+            res += ", engine_coolant_Temperature = " + engine_coolant_temperature;
+            res += ", air_intake_temperature = " + air_intake_temperature;
+            res += ", ambient_air_temperature = " + ambient_air_temperature;
 
             // Speed
-//            res += ", speed = " + speed;
+            res += ", speed = " + speed;
         }
 
         return res;

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
@@ -22,6 +21,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IObdManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.VehicleData;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.BluetoothConnectThread;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.MyObdMultiCommand;
+import com.siroytman.vehiclemonitoringsystemmobile.util.obd.ObdCommandResult;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.ObdCommandsHelper;
 
 import java.util.ArrayList;
@@ -43,11 +43,11 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     // Singleton
     public static OBDService instance;
 
-    private Context context;
+    private Activity activity;
 
     private final IObdManager obdManager;
 
-    private boolean isOdbConfigured = false;
+    private boolean isObdConfigured = false;
 
     // Bluetooth adapter to enable bluetooth and discover devices
     BluetoothAdapter bluetoothAdapter;
@@ -56,17 +56,17 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     // Bluetooth socket to transmit data within bluetooth device
     BluetoothSocket bluetoothSocket;
 
-    public static OBDService getInstance(Context context, IObdManager obdManager) {
+    public static OBDService getInstance(Activity activity, IObdManager obdManager) {
         if (instance != null) {
             return instance;
         }
 
-        return new OBDService(context, obdManager);
+        return new OBDService(activity, obdManager);
     }
 
-    private OBDService(Context context, IObdManager obdManager) {
+    private OBDService(Activity activity, IObdManager obdManager) {
         this.obdManager = obdManager;
-        this.context = context;
+        this.activity = activity;
 
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         configureBluetooth();
@@ -82,7 +82,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     // On new location - gather vehicle data from OBD
     @Override
     public void onLocationChanged(Location location) {
-        if (isOdbConfigured) {
+        if (isObdConfigured) {
             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             // TODO vehicleId
             VehicleData vehicleData =
@@ -91,13 +91,13 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             vehicleData = gatherVehicleData(vehicleData);
 
             if (vehicleData != null) {
-                Log.d(TAG, "LocationChanged: " + vehicleData.toString());
+//                Log.d(TAG, "LocationChanged: " + vehicleData.toString());
                 obdManager.onObdDataUpdate(vehicleData);
             } else {
                 Log.e(TAG, "Vehicle data is not gathered");
             }
         } else {
-            Log.d(TAG, "onLocationChanged. Odb is not configured yet");
+            Log.d(TAG, "onLocationChanged. odb is not configured yet");
         }
     }
 
@@ -109,8 +109,10 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
 
         try {
             obdMultiCommand.sendCommands(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
-            ArrayList<String> commandsResults = obdMultiCommand.getCalculatedResults();
+            ArrayList<ObdCommandResult> commandsResults = obdMultiCommand.getCalculatedResults();
             ObdCommandsHelper.parseDefaultCommandsResult(vehicleData, commandsResults);
+
+            Log.d(TAG, "Parse result: " + vehicleData.toString());
             return vehicleData;
         } catch (Exception e) {
             Log.d(TAG, "Error at multiCommand: " + e.getMessage());
@@ -132,7 +134,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     private void enableBluetooth() {
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult((Activity)this.context, enableBtIntent, 240, null);
+            startActivityForResult(this.activity, enableBtIntent, 240, null);
         }
     }
 
@@ -143,7 +145,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             // There are paired devices. Get the name and address of each paired device.
             for (BluetoothDevice device : pairedDevices) {
                 String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
+//                String deviceHardwareAddress = device.getAddress(); // MAC address
 
                 // TODO get deviceName from settings
                 if (deviceName.equals(AppController.getInstance().deviceNameOBD)) {
@@ -168,7 +170,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     public void onBluetoothSocketAttached(BluetoothSocket bluetoothSocket) {
         Log.d(TAG, "Bluetooth socket is attached");
         this.bluetoothSocket = bluetoothSocket;
-        this.isOdbConfigured = configureObdDevice();
+        this.isObdConfigured = configureObdDevice();
     }
 
     /**
@@ -177,7 +179,6 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
      */
     private boolean configureObdDevice() {
         Log.d(TAG, "configureObdDevice");
-        isOdbConfigured = true;
         try {
             EchoOffCommand echoOffCommand = new EchoOffCommand();
             echoOffCommand.run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
@@ -214,20 +215,4 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             return false;
         }
     }
-
-//    private void scheduleVehicleDataGatherTask() {
-//        if (!isGatheringTaskScheduled) {
-//            isGatheringTaskScheduled = true;
-//            Log.d(TAG, "scheduleVehicleDataGatherTask started");
-//            new Timer().schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    Log.d(TAG, "VehicleDataGatherTask execute");
-//                    VehicleData vehicleData = gatherVehicleData();
-//                    obdManager.onNewVehicleData(vehicleData);
-//
-//                }
-//            }, 0, RECORDING_INTERVAL_MS);
-//        }
-//    }
 }

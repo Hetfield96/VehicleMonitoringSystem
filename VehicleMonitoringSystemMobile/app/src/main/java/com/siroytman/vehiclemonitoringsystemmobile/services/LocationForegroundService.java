@@ -46,6 +46,8 @@ public class LocationForegroundService extends Service implements ILocationManag
     private static final int REQUEST_LOCATION = 1234;
     private static final String[] PERMISSIONS = new String[]{ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
 
+    private static Activity activity;
+
     private LocationService locationService;
     private OBDService obdService;
     private ILocationManager locationManager;
@@ -67,8 +69,9 @@ public class LocationForegroundService extends Service implements ILocationManag
         startForeground(CHANNEL_ID, notification);
 
 
+
         if (AppController.getInstance().useOBD) {
-            obdService = OBDService.getInstance(getApplicationContext(), this);
+            obdService = OBDService.getInstance(activity, this);
 
             // Obd service subscribes on location updates
             locationManager = obdService;
@@ -84,10 +87,11 @@ public class LocationForegroundService extends Service implements ILocationManag
         return START_STICKY;
     }
 
-    public static void startService(Context context) {
+    public static void startService(Activity startFromActivity) {
         Log.d(TAG, "startService");
-        Intent serviceIntent = new Intent(context, LocationForegroundService.class);
-        ContextCompat.startForegroundService(context, serviceIntent);
+        activity = startFromActivity;
+        Intent serviceIntent = new Intent(startFromActivity, LocationForegroundService.class);
+        ContextCompat.startForegroundService(startFromActivity, serviceIntent);
 
         // Starts synchronization AsyncTask mechanism
         VehicleDataSynchronizationService.scheduleSynchronizationTask();
@@ -145,7 +149,6 @@ public class LocationForegroundService extends Service implements ILocationManag
 
     @Override
     public void onObdDataUpdate(VehicleData vehicleData) {
-        Log.d(TAG, "onObdDataUpdate: " + vehicleData.toString());
         saveVehicleDataInDb(vehicleData);
     }
 

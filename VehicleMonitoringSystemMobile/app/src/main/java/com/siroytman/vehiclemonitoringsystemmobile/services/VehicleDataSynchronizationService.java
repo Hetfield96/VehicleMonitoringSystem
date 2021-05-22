@@ -91,21 +91,7 @@ public class VehicleDataSynchronizationService {
     private static JSONArray getJsonArray(List<VehicleData> vehicleDataList) {
         JSONArray res = new JSONArray();
         for(int i = 0; i < vehicleDataList.size(); ++i) {
-            String datetimeFormat = new SimpleDateFormat("yyMMddHHmmss", Locale.US).format(vehicleDataList.get(i).datetime);
-            JSONObject item = new JSONObject();
-            VehicleData vehicleData = vehicleDataList.get(i);
-            try {
-                item.put("vehicle_id", vehicleData.vehicle_id);
-                item.put("employee_id", vehicleData.employee_id);
-                item.put("datetime", datetimeFormat);
-                item.put("latitude", vehicleData.latitude);
-                item.put("longitude", vehicleData.longitude);
-                // Obd data
-                item.put("rpm_engine", vehicleData.rpm_engine);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
+            JSONObject item = vehicleDataList.get(i).toJSON();
             res.put(item);
         }
         return res;

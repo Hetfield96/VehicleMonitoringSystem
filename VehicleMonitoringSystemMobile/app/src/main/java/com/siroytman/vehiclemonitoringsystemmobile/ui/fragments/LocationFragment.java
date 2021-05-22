@@ -31,7 +31,7 @@ public class LocationFragment extends Fragment {
         btnStartTrack.setOnClickListener(v -> {
             if (!isLocating) {
                 btnStartTrack.setText(R.string.location__track_button__stop);
-                LocationForegroundService.startService(context);
+                LocationForegroundService.startService(getActivity());
             } else
             {
                 if (!LocationForegroundService.checkPermissions(context)) {
