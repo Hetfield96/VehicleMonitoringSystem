@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +27,22 @@ namespace VMS_Backend.Services.Database.Reports
         
             await using var con = new NpgsqlConnection(DefaultConnectionString);
             var res = await con.QueryAsync<VehicleData, Vehicle, Employee, VehicleData>(
-                $@"select vd.id, vd.vehicle_id as vehicleId, vd.employee_id as employeeId, vd.datetime, vd.latitude, vd.longitude, vd.rpm_engine as rpmEngine
+                $@"select vd.id, vd.vehicle_id as vehicleId, vd.employee_id as employeeId, vd.datetime, vd.latitude, vd.longitude
+                               ,vd.distance_mil_control as DistanceMilControl
+                               ,vd.distance_since_cc_control as DistanceSinceCcControl
+                               ,vd.dtc_number as DtcNumber
+                               ,vd.pending_trouble_codes as PendingTroubleCodes
+                               ,vd.permanent_trouble_codes as PermanentTroubleCodes
+                               ,vd.trouble_codes as TroubleCodes
+                               ,vd.rpm_engine as rpmEngine
+                               ,vd.absolute_load as AbsoluteLoad
+                               ,vd.load as Load
+                               ,vd.level_fuel as LevelFuel
+                               ,vd.air_fuel_ratio as AirFuelRatio
+                               ,vd.engine_coolant_temperature as EngineCoolantTemperature
+                               ,vd.air_intake_temperature as AirIntakeTemperature
+                               ,vd.ambient_air_temperature as AmbientAirTemperature
+                               ,vd.speed as Speed
                                ,v.id, v.name, v.number
                                ,e.id, e.first_name as firstName, e.last_name as lastName
                     from vehicle_data vd

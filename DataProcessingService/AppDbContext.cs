@@ -1,8 +1,8 @@
-using GeodataProcessingService.Models;
+using DataProcessingService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace GeodataProcessingService
+namespace DataProcessingService
 {
     public class AppDbContext : DbContext
     {

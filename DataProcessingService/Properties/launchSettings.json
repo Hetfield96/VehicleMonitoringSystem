@@ -16,10 +16,11 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "GeodataProcessingService": {
+    "DataProcessingService": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "http://192.168.104.170:5010",
+      "mobile_applicationUrl": "http://192.168.104.6:5010",
+      "applicationUrl": "http://192.168.1.110:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VMS_Backend.Data;
@@ -9,9 +10,10 @@ using VMS_Backend.Data;
 namespace VMS_Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210522211428_smallFixes")]
+    partial class smallFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,81 +218,25 @@ namespace VMS_Backend.Data.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<decimal?>("AbsoluteLoad")
-                        .HasColumnType("numeric")
-                        .HasColumnName("absolute_load");
-
-                    b.Property<decimal?>("AirFuelRatio")
-                        .HasColumnType("numeric")
-                        .HasColumnName("air_fuel_ratio");
-
-                    b.Property<decimal?>("AirIntakeTemperature")
-                        .HasColumnType("numeric")
-                        .HasColumnName("air_intake_temperature");
-
-                    b.Property<decimal?>("AmbientAirTemperature")
-                        .HasColumnType("numeric")
-                        .HasColumnName("ambient_air_temperature");
-
                     b.Property<DateTime>("Datetime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("datetime");
-
-                    b.Property<int?>("DistanceMilControl")
-                        .HasColumnType("integer")
-                        .HasColumnName("distance_mil_control");
-
-                    b.Property<int?>("DistanceSinceCcControl")
-                        .HasColumnType("integer")
-                        .HasColumnName("distance_since_cc_control");
-
-                    b.Property<byte?>("DtcNumber")
-                        .HasColumnType("smallint")
-                        .HasColumnName("dtc_number");
 
                     b.Property<string>("EmployeeId")
                         .HasColumnType("text")
                         .HasColumnName("employee_id");
 
-                    b.Property<decimal?>("EngineCoolantTemperature")
-                        .HasColumnType("numeric")
-                        .HasColumnName("engine_coolant_temperature");
-
                     b.Property<decimal>("Latitude")
                         .HasColumnType("numeric")
                         .HasColumnName("latitude");
-
-                    b.Property<decimal?>("LevelFuel")
-                        .HasColumnType("numeric")
-                        .HasColumnName("level_fuel");
-
-                    b.Property<decimal?>("Load")
-                        .HasColumnType("numeric")
-                        .HasColumnName("load");
 
                     b.Property<decimal>("Longitude")
                         .HasColumnType("numeric")
                         .HasColumnName("longitude");
 
-                    b.Property<string>("PendingTroubleCodes")
-                        .HasColumnType("text")
-                        .HasColumnName("pending_trouble_codes");
-
-                    b.Property<string>("PermanentTroubleCodes")
-                        .HasColumnType("text")
-                        .HasColumnName("permanent_trouble_codes");
-
                     b.Property<int?>("RpmEngine")
                         .HasColumnType("integer")
                         .HasColumnName("rpm_engine");
-
-                    b.Property<byte?>("Speed")
-                        .HasColumnType("smallint")
-                        .HasColumnName("speed");
-
-                    b.Property<string>("TroubleCodes")
-                        .HasColumnType("text")
-                        .HasColumnName("trouble_codes");
 
                     b.Property<int>("VehicleId")
                         .HasColumnType("integer")

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Task from "../models/task";
 import Employee from "../models/employee";
 import {getDbUserCompanyId} from "../utils/userUtil";
 import VehicleData from "../models/vehicleData";
@@ -45,7 +44,21 @@ function formatReportAllVehicleData(data: any) {
             vehicleName: vd.vehicle && vd.vehicle.getFormattedName(),
             latitude: vd.latitude,
             longitude: vd.longitude,
+            distanceMilControl: vd.distanceMilControl,
+            distanceSinceCcControl: vd.distanceSinceCcControl,
+            dtcNumber: vd.dtcNumber,
+            pendingTroubleCodes: vd.pendingTroubleCodes,
+            permanentTroubleCodes: vd.permanentTroubleCodes,
+            troubleCodes: vd.troubleCodes,
             rpmEngine: vd.rpmEngine,
+            absoluteLoad: vd.absoluteLoad,
+            load: vd.load,
+            levelFuel: vd.levelFuel,
+            airFuelRatio: vd.airFuelRatio,
+            engineCoolantTemperature: vd.engineCoolantTemperature,
+            airIntakeTemperature: vd.airIntakeTemperature,
+            ambientAirTemperature: vd.ambientAirTemperature,
+            speed: vd.speed,
         }));
 
     return vehicleData;

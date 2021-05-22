@@ -1,11 +1,11 @@
 ﻿using System;
 using Dapper.Contrib.Extensions;
-using GeodataProcessingService.Models;
+using DataProcessingService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
-namespace GeodataProcessingService.Controllers
+namespace DataProcessingService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

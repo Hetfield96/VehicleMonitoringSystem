@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeodataProcessingService", "GeodataProcessingService.csproj", "{92C89506-7105-4481-A5A2-F3CD122109FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProcessingService", "DataProcessingService.csproj", "{92C89506-7105-4481-A5A2-F3CD122109FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

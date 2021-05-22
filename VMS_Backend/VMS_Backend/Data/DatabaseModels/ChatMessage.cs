@@ -34,7 +34,6 @@ namespace VMS_Backend.Data.DatabaseModels
         public Company Company { get; set; }       
         
         [Column("text")]
-        [MaxLength(2000)]
         public string Text { get; set; }
         
         [Column("date")] 
@@ -55,9 +54,11 @@ namespace VMS_Backend.Data.DatabaseModels
         
         // text, file, photo
         [Column("type")]
+        [MaxLength(10)]
         public string Type { get; set; }
         
         [Column("attachment_name")]
+        [MaxLength(60)]
         public string AttachmentName { get; set; }
     }
 }

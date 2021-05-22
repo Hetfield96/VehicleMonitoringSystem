@@ -2,11 +2,11 @@
     <string name="app_name">VehicleMonitoringSystemMobile</string>
 
     <!--    Geodata processing service URL-->
-    <string name="mobile_geodata_processing_service_url" translatable="false">http://192.168.104.170:5010</string>
+    <string name="mobile_geodata_processing_service_url" translatable="false">http://192.168.104.6:5010</string>
     <string name="geodata_processing_service_url" translatable="false">http://192.168.1.110:5010</string>
 
     <!--    Backend URL-->
-    <string name="mobile_backend_url" translatable="false">http://192.168.104.170:5000</string>
+    <string name="mobile_backend_url" translatable="false">http://192.168.104.6:5000</string>
     <string name="backend_url" translatable="false">http://192.168.1.110:5000</string>
 
     <!--    Errors-->

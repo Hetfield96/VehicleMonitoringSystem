@@ -34,33 +34,53 @@ namespace VMS_Backend.Data.DatabaseModels
         // OBD data
         
         // Control
-        // [Column("distance_mil_control")]
-        // public int DistanceMilControl { get; set; }
-        //
-        // [Column("distance_since_cc_control")]
-        // public int DistanceSinceCcControl { get; set; }
+        [Column("distance_mil_control")]
+        public int? DistanceMilControl { get; set; }
+        
+        [Column("distance_since_cc_control")]
+        public int? DistanceSinceCcControl { get; set; }
+        
+        [Column("dtc_number")]
+        public byte? DtcNumber { get; set; }
+        
+        [Column("pending_trouble_codes")]
+        public string PendingTroubleCodes { get; set; }
+        
+        [Column("permanent_trouble_codes")]
+        public string PermanentTroubleCodes { get; set; }
+        
+        [Column("trouble_codes")]
+        public string TroubleCodes { get; set; }
         
         // Engine
         [Column("rpm_engine")]
         public int? RpmEngine { get; set; }
-        //
-        // // Fuel
-        // [Column("level_fuel")]
-        // public byte LevelFuel { get; set; }
-        //
-        // [Column("consumption_rate_fuel")]
-        // public byte ConsumptionRateFuel { get; set; }
-        //
-        // // Pressure
-        // [Column("fuel_pressure")]
-        // public byte FuelPressure { get; set; }
-        //
-        // // Temperature
-        // [Column("engine_coolant_temperature")]
-        // public byte EngineCoolantTemperature { get; set; }
-        //
-        // // Speed 
-        // [Column("speed")]
-        // public byte Speed { get; set; }
+        
+        [Column("absolute_load")]
+        public decimal? AbsoluteLoad { get; set; }
+        
+        [Column("load")]
+        public decimal? Load { get; set; }
+        
+        // Fuel
+        [Column("level_fuel")]
+        public decimal? LevelFuel { get; set; }
+        
+        [Column("air_fuel_ratio")]
+        public decimal? AirFuelRatio { get; set; }
+        
+        // Temperature
+        [Column("engine_coolant_temperature")]
+        public decimal? EngineCoolantTemperature { get; set; }
+        
+        [Column("air_intake_temperature")]
+        public decimal? AirIntakeTemperature { get; set; }
+        
+        [Column("ambient_air_temperature")]
+        public decimal? AmbientAirTemperature { get; set; }
+        
+        // Speed 
+        [Column("speed")]
+        public byte? Speed { get; set; }
     }
 }

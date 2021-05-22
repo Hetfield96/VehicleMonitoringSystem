@@ -51,9 +51,11 @@ namespace VMS_Backend.Data.DatabaseModels
         
         // text, file, photo
         [Column("type")]
+        [MaxLength(10)]
         public string Type { get; set; }
         
         [Column("attachment_name")]
+        [MaxLength(60)]
         public string AttachmentName { get; set; }
     }
 }
