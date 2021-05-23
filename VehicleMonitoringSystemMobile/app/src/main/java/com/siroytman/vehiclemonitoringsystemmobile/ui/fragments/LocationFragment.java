@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.siroytman.vehiclemonitoringsystemmobile.R;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.CompanySettingsController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.CompanySettingsApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.services.LocationForegroundService;
 
 import androidx.annotation.Nullable;
@@ -53,6 +53,6 @@ public class LocationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Configure companySettings params
-        CompanySettingsController.getInstance().configureCompanySettings();
+        CompanySettingsApiController.getInstance().configureCompanySettings();
     }
 }

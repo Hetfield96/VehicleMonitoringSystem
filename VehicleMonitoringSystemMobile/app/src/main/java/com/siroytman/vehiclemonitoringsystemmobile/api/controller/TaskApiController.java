@@ -1,4 +1,4 @@
-package com.siroytman.vehiclemonitoringsystemmobile.controller;
+package com.siroytman.vehiclemonitoringsystemmobile.api.controller;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONArray;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Task;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskComment;
@@ -19,19 +20,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class TaskController {
-    private static final String TAG = "TaskController";
+public class TaskApiController {
+    private static final String TAG = "TaskApiController";
     private final ApiController apiController;
 
-    private static TaskController instance;
+    private static TaskApiController instance;
 
-    private TaskController() {
+    private TaskApiController() {
         apiController = ApiController.getInstance();
     }
 
-    public static synchronized TaskController getInstance() {
+    public static synchronized TaskApiController getInstance() {
         if (instance == null) {
-            instance = new TaskController();
+            instance = new TaskApiController();
         }
         return instance;
     }

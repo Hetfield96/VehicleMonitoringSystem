@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.siroytman.vehiclemonitoringsystemmobile.R;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.ChatController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.ChatApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.ChatMessagesActivity;
@@ -28,7 +28,7 @@ public class ChatDialogFragment extends Fragment implements DialogsListAdapter.O
     protected ImageLoader imageLoader;
     protected DialogsListAdapter<ChatDialog> dialogsAdapter;
     private DialogsList dialogsListView;
-    private ChatController chatController;
+    private ChatApiController chatApiController;
 
     private static ChatDialogFragment instance;
 
@@ -42,7 +42,7 @@ public class ChatDialogFragment extends Fragment implements DialogsListAdapter.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        chatController = ChatController.getInstance();
+        chatApiController = ChatApiController.getInstance();
 
         instance = this;
     }
@@ -69,7 +69,7 @@ public class ChatDialogFragment extends Fragment implements DialogsListAdapter.O
         this.dialogsAdapter.setOnDialogClickListener(this);
         this.dialogsListView.setAdapter(this.dialogsAdapter);
 
-        chatController.getDialogs();
+        chatApiController.getDialogs();
     }
 
     public void dialogsFetchedUpdateView(ArrayList<ChatDialog> chatDialogs) {

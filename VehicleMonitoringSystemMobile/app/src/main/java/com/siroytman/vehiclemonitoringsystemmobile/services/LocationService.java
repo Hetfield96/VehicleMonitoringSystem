@@ -65,7 +65,7 @@ public class LocationService {
                     if (locationResult != null) {
                         for (Location location : locationResult.getLocations()) {
                             if (location != null && locationManager != null) {
-                                locationManager.onLocationChanged(location);
+                                locationManager.onLocationUpdate(location);
                             }
                         }
                     }

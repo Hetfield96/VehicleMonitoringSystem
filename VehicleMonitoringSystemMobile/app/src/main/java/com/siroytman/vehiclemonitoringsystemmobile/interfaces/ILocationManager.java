@@ -6,6 +6,6 @@ public interface ILocationManager {
 
 //    void getLastKnownLocation(Location lastLocation);
 
-    void onLocationChanged(Location location);
+    void onLocationUpdate(Location location);
 
 }

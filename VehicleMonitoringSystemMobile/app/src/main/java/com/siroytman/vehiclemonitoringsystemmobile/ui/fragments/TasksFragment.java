@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.TaskController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.TaskApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Task;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskStatus;
 import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.TaskActivity;
@@ -40,7 +39,7 @@ public class TasksFragment extends Fragment implements TaskListAdapter.ItemClick
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TaskController.getInstance().getAllTasks(this);
+        TaskApiController.getInstance().getAllTasks(this);
     }
 
     @Override

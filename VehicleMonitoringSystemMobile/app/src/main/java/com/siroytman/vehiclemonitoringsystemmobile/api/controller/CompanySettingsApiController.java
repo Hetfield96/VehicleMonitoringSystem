@@ -1,4 +1,4 @@
-package com.siroytman.vehiclemonitoringsystemmobile.controller;
+package com.siroytman.vehiclemonitoringsystemmobile.api.controller;
 
 import android.util.Log;
 
@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.CompanySettings;
 import com.siroytman.vehiclemonitoringsystemmobile.services.LocationService;
 import com.siroytman.vehiclemonitoringsystemmobile.services.OBDService;
@@ -14,19 +15,19 @@ import com.siroytman.vehiclemonitoringsystemmobile.services.VehicleDataSynchroni
 import org.json.JSONObject;
 
 
-public class CompanySettingsController {
-    private static final String TAG = "CompanySettingsControl";
+public class CompanySettingsApiController {
+    private static final String TAG = "CompanySettingsApi";
     private final ApiController apiController;
 
-    private static CompanySettingsController instance;
+    private static CompanySettingsApiController instance;
 
-    private CompanySettingsController() {
+    private CompanySettingsApiController() {
         apiController = ApiController.getInstance();
     }
 
-    public static synchronized CompanySettingsController getInstance() {
+    public static synchronized CompanySettingsApiController getInstance() {
         if (instance == null) {
-            instance = new CompanySettingsController();
+            instance = new CompanySettingsApiController();
         }
         return instance;
     }

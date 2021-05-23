@@ -137,26 +137,26 @@ public class LocationForegroundService extends Service implements ILocationManag
 
     // Callback for locationService
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationUpdate(Location location) {
         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         // TODO vehicleId
         VehicleData vehicleData =
                 new VehicleData(2, userId, new Date(), location.getLatitude(), location.getLongitude());
 
         Log.d(TAG, "LocationChanged: " + vehicleData.toString());
-        saveVehicleDataInDb(vehicleData);
+        saveVehicleDataToDb(vehicleData);
     }
 
     @Override
-    public void onObdDataUpdate(VehicleData vehicleData) {
-        saveVehicleDataInDb(vehicleData);
+    public void onObdUpdate(VehicleData vehicleData) {
+        saveVehicleDataToDb(vehicleData);
     }
 
     /**
      * Inserts data in android room
      * @param vehicleData - piece of data
      */
-    private void saveVehicleDataInDb(VehicleData vehicleData) {
+    private void saveVehicleDataToDb(VehicleData vehicleData) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {

@@ -1,35 +1,22 @@
 package com.siroytman.vehiclemonitoringsystemmobile.ui.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
-import com.siroytman.vehiclemonitoringsystemmobile.api.DataPart;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackFormData;
-import com.siroytman.vehiclemonitoringsystemmobile.api.VolleyMultipartRequest;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.ChatController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.ChatApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IAttachmentManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
@@ -43,11 +30,6 @@ import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChatMessagesActivity extends AppCompatActivity
         implements MessageInput.InputListener,
@@ -66,7 +48,7 @@ public class ChatMessagesActivity extends AppCompatActivity
 
     private ChatDialog dialog;
 
-    private ChatController chatController;
+    private ChatApiController chatApiController;
 
     private AttachmentPicker attachmentPicker;
 
@@ -92,7 +74,7 @@ public class ChatMessagesActivity extends AppCompatActivity
 
         instance = this;
 
-        chatController = ChatController.getInstance();
+        chatApiController = ChatApiController.getInstance();
 
         // Get dialog from bundle
         Bundle arguments = getIntent().getExtras();
@@ -120,7 +102,7 @@ public class ChatMessagesActivity extends AppCompatActivity
         int companyId = user.getCompanyId();
 
         ChatMessage message = new ChatMessage(companyId, userId, dialog.getId(), input.toString(), "text", null);
-        chatController.sendMessage(message);
+        chatApiController.sendMessage(message);
         return true;
     }
 

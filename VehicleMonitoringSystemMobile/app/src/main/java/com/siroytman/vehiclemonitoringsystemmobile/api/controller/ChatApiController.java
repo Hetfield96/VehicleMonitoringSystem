@@ -1,4 +1,4 @@
-package com.siroytman.vehiclemonitoringsystemmobile.controller;
+package com.siroytman.vehiclemonitoringsystemmobile.api.controller;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONArray;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatDialog;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
@@ -19,19 +20,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ChatController {
-    private static final String TAG = "ChatController";
+public class ChatApiController {
+    private static final String TAG = "ChatApiController";
     private final ApiController apiController;
 
-    private static ChatController instance;
+    private static ChatApiController instance;
 
-    private ChatController() {
+    private ChatApiController() {
         apiController = ApiController.getInstance();
     }
 
-    public static synchronized ChatController getInstance() {
+    public static synchronized ChatApiController getInstance() {
         if (instance == null) {
-            instance = new ChatController();
+            instance = new ChatApiController();
         }
         return instance;
     }

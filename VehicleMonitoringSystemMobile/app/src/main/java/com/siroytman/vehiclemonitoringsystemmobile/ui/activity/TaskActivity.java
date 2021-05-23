@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,9 +15,8 @@ import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackFormData;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.TaskController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.TaskApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IAttachmentManager;
-import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Task;
 import com.siroytman.vehiclemonitoringsystemmobile.model.TaskComment;
@@ -64,7 +62,7 @@ public class TaskActivity extends AppCompatActivity
     private ImageLoader imageLoader;
     private AttachmentPicker attachmentPicker;
 
-    private TaskController taskController;
+    private TaskApiController taskApiController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +70,7 @@ public class TaskActivity extends AppCompatActivity
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
 
-        this.taskController = TaskController.getInstance();
+        this.taskApiController = TaskApiController.getInstance();
 
         // Get task from bundle
         Bundle arguments = getIntent().getExtras();
@@ -118,7 +116,7 @@ public class TaskActivity extends AppCompatActivity
             taskNextStatus.setEnabled(true);
         }
 
-        taskController.updateTaskStatus(task);
+        taskApiController.updateTaskStatus(task);
     }
 
     @OnClick(R.id.task_activity__next_status)
@@ -134,7 +132,7 @@ public class TaskActivity extends AppCompatActivity
             }
         }
 
-        taskController.updateTaskStatus(task);
+        taskApiController.updateTaskStatus(task);
     }
 
     @Override
@@ -144,7 +142,7 @@ public class TaskActivity extends AppCompatActivity
         int companyId = user.getCompanyId();
 
         TaskComment comment = new TaskComment(companyId, userId, task.getId(), input.toString());
-        taskController.createTaskComment(comment, this);
+        taskApiController.createTaskComment(comment, this);
         return true;
     }
 
@@ -162,7 +160,7 @@ public class TaskActivity extends AppCompatActivity
         commentsListAdapter = new MessagesListAdapter<>(senderId, imageLoader);
         this.commentsList.setAdapter(commentsListAdapter);
 
-        taskController.getAllTaskComments(task.getId(), this);
+        taskApiController.getAllTaskComments(task.getId(), this);
     }
 
     @Override

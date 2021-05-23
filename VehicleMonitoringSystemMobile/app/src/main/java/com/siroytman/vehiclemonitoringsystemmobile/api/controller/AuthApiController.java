@@ -1,4 +1,4 @@
-package com.siroytman.vehiclemonitoringsystemmobile.controller;
+package com.siroytman.vehiclemonitoringsystemmobile.api.controller;
 
 import android.util.Log;
 
@@ -9,25 +9,26 @@ import com.google.firebase.auth.FirebaseUser;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
+import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.AuthActivity;
 
 import org.json.JSONObject;
 
 
-public class AuthController {
-    private static final String TAG = "AuthController";
+public class AuthApiController {
+    private static final String TAG = "AuthApiController";
     private final ApiController apiController;
 
-    private static AuthController instance;
+    private static AuthApiController instance;
 
-    private AuthController() {
+    private AuthApiController() {
         apiController = ApiController.getInstance();
     }
 
-    public static synchronized AuthController getInstance() {
+    public static synchronized AuthApiController getInstance() {
         if (instance == null) {
-            instance = new AuthController();
+            instance = new AuthApiController();
         }
         return instance;
     }

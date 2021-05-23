@@ -81,7 +81,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
 
     // On new location - gather vehicle data from OBD
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationUpdate(Location location) {
         if (isObdConfigured) {
             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             // TODO vehicleId
@@ -92,7 +92,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
 
             if (vehicleData != null) {
 //                Log.d(TAG, "LocationChanged: " + vehicleData.toString());
-                obdManager.onObdDataUpdate(vehicleData);
+                obdManager.onObdUpdate(vehicleData);
             } else {
                 Log.e(TAG, "Vehicle data is not gathered");
             }

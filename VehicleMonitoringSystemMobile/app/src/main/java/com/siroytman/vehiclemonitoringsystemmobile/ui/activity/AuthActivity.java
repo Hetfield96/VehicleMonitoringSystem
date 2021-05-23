@@ -16,7 +16,7 @@ import com.firebase.ui.auth.util.ExtraConstants;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
-import com.siroytman.vehiclemonitoringsystemmobile.controller.AuthController;
+import com.siroytman.vehiclemonitoringsystemmobile.api.controller.AuthApiController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +179,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // Configure dbUser and startSignedInActivity on success or show error on failure
     private void configureDbUserAndStart(boolean isSilentLogin) {
-        AuthController.getInstance().configureCurrentDbUser(this, isSilentLogin);
+        AuthApiController.getInstance().configureCurrentDbUser(this, isSilentLogin);
     }
 
     @StyleRes
