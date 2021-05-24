@@ -184,7 +184,7 @@ public class AuthActivity extends AppCompatActivity {
 
     @StyleRes
     private int getSelectedTheme() {
-        return AuthUI.getDefaultTheme();
+        return R.style.Theme_VehicleMonitoringSystemMobile;
     }
 
     @DrawableRes
