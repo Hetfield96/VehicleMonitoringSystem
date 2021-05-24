@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
- * Container implementation for multiple {@link com.github.pires.obd.commands.ObdMultiCommand} instances.
+ * Container implementation for multiple {@link com.github.pires.obd.commands.ObdCommand} instances.
  */
 public class MyObdMultiCommand {
     public static final String TAG = "MyObdMultiCommand";
@@ -25,7 +25,6 @@ public class MyObdMultiCommand {
 
     /**
      * Iterate all commands, send them and read response.
-     *
      * @param in  a {@link java.io.InputStream} object.
      * @param out a {@link java.io.OutputStream} object.
      * @throws java.io.IOException            if any.
@@ -42,15 +41,12 @@ public class MyObdMultiCommand {
             } catch (Exception e) {
                 commandsResults.get(i).calculated = false;
                 commandsResults.get(i).error = e.getMessage();
-//                Log.e(TAG, "command " + command.getName() + " was not excecuted: " + e.getMessage());
             }
         }
     }
 
     /**
      * Return collection of calculated results
-     *
-     * @return a {@link java.lang.String} object.
      */
     public ArrayList<ObdCommandResult> getCalculatedResults() {
         Log.d(TAG, "getCalculatedResults");
@@ -60,7 +56,6 @@ public class MyObdMultiCommand {
                 commandsResults.get(i).result = commands.get(i).getCalculatedResult();
             }
         }
-
         return commandsResults;
     }
 }

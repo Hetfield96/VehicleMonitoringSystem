@@ -23,7 +23,7 @@ public interface VehicleDataDao {
     @Delete
     void delete(VehicleData vehicleData);
 
-    // @Query("DELETE FROM vehicledata WHERE Id in (SELECT Id FROM vehicledata ORDER BY Id LIMIT 50)")
     @Delete
     void deleteAll(List<VehicleData> vehicleData);
 }
+

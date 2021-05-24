@@ -110,7 +110,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
         try {
             obdMultiCommand.sendCommands(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
             ArrayList<ObdCommandResult> commandsResults = obdMultiCommand.getCalculatedResults();
-            ObdCommandsHelper.parseDefaultCommandsResult(vehicleData, commandsResults);
+            vehicleData = ObdCommandsHelper.parseDefaultCommandsResult(vehicleData, commandsResults);
 
             Log.d(TAG, "Parse result: " + vehicleData.toString());
             return vehicleData;
