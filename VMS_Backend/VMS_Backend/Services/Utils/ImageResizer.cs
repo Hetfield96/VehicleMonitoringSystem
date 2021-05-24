@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using SixLabors.ImageSharp;
@@ -8,7 +9,7 @@ namespace VMS_Backend.Services.Utils
 {
     public static class ImageResizer
     {
-        private const decimal ImageMaxSize = 300;
+        private const decimal ImageMaxSize = 600;
         
         public static async Task<string> ResizeImage(string imagePath)
         {
@@ -30,9 +31,10 @@ namespace VMS_Backend.Services.Utils
                 int resizedImageHeight = image.Height;
                 if (resizedImageWidth > ImageMaxSize || resizedImageHeight > ImageMaxSize)
                 {
-                    var divider = resizedImageHeight / ImageMaxSize;
+                    var divider = Math.Max(resizedImageWidth, resizedImageHeight) / ImageMaxSize;
                     resizedImageWidth = decimal.ToInt32(Math.Floor(resizedImageWidth / divider));
                     resizedImageHeight = decimal.ToInt32(Math.Floor(resizedImageHeight / divider));
+                    
                 }
                 else
                 {
@@ -43,7 +45,8 @@ namespace VMS_Backend.Services.Utils
 
                 await image.SaveAsync(resizedPath);
                 
-                // TODO delete original image?
+                // delete original image
+                File.Delete(imagePath);
 
                 return resizedFileName;
             }
