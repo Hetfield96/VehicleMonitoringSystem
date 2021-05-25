@@ -21,7 +21,7 @@ function MapContainer(props) {
         },
         zoom: 10
     };
-    
+
     const drawVehicleMarkers = () => {
         return (markersData &&
             markersData.map((vehicleData) => createVehicleMarker(vehicleData))
@@ -74,7 +74,7 @@ function MapContainer(props) {
                         strokeWeight={2}
                         icons={[
                             {
-                                icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW },
+                                icon: { path: google.maps.SymbolPath.BACKWARD_OPEN_ARROW },
                                 offset: "0",
                                 repeat: "300px"
                             }

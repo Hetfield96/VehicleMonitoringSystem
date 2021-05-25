@@ -53,7 +53,6 @@ export abstract class SignalRService {
     private static configureEndpoints(dbUserId: string) {
         // Connection established endpoint
         this.addEndpoint("connectionEstablished", message => {
-            // console.log(`signalR, connectionEstablished: ${message}`);
             this.connectionDbUserId = dbUserId;
         });
 
@@ -64,18 +63,21 @@ export abstract class SignalRService {
             Object.setPrototypeOf(msg.receiver, Employee.prototype)
             Object.setPrototypeOf(msg.sender, Employee.prototype)
 
-            // console.log(`Message from server received: ${JSON.stringify(msg)}`);
-            const maxMsgLength = 150;
-            const notificationMsg =
-                msg.text.length >= maxMsgLength
-                    ? msg.text.substr(0, maxMsgLength) + '...'
-                    : msg.text;
-            addNotification({
-                title: 'Chat',
-                subtitle: msg.sender.getFullName(),
-                message: notificationMsg,
-                theme: 'light',
-            });
+            this.showChatPushNotification(msg);
+        });
+    }
+
+    private static showChatPushNotification = (msg: ChatMessage) => {
+        const maxMsgLength = 150;
+        const notificationMsg =
+            msg.text.length >= maxMsgLength
+                ? msg.text.substr(0, maxMsgLength) + '...'
+                : msg.text;
+        addNotification({
+            title: 'Chat',
+            subtitle: msg.sender.getFullName(),
+            message: notificationMsg,
+            theme: 'light',
         });
     }
 }

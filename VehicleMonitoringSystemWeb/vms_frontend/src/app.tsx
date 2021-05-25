@@ -109,6 +109,7 @@ class AppComponent extends React.Component<{}, AppComponentState> {
                 <Route exact={true} path={routes.REPORTS} render={(props => <ReportsScreen key={this.state.dbUser && this.state.dbUser.id}/>)} />
                 <Route exact={true} path={routes.ACCOUNT} render={props => <Account key={this.state.dbUser && this.state.dbUser.id}/>} />
                 <Route exact={true} path={routes.CHAT} render={props => <Chat key={this.state.dbUser && this.state.dbUser.id}/>} />
+                {/*Administrators*/}
                 <Route exact={true} path={routes.COMPANY_SETTINGS} render={props => <CompanySettings key={this.state.dbUser && this.state.dbUser.id}/>} />
               </Switch>
             </div>

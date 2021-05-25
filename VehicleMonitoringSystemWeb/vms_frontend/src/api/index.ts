@@ -3,8 +3,6 @@ import axios from "axios";
 export function configureAxios() {
     // URL бэкенд сервера
     axios.defaults.baseURL = process.env.REACT_APP_BACKEND_SERVER_URL;
-    // Axios все реквесты вместе с куки-авторизации
-    // axios.defaults.withCredentials = true;
     // Content Type - json
     axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
     // No cache header

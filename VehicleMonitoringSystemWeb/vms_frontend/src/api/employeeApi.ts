@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Employee from "../models/employee";
 import {getDbUserCompanyId} from "../utils/userUtil";
-import Vehicle from "../models/vehicle";
 
 export async function getAllDrivers(): Promise<Employee[] | null> {
   const companyId = await getDbUserCompanyId();

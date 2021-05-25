@@ -1,7 +1,10 @@
 package com.siroytman.vehiclemonitoringsystemmobile.api;
 
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -170,6 +173,7 @@ public class ApiController {
                 return headers;
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public byte[] getBody() {
                 return jsonString.getBytes(StandardCharsets.UTF_8);
