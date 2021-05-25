@@ -14,13 +14,10 @@ namespace VMS_Backend.Services.Utils
         public static async Task<string> ResizeImage(string imagePath)
         {
             if (!FileSaver.IsImage(imagePath))
-            {
                 return imagePath;
-            }
             
             var fileName = imagePath.Split("/").Last();
             var fileExtension = fileName.Split(".").Last();
-                
             var resizedFileName = fileName.Replace($".{fileExtension}", $"resized.{fileExtension}");
             var resizedPath = imagePath.Replace($".{fileExtension}", $"resized.{fileExtension}");
             
@@ -34,7 +31,6 @@ namespace VMS_Backend.Services.Utils
                     var divider = Math.Max(resizedImageWidth, resizedImageHeight) / ImageMaxSize;
                     resizedImageWidth = decimal.ToInt32(Math.Floor(resizedImageWidth / divider));
                     resizedImageHeight = decimal.ToInt32(Math.Floor(resizedImageHeight / divider));
-                    
                 }
                 else
                 {
@@ -42,7 +38,6 @@ namespace VMS_Backend.Services.Utils
                 }
 
                 image.Mutate(x => x.Resize(resizedImageWidth, resizedImageHeight));
-
                 await image.SaveAsync(resizedPath);
                 
                 // delete original image
@@ -52,7 +47,7 @@ namespace VMS_Backend.Services.Utils
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
         }
     }

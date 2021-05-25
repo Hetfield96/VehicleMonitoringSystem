@@ -17,13 +17,11 @@ namespace VMS_Backend.Services.SignalR
         {
             ConnectionsMapping.Add(dbUserId, connectionId);
             await Clients.Caller.SendAsync("connectionEstablished", connectionId);
-            // Console.WriteLine($"ChatHub, connectionEstablished: {connectionId}");
         }
         
         public void CloseConnection(string dbUserId, string connectionId)
         {
             ConnectionsMapping.Remove(dbUserId, connectionId);
-            // Console.WriteLine($"ChatHub, connectionClosed: {connectionId}");
         }
         
         public static async Task SendMessage(IHubContext<ChatHub> context, string dbUserId, ChatMessage chatMessage)
@@ -32,7 +30,6 @@ namespace VMS_Backend.Services.SignalR
             foreach (var connectionId in connectionsList)
             {
                 await context.Clients.Client(connectionId).SendAsync("receiveChatMessage", chatMessage);
-                // Console.WriteLine($"ChatHub, messageSend to: {connectionId}");
             }
         }
     }

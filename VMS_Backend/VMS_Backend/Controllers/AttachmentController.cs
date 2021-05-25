@@ -11,7 +11,6 @@ namespace VMS_Backend.Controllers
     [Route("[controller]")]
     public class AttachmentController : ControllerBase
     {
-        public AttachmentController() { }
 
         [HttpGet]
         [Route("{fileName}")]
@@ -25,7 +24,7 @@ namespace VMS_Backend.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return NotFound();
             }
         }
 

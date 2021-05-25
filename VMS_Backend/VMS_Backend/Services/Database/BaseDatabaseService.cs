@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using VMS_Backend.Data;
 
 namespace VMS_Backend.Services.Database
@@ -16,12 +15,7 @@ namespace VMS_Backend.Services.Database
         {
             _dbContext = dbContext;
         }
-
-        /// <summary>
-        /// Made not implemented for catching error
-        /// when user forgot to override this
-        /// </summary>
-        /// <returns></returns>
+        
         public List<T> GetAll()
         {
             return _dbContext.Set<T>().ToList();
