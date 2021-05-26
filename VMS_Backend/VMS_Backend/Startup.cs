@@ -8,6 +8,8 @@ using VMS_Backend.Data;
 using VMS_Backend.Services.Database;
 using VMS_Backend.Services.Database.Reports;
 using VMS_Backend.Services.SignalR;
+using Microsoft.OpenApi.Models;
+
 
 namespace VMS_Backend
 {
@@ -47,6 +49,15 @@ namespace VMS_Backend
 
             services.AddControllers();
             
+            // Swagger
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
+            
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<ApplicationDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -71,6 +82,8 @@ namespace VMS_Backend
                 builder
                     .WithOrigins("http://localhost:3000") //Web-frontend Source
                     .WithOrigins("http://192.168.1.71") // Mobile source
+                    .WithOrigins("http://localhost")
+                    .WithOrigins("http://192.168.104.6:5000") // Mobile source
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST", "DELETE", "PUT")
                     .AllowCredentials();
@@ -79,6 +92,14 @@ namespace VMS_Backend
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            // Swagger
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+            });
 
             // app.UseAuthorization();
             
