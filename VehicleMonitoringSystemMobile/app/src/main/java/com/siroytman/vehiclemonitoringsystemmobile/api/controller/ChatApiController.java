@@ -38,7 +38,7 @@ public class ChatApiController {
     }
 
     public void getDialogs() {
-        Employee user = AppController.getInstance().getDbUser();
+        Employee user = AppController.getInstance().getCurrentDbUser();
         String senderId = user.getId();
         int companyId = user.getCompanyId();
 

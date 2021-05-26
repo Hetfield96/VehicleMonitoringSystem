@@ -83,10 +83,10 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
     @Override
     public void onLocationUpdate(Location location) {
         if (isObdConfigured) {
-            String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-            // TODO vehicleId
+            String userId = Objects.requireNonNull(AppController.getInstance().getCurrentDbUser()).getId();
+            int vehicleId = Objects.requireNonNull(AppController.getInstance().getCurrentVehicle()).getId();
             VehicleData vehicleData =
-                    new VehicleData(2, userId, new Date(), location.getLatitude(), location.getLongitude());
+                    new VehicleData(vehicleId, userId, new Date(), location.getLatitude(), location.getLongitude());
 
             vehicleData = gatherVehicleData(vehicleData);
 

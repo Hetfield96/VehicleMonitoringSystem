@@ -17,7 +17,7 @@ public class ChatDialog implements IDialog<ChatMessage>, Parcelable {
         ArrayList<ChatDialog> dialogs = new ArrayList<>();
 
         if (!messages.isEmpty()) {
-            String userId = AppController.getInstance().getDbUser().getId();
+            String userId = AppController.getInstance().getCurrentDbUser().getId();
 
             HashMap<String, Employee> contacts = new HashMap<>();
             HashMap<String, ArrayList<ChatMessage>> contactsMessages = new HashMap<>();

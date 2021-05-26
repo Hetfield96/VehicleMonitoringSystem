@@ -74,5 +74,13 @@ namespace VMS_Backend.Controllers
             var res = await _vehicleDriverLinkService.GetCurrentDrivers(vehicleId);
             return Ok(res);
         }
+        
+        [HttpGet]
+        [Route("getCurrentVehicle/{driverId}")]
+        public async Task<ActionResult<Vehicle>> GetCurrentVehicle(string driverId)
+        {
+            var res = await _vehicleDriverLinkService.GetCurrentVehicle(driverId);
+            return Ok(res);
+        }
     }
 }

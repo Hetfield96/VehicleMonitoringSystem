@@ -124,24 +124,12 @@ public class LocationForegroundService extends Service implements ILocationManag
     }
 
     // Callback for locationService
-//    @Override
-//    public void getLastKnownLocation(Location location) {
-//        String userId = AppController.getInstance().getDbUser().getId();
-//        // TODO vehicleId
-//        VehicleData vehicleData =
-//                new VehicleData(2, userId, new Date(), location.getLatitude(), location.getLongitude());
-//
-//        Log.d(TAG, "LastKnownLocation: " + vehicleData.toString());
-//        saveVehicleDataInDb(vehicleData);
-//    }
-
-    // Callback for locationService
     @Override
     public void onLocationUpdate(Location location) {
-        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        // TODO vehicleId
+        String userId = Objects.requireNonNull(AppController.getInstance().getCurrentDbUser()).getId();
+        int vehicleId = Objects.requireNonNull(AppController.getInstance().getCurrentVehicle()).getId();
         VehicleData vehicleData =
-                new VehicleData(2, userId, new Date(), location.getLatitude(), location.getLongitude());
+                new VehicleData(vehicleId, userId, new Date(), location.getLatitude(), location.getLongitude());
 
         Log.d(TAG, "LocationChanged: " + vehicleData.toString());
         saveVehicleDataToDb(vehicleData);

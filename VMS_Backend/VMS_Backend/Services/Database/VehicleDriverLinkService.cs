@@ -40,6 +40,17 @@ namespace VMS_Backend.Services.Database
             return drivers;
         }
         
+        public async Task<Vehicle> GetCurrentVehicle(string driverId)
+        {
+            var vehicle = await _dbContext.VehicleDriverLink
+                .Where(vdl => vdl.DriverId.Equals(driverId) && vdl.EndDate == null)
+                .Include(vdl => vdl.Vehicle)
+                .Select(vdl => vdl.Vehicle)
+                .FirstOrDefaultAsync();
+            
+            return vehicle;
+        }
+        
         public async Task<Dictionary<int, List<Employee>>> GetCurrentVehiclesDriversMap(int companyId)
         {
             var res = new Dictionary<int, List<Employee>>();

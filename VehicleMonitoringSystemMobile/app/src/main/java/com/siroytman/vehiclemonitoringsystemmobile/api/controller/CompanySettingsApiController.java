@@ -34,7 +34,7 @@ public class CompanySettingsApiController {
 
     // Get and set company settings
     public void configureCompanySettings() {
-        int companyId = AppController.getInstance().getDbUser().getCompanyId();
+        int companyId = AppController.getInstance().getCurrentDbUser().getCompanyId();
 
         apiController.getJSONObjectResponse(
                 Request.Method.GET,

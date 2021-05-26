@@ -137,7 +137,7 @@ public class TaskActivity extends AppCompatActivity
 
     @Override
     public boolean onSubmit(CharSequence input) {
-        Employee user = AppController.getInstance().getDbUser();
+        Employee user = AppController.getInstance().getCurrentDbUser();
         String userId = user.getId();
         int companyId = user.getCompanyId();
 
@@ -156,7 +156,7 @@ public class TaskActivity extends AppCompatActivity
 
     private void initAdapter() {
         imageLoader = (imageView, url, payload) -> Picasso.get().load(url).into(imageView);
-        String senderId = AppController.getInstance().getDbUser().getId();
+        String senderId = AppController.getInstance().getCurrentDbUser().getId();
         commentsListAdapter = new MessagesListAdapter<>(senderId, imageLoader);
         this.commentsList.setAdapter(commentsListAdapter);
 
@@ -175,7 +175,7 @@ public class TaskActivity extends AppCompatActivity
 
     @Override
     public void onFileAttached(byte[] fileContent) {
-        Employee dbUser = AppController.getInstance().getDbUser();
+        Employee dbUser = AppController.getInstance().getCurrentDbUser();
         int companyId = dbUser.getCompanyId();
         String userId = dbUser.getId();
         String text = "[image]";

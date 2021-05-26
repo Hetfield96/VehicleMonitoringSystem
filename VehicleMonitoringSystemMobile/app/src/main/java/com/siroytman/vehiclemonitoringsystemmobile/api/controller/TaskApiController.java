@@ -38,7 +38,7 @@ public class TaskApiController {
     }
 
     public void getAllTasks(TasksFragment tasksFragment) {
-        Employee user = AppController.getInstance().getDbUser();
+        Employee user = AppController.getInstance().getCurrentDbUser();
         int companyId = user.getCompanyId();
         String driverId = user.getId();
 
@@ -80,7 +80,7 @@ public class TaskApiController {
 
     // TODO mb use Interfaces in controllers and not activity?
     public void getAllTaskComments(int taskId, TaskActivity taskActivity) {
-        int companyId = AppController.getInstance().getDbUser().getCompanyId();
+        int companyId = AppController.getInstance().getCurrentDbUser().getCompanyId();
 
         ApiController.getInstance()
                 .getJSONArrayResponse(Request.Method.GET,

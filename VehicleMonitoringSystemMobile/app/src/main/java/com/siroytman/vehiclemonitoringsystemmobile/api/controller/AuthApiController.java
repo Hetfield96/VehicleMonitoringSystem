@@ -56,7 +56,7 @@ public class AuthApiController {
                                     throw new IllegalArgumentException(msg);
                                 }
 
-                                AppController.getInstance().setDbUser(user);
+                                AppController.getInstance().setCurrentDbUser(user);
                                 if (user.isDriverRole()) {
                                     authActivity.startSignedInActivity();
                                 } else {
