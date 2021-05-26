@@ -31,9 +31,5 @@ namespace VMS_Backend.Data.DatabaseModels
         [Column("email")]
         [MaxLength(40)]
         public string Email { get; set; }
-        
-        [Column("telegram_nickname")]
-        [MaxLength(34)]
-        public string TelegramNickname { get; set; }
     }
 }

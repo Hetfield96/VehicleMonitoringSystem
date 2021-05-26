@@ -41,7 +41,7 @@ export const CreateEmployeeForm: React.FunctionComponent<InterfaceProps> = (prop
               if (!!companyId) {
                   const employee: Employee = new Employee(authUser.user.uid,
                       roleId, companyId, firstName, lastName,
-                      email, undefined, passwordOne);
+                      email, passwordOne);
                   await AuthApi.signUp(employee);
                   // TODO avoid login out
                   props.closeModal();
