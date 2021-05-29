@@ -42,7 +42,7 @@ export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfacePro
         if (companyId) {
             const newEmployee = new Employee(employee.id,
                 employee.roleId, companyId, firstName, lastName,
-                email, undefined, employee.password);
+                email, employee.password);
             await EmployeeApi.editEmployee(newEmployee);
 
             props.closeModal();
