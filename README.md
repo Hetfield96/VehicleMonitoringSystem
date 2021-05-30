@@ -9,9 +9,11 @@ Moscow, 2021*
 The solution provides services for vehicle fleet managment. It can be used to monitor and manage: taxi fleet, buses, delivery trucks, business trips and others.
 
 ### Repository content:
-- Android application (Java 8.0) - for the drivers
-- Web application (ASP .NET Core 3.1, React + TypeScript) - for the operators and administrators
-- Data processing service (ASP .NET Core 3.1) - inner app for vehicle data processing.  
+- [Android application](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VehicleMonitoringSystemMobile) (Java 8.0) - for the drivers
+- [Web client application](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VehicleMonitoringSystemWeb/vms_frontend) (React + TypeScript) - for the operators and administrators
+- [Server side](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VMS_Backend) (ASP .NET Core 3.1)
+- [Data processing service](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/DataProcessingService) (ASP .NET Core 3.1) - inner app for vehicle data processing.  
+- [Documentation](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/Documentation) - diploma documentation
        
 ### Core functionality: 
 - Employees & vehicles managment
