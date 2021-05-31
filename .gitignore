@@ -9,3 +9,4 @@ appsettings*.json
 **/DocumentationInstructions
 **/wwwroot
 connection_strings.xml
+launchSettings.json
