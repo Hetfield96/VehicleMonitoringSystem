@@ -25,5 +25,6 @@ dotnet ef database update
         public DbSet<WorkTaskComment> WorkTaskComment { get; set; }
         public DbSet<WorkTaskStatus> WorkTaskStatus { get; set; }
         public DbSet<ChatMessage> ChatMessage { get; set; }
+        public DbSet<Geofence> Geofence { get; set; }
     }
 }

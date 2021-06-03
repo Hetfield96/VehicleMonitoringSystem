@@ -40,6 +40,7 @@ namespace VMS_Backend
             services.AddScoped<WorkTaskCommentService>();
             services.AddScoped<ChatService>();
             services.AddScoped<ReportService>();
+            services.AddScoped<GeofenceService>();
 
             // SignalR services
             // services.AddScoped<ChatHub>();

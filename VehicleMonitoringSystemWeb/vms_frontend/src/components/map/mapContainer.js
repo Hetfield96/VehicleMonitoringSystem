@@ -1,15 +1,67 @@
-import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
-import React, {useEffect, useState} from 'react';
+import {Map, Marker, GoogleApiWrapper, Polyline, Polygon} from 'google-maps-react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {dateTimeToString, diffFromNowIsLessOrEqual} from "../../utils/dateFunctions";
+import * as GeofenceApi from "../../api/geofenceApi";
 
 function MapContainer(props) {
     const [markersData, setMarkersData] = useState(props.markersData);
     const [trajectoryData, setTrajectoryData] = useState(props.trajectoryData);
+    const [geofencesData, setGeofencesData] = useState();
+
+    // Store Polygon path in state
+    // const [path, setPath] = useState([
+    //     { lat: 52.52549080781086, lng: 13.398118538856465 },
+    //     { lat: 52.48578559055679, lng: 13.36653284549709 },
+    //     { lat: 52.48871246221608, lng: 13.44618372440334 }
+    // ]);
+    //
+    // // Define refs for Polygon instance and listeners
+    // const polygonRef = useRef(null);
+    // const listenersRef = useRef([]);
+    //
+    // // Call setPath with new edited path
+    // const onEdit = useCallback(() => {
+    //     if (polygonRef.current) {
+    //         const nextPath = polygonRef.current
+    //             .getPath()
+    //             .getArray()
+    //             .map(latLng => {
+    //                 return { lat: latLng.lat(), lng: latLng.lng() };
+    //             });
+    //         setPath(nextPath);
+    //     }
+    // }, [setPath]);
+
+    // const onLoad = () => {
+    //     console.log('onLoad');
+    // }
+    // Bind refs to current Polygon and listeners
+    // const onLoad = useCallback(
+    //     polygon => {
+    //         polygonRef.current = polygon;
+    //         const polygonPath = polygon.getPath();
+    //         listenersRef.current.push(
+    //             polygonPath.addListener("set_at", onEdit),
+    //             polygonPath.addListener("insert_at", onEdit),
+    //             polygonPath.addListener("remove_at", onEdit)
+    //         );
+    //     },
+    //     [onEdit]
+    // );
+
+    // // Clean up refs
+    // const onUnmount = useCallback(() => {
+    //     listenersRef.current.forEach(lis => lis.remove());
+    //     polygonRef.current = null;
+    // }, []);
+    //
+    // console.log("The path state is", path);
 
     useEffect(() => {
         (async function() {
             await setMarkersData(props.markersData);
             await setTrajectoryData(props.trajectoryData);
+            await setGeofencesData(await GeofenceApi.getAllCompanyGeofences());
         })();
     }, [props.markersData, props.trajectoryData]);
 
@@ -60,7 +112,7 @@ function MapContainer(props) {
         );
     }
 
-    const drawTrajectoryPolygons = () => {
+    const drawTrajectoryPolylines = () => {
         if (trajectoryData && Object.keys(trajectoryData).length) {
             let res = new Array(Object.values(trajectoryData).length);
             res.push(Object.entries(trajectoryData)
@@ -126,6 +178,45 @@ function MapContainer(props) {
         return res;
     }
 
+    const drawGeofencesPolygons = () => {
+        if (geofencesData && Object.keys(geofencesData).length) {
+            let res = new Array(Object.values(geofencesData).length);
+            const bounds = {
+                east: -78.443,
+                north: 44.599,
+                south: 44.49,
+                west: -78.649,
+            };
+            res.push(Object.entries(geofencesData)
+                .map(([key, value]) => (
+                    <Polygon
+                        id={key}
+                        key={key}
+                        paths={value.coords}
+                        strokeColor="#FF0000"
+                        strokeOpacity={0.8}
+                        strokeWeight={2}
+                        fillColor="#FF0000"
+                        fillOpacity={0.35}
+                        editable={true}
+                        draggable={true}
+                        // // Event used when manipulating and adding points
+                        // onMouseUp={onEdit}
+                        // // Event used when dragging the whole Polygon
+                        // onDragEnd={onEdit}
+                        // onLoad={onLoad}
+                        // onUnmount={onUnmount}
+                    />
+                ))
+            );
+            return res;
+        }
+
+        return null;
+    }
+
+
+
     return (
         <Map
             google={props.google}
@@ -134,8 +225,21 @@ function MapContainer(props) {
         >
 
             {drawVehicleMarkers()}
-            {drawTrajectoryPolygons()}
+            {drawTrajectoryPolylines()}
             {drawTrajectoryMarkers()}
+            {drawGeofencesPolygons()}
+            {/*<Polygon*/}
+            {/*    // Make the Polygon editable / draggable*/}
+            {/*    editable*/}
+            {/*    draggable*/}
+            {/*    path={path}*/}
+            {/*    // Event used when manipulating and adding points*/}
+            {/*    onMouseUp={onEdit}*/}
+            {/*    // Event used when dragging the whole Polygon*/}
+            {/*    onDragEnd={onEdit}*/}
+            {/*    onLoad={onLoad}*/}
+            {/*    onUnmount={onUnmount}*/}
+            {/*/>*/}
         </Map>
     );
 }

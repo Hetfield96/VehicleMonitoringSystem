@@ -8,6 +8,7 @@ import {SidebarEmployees} from "../employee/sidebarEmployees";
 import {SidebarVehicles} from "../vehicle/sidebarVehicles";
 import {SidebarTasks} from "../task/sidebarTasks";
 import {isUserAdministrator, isUserOperator} from "../../utils/userUtil";
+import {SidebarGeofences} from "../geofence/sidebarGeofences";
 
 interface InterfaceProps {
     dbUser: Employee|null;
@@ -42,6 +43,9 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
                     <a onClick={vehiclesClick}>Vehicles</a>
                 </li>
                 <li>
+                    <a onClick={geofencesClick}>Geofences</a>
+                </li>
+                <li>
                     <a onClick={tasksClick}>Tasks</a>
                 </li>
                 <li>
@@ -74,6 +78,9 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
                 </li>
                 <li>
                     <a onClick={vehiclesClick}>Vehicles</a>
+                </li>
+                <li>
+                    <a onClick={geofencesClick}>Geofences</a>
                 </li>
                 <li>
                     <a onClick={tasksClick}>Tasks</a>
@@ -133,6 +140,12 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
         history.push(HOME);
         props.setSidebarDisplay(true);
         props.setSidebarComponent(<SidebarVehicles/>);
+    }
+
+    function geofencesClick() {
+        history.push(HOME);
+        props.setSidebarDisplay(true);
+        props.setSidebarComponent(<SidebarGeofences/>);
     }
 
     function tasksClick() {
