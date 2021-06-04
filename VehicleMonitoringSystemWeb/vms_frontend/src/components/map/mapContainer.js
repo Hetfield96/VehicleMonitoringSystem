@@ -1,5 +1,5 @@
 import {Map, Marker, GoogleApiWrapper, Polyline, Polygon} from 'google-maps-react';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {dateTimeToString, diffFromNowIsLessOrEqual} from "../../utils/dateFunctions";
 import * as GeofenceApi from "../../api/geofenceApi";
 
@@ -96,8 +96,6 @@ function MapContainer(props) {
             return null;
         }
 
-        // console.log(`drawTrajectoryMarkers: trajectoryData: ${JSON.stringify(trajectoryData)}`);
-
         const res = new Array(Object.keys(trajectoryData).length);
 
         for(const key of Object.keys(trajectoryData)) {
@@ -190,23 +188,10 @@ function MapContainer(props) {
             zoom={defaultProps.zoom}
             center={defaultProps.center}
         >
-
             {drawVehicleMarkers()}
             {drawTrajectoryPolylines()}
             {drawTrajectoryMarkers()}
             {drawGeofencesPolygons()}
-            {/*<Polygon*/}
-            {/*    // Make the Polygon editable / draggable*/}
-            {/*    editable*/}
-            {/*    draggable*/}
-            {/*    path={path}*/}
-            {/*    // Event used when manipulating and adding points*/}
-            {/*    onMouseUp={onEdit}*/}
-            {/*    // Event used when dragging the whole Polygon*/}
-            {/*    onDragEnd={onEdit}*/}
-            {/*    onLoad={onLoad}*/}
-            {/*    onUnmount={onUnmount}*/}
-            {/*/>*/}
         </Map>
     );
 }
