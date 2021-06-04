@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Vehicle from "../models/vehicle";
 import {getDbUserCompanyId} from "../utils/userUtil";
 import Geofence from "../models/geofence";
 

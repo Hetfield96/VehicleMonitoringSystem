@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VMS_Backend.Data;
@@ -9,9 +10,10 @@ using VMS_Backend.Data;
 namespace VMS_Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210604144208_notifications")]
+    partial class notifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,10 +200,6 @@ namespace VMS_Backend.Data.Migrations
                     b.Property<string>("EmployeeId")
                         .HasColumnType("text")
                         .HasColumnName("employee_id");
-
-                    b.Property<byte>("GeofenceId")
-                        .HasColumnType("smallint")
-                        .HasColumnName("geofence_id");
 
                     b.Property<decimal>("Latitude")
                         .HasColumnType("numeric")

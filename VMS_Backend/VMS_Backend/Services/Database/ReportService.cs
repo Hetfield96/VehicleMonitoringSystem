@@ -8,7 +8,7 @@ using VMS_Backend.Data;
 using VMS_Backend.Data.DatabaseModels;
 using VMS_Backend.Data.Models;
 
-namespace VMS_Backend.Services.Database.Reports
+namespace VMS_Backend.Services.Database
 {
     public class ReportService
     {

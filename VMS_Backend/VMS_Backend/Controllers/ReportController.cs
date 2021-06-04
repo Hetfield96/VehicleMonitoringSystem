@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using VMS_Backend.Services.Database.Reports;
+using VMS_Backend.Services.Database;
 
 namespace VMS_Backend.Controllers
 {

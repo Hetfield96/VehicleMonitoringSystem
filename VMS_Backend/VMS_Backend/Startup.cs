@@ -6,10 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VMS_Backend.Data;
 using VMS_Backend.Services.Database;
-using VMS_Backend.Services.Database.Reports;
 using VMS_Backend.Services.SignalR;
 using Microsoft.OpenApi.Models;
-
 
 namespace VMS_Backend
 {
@@ -40,6 +38,7 @@ namespace VMS_Backend
             services.AddScoped<WorkTaskCommentService>();
             services.AddScoped<ChatService>();
             services.AddScoped<ReportService>();
+            services.AddScoped<NotificationService>();
             services.AddScoped<GeofenceService>();
 
             // SignalR services
@@ -58,13 +57,9 @@ namespace VMS_Backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
-            
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<ApplicationDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            
-            // Dapper mapping configuration
-            // DapperMappingConfiguration.Configure();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +70,6 @@ namespace VMS_Backend
                 app.UseDeveloperExceptionPage();
             }
             
-            // CORS
             // CORS middleware
             app.UseCors(builder =>
             {
@@ -103,19 +97,6 @@ namespace VMS_Backend
             });
 
             // app.UseAuthorization();
-            
-            // hostApplicationLifetime.ApplicationStarted.Register(() =>
-            // {
-            //     var serviceProvider = app.ApplicationServices;
-            //     var chatHub = (IHubContext<ChatHub>)serviceProvider.GetService(typeof(IHubContext<ChatHub>));
-            //
-            //     var timer = new System.Timers.Timer(1000);
-            //     timer.Enabled = true;
-            //     timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e) {
-            //         chatHub.Clients.All.SendAsync("setTime", DateTime.Now.ToString("dddd d MMMM yyyy HH:mm:ss"));
-            //     };
-            //     timer.Start();                
-            // });
 
             app.UseEndpoints(endpoints =>
             {
