@@ -8,55 +8,6 @@ function MapContainer(props) {
     const [trajectoryData, setTrajectoryData] = useState(props.trajectoryData);
     const [geofencesData, setGeofencesData] = useState();
 
-    // Store Polygon path in state
-    // const [path, setPath] = useState([
-    //     { lat: 52.52549080781086, lng: 13.398118538856465 },
-    //     { lat: 52.48578559055679, lng: 13.36653284549709 },
-    //     { lat: 52.48871246221608, lng: 13.44618372440334 }
-    // ]);
-    //
-    // // Define refs for Polygon instance and listeners
-    // const polygonRef = useRef(null);
-    // const listenersRef = useRef([]);
-    //
-    // // Call setPath with new edited path
-    // const onEdit = useCallback(() => {
-    //     if (polygonRef.current) {
-    //         const nextPath = polygonRef.current
-    //             .getPath()
-    //             .getArray()
-    //             .map(latLng => {
-    //                 return { lat: latLng.lat(), lng: latLng.lng() };
-    //             });
-    //         setPath(nextPath);
-    //     }
-    // }, [setPath]);
-
-    // const onLoad = () => {
-    //     console.log('onLoad');
-    // }
-    // Bind refs to current Polygon and listeners
-    // const onLoad = useCallback(
-    //     polygon => {
-    //         polygonRef.current = polygon;
-    //         const polygonPath = polygon.getPath();
-    //         listenersRef.current.push(
-    //             polygonPath.addListener("set_at", onEdit),
-    //             polygonPath.addListener("insert_at", onEdit),
-    //             polygonPath.addListener("remove_at", onEdit)
-    //         );
-    //     },
-    //     [onEdit]
-    // );
-
-    // // Clean up refs
-    // const onUnmount = useCallback(() => {
-    //     listenersRef.current.forEach(lis => lis.remove());
-    //     polygonRef.current = null;
-    // }, []);
-    //
-    // console.log("The path state is", path);
-
     useEffect(() => {
         (async function() {
             await setMarkersData(props.markersData);
@@ -178,20 +129,43 @@ function MapContainer(props) {
         return res;
     }
 
+    const onPolygonEdit = async (a, b, c) => {
+        // console.log(`onPolygonEdit: a ${Object.keys(a)}`);
+        // console.log(`onPolygonEdit: a.id ${JSON.stringify(a.id)}`);
+        // console.log(`onPolygonEdit: c.latLng ${JSON.stringify(c.latLng)}`);
+        // console.log(`onPolygonEdit: c.vertex ${JSON.stringify(c.vertex)}`);
+
+        if (a.id && c.vertex && c.latLng) {
+            const geofenceDataPolygonIndex = geofencesData.findIndex(item => item.id === a.id);
+            // console.log(`onPolygonEdit: geofencesData[${geofenceDataPolygonIndex}].coords[${c.vertex}] ${JSON.stringify(geofencesData[geofenceDataPolygonIndex].coords[c.vertex])}`);
+            // console.log(`c.latLng.lat: ${c.latLng.lat()}`);
+            // console.log(`c.latLng.lng: ${c.latLng.lng()}`);
+            // console.log(`geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lat: ${geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lat}`);
+            // console.log(`geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lng: ${geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lng}`);
+
+            if (!geofencesData[geofenceDataPolygonIndex].coords[c.vertex]) {
+                geofencesData[geofenceDataPolygonIndex].coords.push(c.latLng);
+                await GeofenceApi.editGeofence(geofencesData[geofenceDataPolygonIndex]);
+                return;
+            }
+
+            if (c.latLng.lat() !== geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lat
+            || c.latLng.lng() !== geofencesData[geofenceDataPolygonIndex].coords[c.vertex].lng) {
+                geofencesData[geofenceDataPolygonIndex].coords[c.vertex] = c.latLng;
+                await GeofenceApi.editGeofence(geofencesData[geofenceDataPolygonIndex]);
+                // console.log(`onPolygonEdit: updated geofencesData[${geofenceDataPolygonIndex}].coords[${c.vertex}] ${JSON.stringify(geofencesData[geofenceDataPolygonIndex].coords[c.vertex])}`);
+            }
+        }
+    }
+
     const drawGeofencesPolygons = () => {
         if (geofencesData && Object.keys(geofencesData).length) {
             let res = new Array(Object.values(geofencesData).length);
-            const bounds = {
-                east: -78.443,
-                north: 44.599,
-                south: 44.49,
-                west: -78.649,
-            };
             res.push(Object.entries(geofencesData)
                 .map(([key, value]) => (
                     <Polygon
-                        id={key}
-                        key={key}
+                        id={value.id}
+                        key={value.id}
                         paths={value.coords}
                         strokeColor="#FF0000"
                         strokeOpacity={0.8}
@@ -200,12 +174,7 @@ function MapContainer(props) {
                         fillOpacity={0.35}
                         editable={true}
                         draggable={true}
-                        // // Event used when manipulating and adding points
-                        // onMouseUp={onEdit}
-                        // // Event used when dragging the whole Polygon
-                        // onDragEnd={onEdit}
-                        // onLoad={onLoad}
-                        // onUnmount={onUnmount}
+                        onMouseover={onPolygonEdit}
                     />
                 ))
             );
@@ -214,8 +183,6 @@ function MapContainer(props) {
 
         return null;
     }
-
-
 
     return (
         <Map

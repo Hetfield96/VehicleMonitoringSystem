@@ -26,8 +26,6 @@ export async function generate(notificationTypeId: number, vehicleId: number|nul
 }
 
 function formatNotificationsData(data: any) {
-    console.log(`notificationsData before processing: ${JSON.stringify(data)}`);
-
     data.forEach((n: NotificationData) => {
         Object.setPrototypeOf(n, NotificationType.prototype);
         Object.setPrototypeOf(n.vehicle, Vehicle.prototype);
@@ -49,6 +47,5 @@ function formatNotificationsData(data: any) {
             geofenceName: n.geofenceId === 1 ? 'New geofence' : null
         }));
 
-    console.log(`\nnotificationsData after processing: ${JSON.stringify(data)}`);
     return notificationData;
 }
