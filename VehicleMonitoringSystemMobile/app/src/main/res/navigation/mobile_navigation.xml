@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/navigation_location">
+    app:startDestination="@+id/navigation_vehicle">
 
     <fragment
-        android:id="@+id/navigation_location"
-        android:name="com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.LocationFragment"
-        android:label="@string/navigation__title_location"
-        tools:layout="@layout/fragment_location" />
+        android:id="@+id/navigation_vehicle"
+        android:name="com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.VehicleFragment"
+        android:label="@string/navigation__title_vehicle"
+        tools:layout="@layout/fragment_vehicle" />
 
     <fragment
         android:id="@+id/navigation_tasks"

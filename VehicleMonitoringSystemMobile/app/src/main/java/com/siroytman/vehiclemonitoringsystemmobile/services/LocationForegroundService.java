@@ -19,14 +19,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.ILocationManager;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IObdManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.VehicleData;
 import com.siroytman.vehiclemonitoringsystemmobile.room.AppRoomDatabase;
-import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.LocationFragment;
+import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.VehicleFragment;
 
 import java.util.Date;
 import java.util.Objects;
@@ -56,7 +55,7 @@ public class LocationForegroundService extends Service implements ILocationManag
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
 
-        Intent notificationIntent = new Intent(this, LocationFragment.class);
+        Intent notificationIntent = new Intent(this, VehicleFragment.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 

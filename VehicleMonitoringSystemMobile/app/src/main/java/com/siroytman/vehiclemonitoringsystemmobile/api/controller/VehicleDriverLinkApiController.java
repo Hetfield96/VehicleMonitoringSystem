@@ -8,7 +8,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Vehicle;
-import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.LocationFragment;
+import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.VehicleFragment;
 
 import org.json.JSONObject;
 
@@ -29,7 +29,7 @@ public class VehicleDriverLinkApiController {
         return instance;
     }
 
-    public void getCurrentVehicle(LocationFragment locationFragment) {
+    public void getCurrentVehicle(VehicleFragment vehicleFragment) {
         String driverId = AppController.getInstance().getCurrentDbUser().getId();
 
         ApiController.getInstance()
@@ -40,7 +40,7 @@ public class VehicleDriverLinkApiController {
                             @Override
                             public void onSuccessResponse(JSONObject result) {
                                 Vehicle vehicle = Vehicle.parseVehicle(result);
-                                locationFragment.updateDriverVehicle(vehicle);
+                                vehicleFragment.updateDriverVehicle(vehicle);
                             }
 
                             @Override

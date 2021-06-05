@@ -18,8 +18,8 @@ import com.siroytman.vehiclemonitoringsystemmobile.services.LocationForegroundSe
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class LocationFragment extends Fragment {
-    private static final String TAG = "LocationFragment";
+public class VehicleFragment extends Fragment {
+    private static final String TAG = "VehicleFragment";
     private Context context;
 
     private View rootView;
@@ -32,28 +32,28 @@ public class LocationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_location, container, false);
+        rootView = inflater.inflate(R.layout.fragment_vehicle, container, false);
         context = getActivity();
 
-        btnStartTrack = rootView.findViewById(R.id.location__btn_start_track);
+        btnStartTrack = rootView.findViewById(R.id.vehicle__btn_start_track);
         btnStartTrack.setEnabled(this.isVehicleAttached);
 
         btnStartTrack.setOnClickListener(v -> {
             if (!isLocating) {
-                btnStartTrack.setText(R.string.location__track_button__stop);
+                btnStartTrack.setText(R.string.vehicle__track_button__stop);
                 LocationForegroundService.startService(getActivity());
             } else
             {
                 if (!LocationForegroundService.checkPermissions(context)) {
                     LocationForegroundService.requestPermissions(getActivity());
                 }
-                btnStartTrack.setText(R.string.location__track_button__start);
+                btnStartTrack.setText(R.string.vehicle__track_button__start);
                 LocationForegroundService.stopService(context);
             }
             isLocating = !isLocating;
         });
 
-        vehicleNameView = rootView.findViewById(R.id.location__vehicle_name);
+        vehicleNameView = rootView.findViewById(R.id.vehicle__vehicle_name);
 
         return rootView;
     }
