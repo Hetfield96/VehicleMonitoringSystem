@@ -11,6 +11,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.api.IVolleyCallbackJSONObject;
 import com.siroytman.vehiclemonitoringsystemmobile.controller.AppController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
+import com.siroytman.vehiclemonitoringsystemmobile.services.SignalRService;
 import com.siroytman.vehiclemonitoringsystemmobile.ui.activity.AuthActivity;
 
 import org.json.JSONObject;
@@ -59,6 +60,7 @@ public class AuthApiController {
                                 AppController.getInstance().setCurrentDbUser(user);
                                 if (user.isDriverRole()) {
                                     authActivity.startSignedInActivity();
+                                    SignalRService.getInstance().configureSignalREndpoints(user.getId());
                                 } else {
                                     authActivity.stopLoadingProgressBar();
                                     if (!isSilentLogin) {

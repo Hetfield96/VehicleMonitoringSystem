@@ -78,6 +78,9 @@ dependencies {
     // Chat UI Kit
     implementation 'com.github.stfalcon-studio:Chatkit:0.4.1'
 
+    // SignalR
+    implementation 'com.microsoft.signalr:signalr:1.0.0'
+
     // Picasso - images
     implementation 'com.squareup.picasso:picasso:2.71828'
 

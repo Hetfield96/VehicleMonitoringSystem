@@ -2,10 +2,14 @@ package com.siroytman.vehiclemonitoringsystemmobile.controller;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 
+import com.microsoft.signalr.HubConnection;
+import com.microsoft.signalr.HubConnectionBuilder;
 import com.siroytman.vehiclemonitoringsystemmobile.R;
+import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Vehicle;
 import com.siroytman.vehiclemonitoringsystemmobile.room.AppRoomDatabase;
@@ -67,4 +71,5 @@ public class AppController extends Application {
     public Vehicle getCurrentVehicle() {
         return currentVehicle;
     }
+
 }

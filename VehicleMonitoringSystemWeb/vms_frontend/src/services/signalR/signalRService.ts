@@ -14,7 +14,7 @@ export abstract class SignalRService {
                 this.configureEndpoints(dbUserId);
 
                 // Establish connection
-                this.hubConnection.invoke("establishConnection", dbUserId, this.hubConnection.connectionId);
+                this.hubConnection.invoke("establishConnection", dbUserId);
             }
         });
     }
@@ -22,7 +22,7 @@ export abstract class SignalRService {
     public static async stopConnection() {
         if (!!this.hubConnection.connectionId) {
             // console.log(`signalR, closeConnection`);
-            await this.hubConnection.invoke("closeConnection", this.connectionDbUserId, this.hubConnection.connectionId);
+            await this.hubConnection.invoke("closeConnection", this.connectionDbUserId);
             await this.hubConnection.stop();
         }
     }

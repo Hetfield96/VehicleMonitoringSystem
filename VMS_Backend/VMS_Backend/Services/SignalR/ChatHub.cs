@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using VMS_Backend.Data.DatabaseModels;
@@ -12,15 +13,17 @@ namespace VMS_Backend.Services.SignalR
         // EmployeeId -> [connectionsId]
         private static readonly HubConnectionMapping<string> ConnectionsMapping = 
             new HubConnectionMapping<string>();
-        
-        public async Task EstablishConnection(string dbUserId, string connectionId)
+
+        public async Task EstablishConnection(string dbUserId)
         {
+            var connectionId = Context.ConnectionId;
             ConnectionsMapping.Add(dbUserId, connectionId);
             await Clients.Caller.SendAsync("connectionEstablished", connectionId);
         }
         
-        public void CloseConnection(string dbUserId, string connectionId)
+        public void CloseConnection(string dbUserId)
         {
+            var connectionId = Context.ConnectionId;
             ConnectionsMapping.Remove(dbUserId, connectionId);
         }
         
