@@ -24,7 +24,7 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         Intent intent = getIntent();
-        Boolean fromNotification = intent.getBooleanExtra("fromNotification", false);
+        boolean fromNotification = intent.getBooleanExtra("fromNotification", false);
         if (fromNotification) {
             navController.navigate(R.id.navigation_chat);
         }

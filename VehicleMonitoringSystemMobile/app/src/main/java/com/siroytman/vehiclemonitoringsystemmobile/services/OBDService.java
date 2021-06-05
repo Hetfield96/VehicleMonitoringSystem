@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
@@ -145,9 +146,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             // There are paired devices. Get the name and address of each paired device.
             for (BluetoothDevice device : pairedDevices) {
                 String deviceName = device.getName();
-//                String deviceHardwareAddress = device.getAddress(); // MAC address
 
-                // TODO get deviceName from settings
                 if (deviceName.equals(AppController.getInstance().deviceNameOBD)) {
                     Log.d(TAG, "bluetoothDeviceFound");
                     return device;
@@ -155,6 +154,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             }
         } else {
             // TODO no paired bluetooth devices
+            Toast.makeText(AppController.getInstance().getAppContext(), "Error: Bluetooth pair with your OBD tracker", Toast.LENGTH_LONG).show();
             Log.e(TAG, "No paired devices: need to pair with some");
         }
         return null;
