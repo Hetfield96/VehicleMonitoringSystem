@@ -46,7 +46,7 @@
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_profile_header" />
+            android:text="@string/settings__user_profile_header" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,18 +71,25 @@
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true" />
 
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings__obd_header" />
+
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/settings__obd_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="false"
-                    android:text="@string/use_obd_label"/>
+                    android:text="@string/settings__use_obd_label"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/settings__obd_bluetooth_name"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/obd_name_label">
+                    android:hint="@string/settings__obd_name_label">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="200dp"
