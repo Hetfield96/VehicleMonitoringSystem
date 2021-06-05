@@ -49,4 +49,13 @@
     <string name="task__next_status">Next status</string>
     <string name="task__prev_status">Prev status</string>
 
+    <!--    Settings-->
+    <string name="use_obd_label">Use OBD</string>
+    <string name="obd_name_label">OBD Bluetooth name</string>
+
+    <!--    Shared preferences-->
+    <string name="shared_prefs__vms">vms</string>
+    <string name="shared_prefs__use_obd">use_obd</string>
+    <string name="shared_prefs__obd_name">obd_name</string>
+
 </resources>

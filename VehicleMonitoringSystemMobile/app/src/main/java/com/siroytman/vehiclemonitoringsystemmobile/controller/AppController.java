@@ -5,9 +5,11 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.siroytman.vehiclemonitoringsystemmobile.R;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Employee;
 import com.siroytman.vehiclemonitoringsystemmobile.model.Vehicle;
 import com.siroytman.vehiclemonitoringsystemmobile.room.AppRoomDatabase;
+import com.siroytman.vehiclemonitoringsystemmobile.util.SharedPrefsUtil;
 
 public class AppController extends Application {
     private static final String TAG = "AppController";
@@ -16,9 +18,8 @@ public class AppController extends Application {
     private Vehicle currentVehicle;
     private AppRoomDatabase roomDatabase;
 
-    // TODO to settings
-    public boolean useOBD = true;
-    public String deviceNameOBD = "OBDII";
+    public boolean useOBD;
+    public String deviceNameOBD;
 
     @Override
     public void onCreate() {
@@ -29,6 +30,9 @@ public class AppController extends Application {
                 .fallbackToDestructiveMigration()
                 .build();
         mInstance = this;
+
+        this.useOBD = SharedPrefsUtil.readBooleanFromSharedPrefs(getAppContext(), getResources().getString(R.string.shared_prefs__use_obd));
+        this.deviceNameOBD = SharedPrefsUtil.readStringFromSharedPrefs(getAppContext(), getResources().getString(R.string.shared_prefs__obd_name));
     }
 
     public static synchronized AppController getInstance() {
