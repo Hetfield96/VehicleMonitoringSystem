@@ -54,6 +54,8 @@ public class TaskActivity extends AppCompatActivity
     @BindView(R.id.task_activity__due_date) TextView taskDueDate;
     @BindView(R.id.task_activity__prev_status) Button taskPrevStatus;
     @BindView(R.id.task_activity__next_status) Button taskNextStatus;
+    @BindView(R.id.task_activity__prev_status_hint) TextView taskPrevStatusHint;
+    @BindView(R.id.task_activity__next_status_hint) TextView taskNextStatusHint;
 
     @BindView(R.id.task_activity__comments_list) MessagesList commentsList;
     @BindView(R.id.task_activity__comment_input) MessageInput commentInput;
@@ -92,11 +94,16 @@ public class TaskActivity extends AppCompatActivity
         taskDueDate.setText(dateFormat.format(task.getDueDate()));
         taskOperator.setText(task.getOperator().getName());
 
+        taskPrevStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() - 1));
+        taskNextStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() + 1));
+
         if (task.getStatusId() == 1) {
             taskPrevStatus.setEnabled(false);
+            taskPrevStatusHint.setText("");
         }
         if (task.getStatusId() >= 3) {
             taskNextStatus.setEnabled(false);
+            taskNextStatusHint.setText("");
         }
 
         initAdapter();
@@ -111,8 +118,12 @@ public class TaskActivity extends AppCompatActivity
         taskStatus.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId()));
         if (task.getStatusId() == 1) {
             taskPrevStatus.setEnabled(false);
+            taskPrevStatusHint.setText("");
+            taskNextStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() + 1));
         }
         if (task.getStatusId() <= 2) {
+            taskPrevStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() - 1));
+            taskNextStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() + 1));
             taskNextStatus.setEnabled(true);
         }
 
@@ -126,9 +137,13 @@ public class TaskActivity extends AppCompatActivity
             taskStatus.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId()));
             if (task.getStatusId() >= 2) {
                 taskPrevStatus.setEnabled(true);
+                taskPrevStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() - 1));
+                taskNextStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() + 1));
             }
             if (task.getStatusId() == 3) {
                 taskNextStatus.setEnabled(false);
+                taskNextStatusHint.setText("");
+                taskPrevStatusHint.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId() - 1));
             }
         }
 

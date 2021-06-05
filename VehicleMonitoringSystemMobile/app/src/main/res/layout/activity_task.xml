@@ -16,7 +16,8 @@
         android:layout_marginTop="20dp"
         android:textSize="22sp"
         android:layout_centerHorizontal="true"
-        style="@style/BigText" />
+        style="@style/BigText"
+        android:layout_marginLeft="10dp" />
 
 
     <TextView
@@ -28,7 +29,9 @@
         android:layout_toEndOf="@+id/task_activity__status_title"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_toRightOf="@+id/task_activity__status_title"
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/task_activity__status_title"
         android:text="Status:"
@@ -37,7 +40,8 @@
         android:layout_below="@id/task_activity__name"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp" />
 
 
     <TextView
@@ -49,7 +53,9 @@
         android:layout_toEndOf="@id/task_activity__description_title"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/task_activity__description_title" />
     <TextView
         android:id="@+id/task_activity__description_title"
         android:text="Description:"
@@ -58,7 +64,8 @@
         android:layout_below="@id/task_activity__status"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/task_activity__create_date"
@@ -69,7 +76,9 @@
         android:layout_toEndOf="@id/task_activity__create_date_title"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/task_activity__create_date_title"
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/task_activity__create_date_title"
         android:text="Create date: "
@@ -78,7 +87,8 @@
         android:layout_below="@id/task_activity__description"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/task_activity__operator"
@@ -89,7 +99,9 @@
         android:layout_toEndOf="@id/task_activity__operator_title"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/task_activity__operator_title"
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/task_activity__operator_title"
         android:text="Operator: "
@@ -98,7 +110,8 @@
         android:layout_below="@id/task_activity__create_date"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/task_activity__due_date"
@@ -109,7 +122,9 @@
         android:layout_toEndOf="@id/task_activity__due_date_title"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/task_activity__due_date_title"
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/task_activity__due_date_title"
         android:text="Due date: "
@@ -118,7 +133,8 @@
         android:layout_below="@id/task_activity__operator"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp" />
 
     <Button
         android:id="@+id/task_activity__prev_status"
@@ -128,7 +144,19 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
         android:layout_marginTop="18dp"
-        android:text="@string/task__prev_status" />
+        android:text="@string/task__prev_status"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp" />
+
+    <TextView
+        android:id="@+id/task_activity__prev_status_hint"
+        android:text="Prev status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_activity__prev_status"
+        android:layout_marginStart="60dp"
+        android:textSize="16sp"
+        android:layout_marginLeft="60dp" />
 
     <Button
         android:id="@+id/task_activity__next_status"
@@ -138,7 +166,21 @@
         android:layout_marginEnd="30dp"
         android:layout_below="@id/task_activity__due_date"
         android:layout_marginTop="18dp"
-        android:text="@string/task__next_status"/>
+        android:text="@string/task__next_status"
+        android:hint="Hint"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
+
+    <TextView
+        android:id="@+id/task_activity__next_status_hint"
+        android:text="Next status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_activity__prev_status"
+        android:textSize="16sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="60dp"
+        android:layout_alignParentRight="true" />
 
     <com.stfalcon.chatkit.messages.MessagesList
         android:id="@+id/task_activity__comments_list"
