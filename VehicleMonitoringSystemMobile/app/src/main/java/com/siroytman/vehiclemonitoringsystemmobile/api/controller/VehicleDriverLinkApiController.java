@@ -29,7 +29,7 @@ public class VehicleDriverLinkApiController {
         return instance;
     }
 
-    public void getCurrentVehicle(VehicleFragment vehicleFragment) {
+    public void getCurrentVehicle() {
         String driverId = AppController.getInstance().getCurrentDbUser().getId();
 
         ApiController.getInstance()
@@ -40,7 +40,7 @@ public class VehicleDriverLinkApiController {
                             @Override
                             public void onSuccessResponse(JSONObject result) {
                                 Vehicle vehicle = Vehicle.parseVehicle(result);
-                                vehicleFragment.updateDriverVehicle(vehicle);
+                                VehicleFragment.getInstance().updateDriverVehicle(vehicle);
                             }
 
                             @Override

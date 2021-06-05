@@ -80,7 +80,7 @@
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/settings__obd_switch"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:checked="false"
                     android:text="@string/settings__use_obd_label"/>

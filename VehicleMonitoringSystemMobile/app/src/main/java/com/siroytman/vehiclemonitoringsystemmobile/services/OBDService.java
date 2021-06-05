@@ -20,6 +20,7 @@ import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IBluetoothConnectM
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.ILocationManager;
 import com.siroytman.vehiclemonitoringsystemmobile.interfaces.IObdManager;
 import com.siroytman.vehiclemonitoringsystemmobile.model.VehicleData;
+import com.siroytman.vehiclemonitoringsystemmobile.ui.fragments.VehicleFragment;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.BluetoothConnectThread;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.MyObdMultiCommand;
 import com.siroytman.vehiclemonitoringsystemmobile.util.obd.ObdCommandResult;
@@ -74,11 +75,6 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
 
         instance = this;
     }
-
-    //    @Override
-//    public void getLastKnownLocation(Location lastLocation) {
-//
-//    }
 
     // On new location - gather vehicle data from OBD
     @Override
@@ -171,6 +167,7 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
         Log.d(TAG, "Bluetooth socket is attached");
         this.bluetoothSocket = bluetoothSocket;
         this.isObdConfigured = configureObdDevice();
+        VehicleFragment.getInstance().updateObdConnected(this.isObdConfigured);
     }
 
     /**
@@ -207,6 +204,8 @@ public class OBDService implements IBluetoothConnectManager, ILocationManager {
             if (!echoOffCommand.getResult().equals("OK")) {
                 return false;
             }
+
+
 
             return true;
         } catch (Exception e) {

@@ -85,7 +85,7 @@ public class TaskActivity extends AppCompatActivity
 
         this.attachmentPicker = new AttachmentPicker(this, this);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
         taskName.setText(task.getName());
         taskStatus.setText(TaskStatus.getStatusIdToNameMap().get(task.getStatusId()));

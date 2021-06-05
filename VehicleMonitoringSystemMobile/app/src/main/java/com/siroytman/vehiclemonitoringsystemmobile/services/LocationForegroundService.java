@@ -67,8 +67,6 @@ public class LocationForegroundService extends Service implements ILocationManag
                 .build();
         startForeground(CHANNEL_ID, notification);
 
-
-
         if (AppController.getInstance().useOBD) {
             obdService = OBDService.getInstance(activity, this);
 

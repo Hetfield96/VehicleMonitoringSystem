@@ -5,9 +5,14 @@
     <string name="error_handler__timeout">No connection error</string>
     <string name="error_handler__no_connection">Connection timeout error</string>
 
-    <!--    Location activity-->
+    <!--    Vehicle activity-->
     <string name="vehicle__track_button__start">Start</string>
     <string name="vehicle__track_button__stop">Stop</string>
+    <string name="vehicle__no_vehicle_attached">No vehicle attached</string>
+    <string name="vehicle__obd_not_connected">OBD Bluetooth device is not connected</string>
+    <string name="vehicle__obd_connected">Bluetooth OBD tracker is connected</string>
+    <string name="vehicle__working_time_text">Working time</string>
+    <string name="vehicle__start_work_time_text">Start work time</string>
 
     <!--   LocationService -->
     <string name="location_service__notification_text">Is locating your device…</string>
@@ -58,6 +63,5 @@
     <string name="shared_prefs__vms">vms</string>
     <string name="shared_prefs__use_obd">use_obd</string>
     <string name="shared_prefs__obd_name">obd_name</string>
-    <string name="vehicle__no_vehicle_attached">No vehicle attached</string>
 
 </resources>

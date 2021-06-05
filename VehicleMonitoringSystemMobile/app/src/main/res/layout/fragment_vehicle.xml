@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,22 +9,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/vehicle__no_vehicle_attached"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/vehicle__btn_start_track"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="12pt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:id="@+id/vehicle__bluetooth_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vehicle__obd_not_connected"
+        android:layout_below="@id/vehicle__vehicle_name"
+        android:layout_marginTop="10dp"
+        android:textSize="7pt"
+        android:layout_centerHorizontal="true"
+        />
+
+    <ImageView
+        android:id="@+id/vehicle__bluetooth_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_black_bluetooth_24"
+        android:layout_below="@id/vehicle__vehicle_name"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/vehicle__bluetooth_status_text"
+        android:layout_toRightOf="@id/vehicle__bluetooth_status_text" />
 
     <Button
         android:id="@+id/vehicle__btn_start_track"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        app:cornerRadius="48dp"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        app:cornerRadius="50dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:text="@string/vehicle__track_button__start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/vehicle__start_work_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle__btn_start_track"
+        android:layout_centerHorizontal="true"
+        android:text="@string/vehicle__start_work_time_text"
+        android:layout_marginTop="100dp"
+        android:textSize="13pt"
+        />
+
+    <TextView
+        android:id="@+id/vehicle__working_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle__start_work_time"
+        android:layout_centerHorizontal="true"
+        android:text="@string/vehicle__working_time_text"
+        android:layout_marginTop="20dp"
+        android:textSize="13pt"
+        />
+
+
+</RelativeLayout>
