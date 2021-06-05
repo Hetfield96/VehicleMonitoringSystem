@@ -7,10 +7,6 @@ import com.microsoft.signalr.HubConnectionBuilder;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 
-import java.net.URI;
-
-import io.reactivex.Single;
-
 public class SignalRService {
     public static final String TAG = "SignalRService";
 
@@ -41,6 +37,7 @@ public class SignalRService {
 
         hubConnection.on("receiveChatMessage", (message) -> {
             Log.d(TAG, "receiveChatMessage: " + message.getText());
+            NotificationService.getInstance().showChatMessagePushNotification(message);
         }, ChatMessage.class);
 
         establishSignalRConnection(userId);
@@ -49,4 +46,5 @@ public class SignalRService {
     private void establishSignalRConnection(String userId) {
         hubConnection.send("establishConnection", userId);
     }
+
 }

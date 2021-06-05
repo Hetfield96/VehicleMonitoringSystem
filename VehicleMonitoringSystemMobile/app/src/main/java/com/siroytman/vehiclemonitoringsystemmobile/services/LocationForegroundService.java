@@ -62,7 +62,7 @@ public class LocationForegroundService extends Service implements ILocationManag
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.location_service__notification_text))
-//                .setSmallIcon(R.drawable.ic_stat_name)
+                .setSmallIcon(R.drawable.ic_truck_24)
                 .setContentIntent(pendingIntent)
                 .build();
         startForeground(CHANNEL_ID, notification);

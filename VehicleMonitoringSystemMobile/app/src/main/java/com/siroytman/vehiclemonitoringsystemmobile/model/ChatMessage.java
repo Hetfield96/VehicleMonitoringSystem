@@ -26,7 +26,7 @@ public class ChatMessage implements Parcelable,
     public static final String TAG = "ChatMessage";
 
     protected ChatMessage(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         text = in.readString();
         date = new Date(in.readLong());
         sender = in.readParcelable(Employee.class.getClassLoader());
@@ -51,7 +51,7 @@ public class ChatMessage implements Parcelable,
         ChatMessage chatMessage = new ChatMessage();
 
         try {
-            chatMessage.id = json.getString("id");
+            chatMessage.id = json.getInt("id");
             chatMessage.text = json.getString("text");
             chatMessage.date = DateUtil.getDateFromString(json.getString("date"));
             chatMessage.sender = Employee.parseEmployee(json.getJSONObject("sender"));
@@ -95,7 +95,7 @@ public class ChatMessage implements Parcelable,
         return new JSONObject(param);
     }
 
-    private String id;
+    private int id;
     private int companyId;
     private String text;
     private Date date;
@@ -121,6 +121,10 @@ public class ChatMessage implements Parcelable,
 
     @Override
     public String getId() {
+        return String.valueOf(id);
+    }
+
+    public int getIntId() {
         return id;
     }
 
@@ -201,7 +205,7 @@ public class ChatMessage implements Parcelable,
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(text);
         dest.writeLong(date.getTime());
         dest.writeParcelable(sender, flags);
