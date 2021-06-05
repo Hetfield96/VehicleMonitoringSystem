@@ -186,7 +186,7 @@
         android:id="@+id/task_activity__comments_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/task_activity__next_status"
+        android:layout_below="@id/task_activity__next_status_hint"
         android:layout_above="@+id/task_activity__comment_input"
         app:outcomingDefaultBubbleColor="@color/secondaryColor"
         app:outcomingDefaultBubblePressedColor="@color/secondaryColor"
