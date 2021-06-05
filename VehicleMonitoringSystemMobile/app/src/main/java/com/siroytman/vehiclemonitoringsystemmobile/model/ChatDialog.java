@@ -57,7 +57,9 @@ public class ChatDialog implements IDialog<ChatMessage>, Parcelable {
         this.messages = messages;
 
         this.id = user.getId();
-        this.lastMessage = messages.get(messages.size() - 1);
+        if (messages.size() > 0) {
+            this.lastMessage = messages.get(messages.size() - 1);
+        }
         this.dialogName = user.getName();
         this.dialogPhoto = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
         countUnread();

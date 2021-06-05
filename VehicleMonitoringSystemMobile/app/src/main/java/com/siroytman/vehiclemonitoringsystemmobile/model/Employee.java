@@ -6,8 +6,11 @@ import android.util.Log;
 
 import com.stfalcon.chatkit.commons.models.IUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class Employee implements IUser, Parcelable {
     public static final String TAG = "Employee";
@@ -31,6 +34,24 @@ public class Employee implements IUser, Parcelable {
             return new Employee[size];
         }
     };
+
+    public static ArrayList<Employee> parseEmployeesArray(JSONArray jsonArray)
+    {
+        ArrayList<Employee> result = new ArrayList<>(jsonArray.length());
+        for(int i = 0; i < jsonArray.length(); ++i)
+        {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Employee employee = parseEmployee(jsonObject);
+                result.add(employee);
+            }
+            catch (JSONException e)
+            {
+                Log.d(TAG, "Array parse error: " + e.getMessage());
+            }
+        }
+        return result;
+    }
 
     public static Employee parseEmployee(JSONObject json) {
         try {

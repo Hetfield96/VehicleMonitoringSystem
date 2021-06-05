@@ -61,6 +61,44 @@ public class ChatApiController {
                         });
     }
 
+    public void getNewDialogsOptions(ArrayList<ChatDialog> existingDialogs) {
+        Employee dbUser = AppController.getInstance().getCurrentDbUser();
+        String userId = dbUser.getId();
+        int companyId = dbUser.getCompanyId();
+
+        apiController.getJSONArrayResponse(Request.Method.GET,
+                ApiController.BACKEND_URL,
+                "employee/getAllEmployees/" + companyId,
+                null,
+                new IVolleyCallbackJSONArray() {
+                    @Override
+                    public void onSuccessResponse(JSONArray result) {
+                        ArrayList<Employee> employees = Employee.parseEmployeesArray(result);
+                        ArrayList<ChatDialog> chatDialogs = new ArrayList<>();
+                        for (Employee employee: employees) {
+                            boolean alreadyExist = false;
+                            for (ChatDialog existingDialog: existingDialogs) {
+                                if (existingDialog.getDialogName().equals(employee.getName())) {
+                                    alreadyExist = true;
+                                    break;
+                                }
+                            }
+
+                            if (!employee.getId().equals(userId) && !alreadyExist) {
+                                ChatDialog dialog = new ChatDialog(employee, new ArrayList<ChatMessage>());
+                                chatDialogs.add(dialog);
+                            }
+                        }
+                        ChatDialogFragment.getInstance().newDialogsOptionsUpdateView(chatDialogs);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Volley error = " + error.toString());
+                    }
+                });
+    }
+
     public void sendMessage(ChatMessage message) {
         apiController.getJSONObjectResponse(Request.Method.POST,
                 ApiController.BACKEND_URL,
