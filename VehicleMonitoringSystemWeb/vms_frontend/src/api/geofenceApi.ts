@@ -21,7 +21,7 @@ export async function getAllCompanyGeofences(): Promise<Geofence[] | null> {
   }
 }
 
-export async function deleteGeofence(geofenceId: number|null) {
+export async function deleteGeofence(geofenceId: number|undefined) {
   if (!geofenceId) {
     return null;
   }

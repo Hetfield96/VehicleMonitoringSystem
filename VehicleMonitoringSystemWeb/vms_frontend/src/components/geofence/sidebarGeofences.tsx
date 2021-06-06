@@ -9,10 +9,12 @@ import * as GeofencesApi from "../../api/geofenceApi";
 import {GeofenceListItem} from "./geofenceListItem";
 import {getDbUserCompanyId} from "../../utils/userUtil";
 import GeoCoordinate from "../../models/geoCoordinate";
-
+import Vehicle from "../../models/vehicle";
+import * as GeofenceVehicleLinkApi from "../../api/geofenceVehicleLinkApi";
 
 export const SidebarGeofences: React.FunctionComponent = () => {
     const [geofences, setGeofences] = useState<Geofence[]|null>(null);
+    const [geofenceVehicles, setGeofenceVehicles] = useState<Map<number, Vehicle[]>|null>(null);
 
     useEffect(() => {
         (async function() {
@@ -23,12 +25,14 @@ export const SidebarGeofences: React.FunctionComponent = () => {
 
     const updateGeofences = async () => {
         await setGeofences(await GeofencesApi.getAllCompanyGeofences());
+        await setGeofenceVehicles(await GeofenceVehicleLinkApi.getCurrentGeofenceVehiclesMap());
+
     }
 
     const createGeofence = async () => {
         const companyId = await getDbUserCompanyId();
         if (companyId) {
-            const newGeofence = new Geofence(null, companyId, "New Geofence", [
+            const newGeofence = new Geofence(undefined, companyId, "New Geofence", [
                     new GeoCoordinate(56.0, 37.8),
                     new GeoCoordinate(56.1, 37.8),
                     new GeoCoordinate(56.1, 37.9),
@@ -53,8 +57,13 @@ export const SidebarGeofences: React.FunctionComponent = () => {
 
             <List style={{backgroundColor: Colors.white}}>
                 {geofences && geofences
-                    .map((g) => (<GeofenceListItem key={g.id} geofence={g} updateGeofences={updateGeofences}/>))
-                }
+                    .map((g) => (
+                       g.id && <GeofenceListItem
+                            key={g.id}
+                            geofence={g}
+                            vehicles={geofenceVehicles && geofenceVehicles.get(g.id)}
+                            updateGeofences={updateGeofences}/>
+                    ))}
             </List>
 
         </div>

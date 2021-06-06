@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VMS_Backend.Data;
@@ -9,9 +10,10 @@ using VMS_Backend.Data;
 namespace VMS_Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210606131606_geofenceVehicleLinks")]
+    partial class geofenceVehicleLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,39 +183,6 @@ namespace VMS_Backend.Data.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("geofence");
-                });
-
-            modelBuilder.Entity("VMS_Backend.Data.DatabaseModels.GeofenceVehicleLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("end_date");
-
-                    b.Property<int>("GeofenceId")
-                        .HasColumnType("integer")
-                        .HasColumnName("geofence_id");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("start_date");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("vehicle_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GeofenceId");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("geofence_vehicle_link");
                 });
 
             modelBuilder.Entity("VMS_Backend.Data.DatabaseModels.Notification", b =>
@@ -642,25 +611,6 @@ namespace VMS_Backend.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("VMS_Backend.Data.DatabaseModels.GeofenceVehicleLink", b =>
-                {
-                    b.HasOne("VMS_Backend.Data.DatabaseModels.Geofence", "Geofence")
-                        .WithMany()
-                        .HasForeignKey("GeofenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VMS_Backend.Data.DatabaseModels.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Geofence");
-
-                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("VMS_Backend.Data.DatabaseModels.Notification", b =>

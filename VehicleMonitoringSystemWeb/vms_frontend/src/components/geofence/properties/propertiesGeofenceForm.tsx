@@ -4,6 +4,7 @@ import {useState} from "react";
 import {PropertiesGeneralGeofenceForm, PropertiesGeneralGeofenceFormName} from "./propertiesGeneralGeofenceForm";
 import "../../../styles/navigation.scss";
 import Geofence from "../../../models/geofence";
+import {PropertiesVehiclesGeofenceForm, PropertiesVehiclesGeofenceFormName} from "./propertiesVehiclesGeofenceForm";
 
 interface InterfaceProps {
   geofence: Geofence;
@@ -18,6 +19,8 @@ export const PropertiesGeofenceForm: React.FunctionComponent<InterfaceProps> = (
         switch (contentComponentName) {
             case PropertiesGeneralGeofenceFormName:
                 return <PropertiesGeneralGeofenceForm geofence={props.geofence} closeModal={props.closeModal} updateGeofences={props.updateGeofences}/>
+            case PropertiesVehiclesGeofenceFormName:
+                return <PropertiesVehiclesGeofenceForm geofence={props.geofence} closeModal={props.closeModal} updateGeofences={props.updateGeofences}/>
             default:
                 return null;
         }
@@ -29,6 +32,9 @@ export const PropertiesGeofenceForm: React.FunctionComponent<InterfaceProps> = (
                 <ul>
                     <li>
                         <a onClick={() => setContentComponentName(PropertiesGeneralGeofenceFormName)}>{PropertiesGeneralGeofenceFormName}</a>
+                    </li>
+                    <li>
+                        <a onClick={() => setContentComponentName(PropertiesVehiclesGeofenceFormName)}>{PropertiesVehiclesGeofenceFormName}</a>
                     </li>
                 </ul>
             </div>

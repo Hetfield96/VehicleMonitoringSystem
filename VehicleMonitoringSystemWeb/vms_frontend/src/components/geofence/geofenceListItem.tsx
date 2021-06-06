@@ -6,24 +6,31 @@ import Popup from "reactjs-popup";
 import Colors from "../../constants/colors";
 import Geofence from "../../models/geofence";
 import {PropertiesGeofenceForm} from "./properties/propertiesGeofenceForm";
+import Vehicle from "../../models/vehicle";
 
 interface InterfaceProps {
     geofence: Geofence;
+    vehicles: Vehicle[]|null|undefined;
     updateGeofences: () => void;
 }
 
 export const GeofenceListItem: React.FunctionComponent<InterfaceProps> = (props) => {
-    const {geofence} = props;
+    const {geofence, vehicles} = props;
 
     return (
         <div style={styles.container}>
             <ListItem
                 key={geofence.id}
                 button={true}
-                // onPress={() => this.onLearnMore(driver)}
                 style={styles.listItem}
             >
-                {geofence.name}
+                <div style={{marginRight: 20}}>
+                    {geofence.name}
+                    {<br/>}
+                    <b>Vehicles: </b>
+                    {<br/>}
+                    {`${!!vehicles ? vehicles.map(v => v.getFormattedName()).join(', ') : 'none'}`}
+                </div>
 
                 <Popup
                     trigger={
