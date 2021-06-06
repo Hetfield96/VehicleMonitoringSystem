@@ -8,5 +8,6 @@ export default {
     contactList: '#C3C49E',
     modalBackground: '#DEE2D6',
     grey: '#454545',
-    red: '#772F1A'
+    red: '#772F1A',
+    geofenceDefault: '#FF0000'
 };

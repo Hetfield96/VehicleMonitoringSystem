@@ -42,7 +42,8 @@ export async function createGeofence(geofence: Geofence) {
       name: geofence.name,
       coords: JSON.stringify(geofence.coords),
       isLeaveRestricted: geofence.isLeaveRestricted,
-      isEnterRestricted: geofence.isEnterRestricted
+      isEnterRestricted: geofence.isEnterRestricted,
+      color: geofence.color
     };
     const response = await axios.post(`geofence`, formatGeofence);
     // console.log(`createVehicle: ${JSON.stringify(response.data)}`);
@@ -62,7 +63,8 @@ export async function editGeofence(geofence: Geofence) {
       name: geofence.name,
       coords: JSON.stringify(geofence.coords),
       isLeaveRestricted: geofence.isLeaveRestricted,
-      isEnterRestricted: geofence.isEnterRestricted
+      isEnterRestricted: geofence.isEnterRestricted,
+      color: geofence.color
     };
     const response = await axios.put(`geofence`, formatGeofence);
     // console.log(`editVehicle: ${JSON.stringify(response.data)}`);

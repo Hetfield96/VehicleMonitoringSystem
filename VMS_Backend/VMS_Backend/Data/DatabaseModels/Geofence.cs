@@ -28,5 +28,9 @@ namespace VMS_Backend.Data.DatabaseModels
         
         [Column("is_enter_restricted")]
         public bool IsEnterRestricted { get; set; }
+        
+        [Column("color")]
+        [MaxLength(20)]
+        public string Color { get; set; }
     }
 }
