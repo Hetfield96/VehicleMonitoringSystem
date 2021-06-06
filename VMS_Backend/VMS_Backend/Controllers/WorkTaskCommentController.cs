@@ -24,6 +24,7 @@ namespace VMS_Backend.Controllers
         public async Task<ActionResult<WorkTaskComment>> Create([FromBody] WorkTaskComment taskComment)
         {
             taskComment.Date = DateTime.Now;
+            taskComment.Type = "text";
             
             var res = await _workTaskCommentService.AddNewItem(taskComment);
             return Ok(res);
