@@ -55,7 +55,7 @@ export async function createGeofence(geofence: Geofence) {
 
 export async function editGeofence(geofence: Geofence) {
   try {
-    console.log(`editGeofence id: ${geofence.id}`);
+    // console.log(`editGeofence id: ${geofence.id}`);
     const formatGeofence = {
       id: geofence.id,
       companyId: geofence.companyId,

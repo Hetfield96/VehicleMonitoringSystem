@@ -171,7 +171,7 @@ function MapContainer(props) {
                         fillColor={value.color}
                         fillOpacity={0.35}
                         editable={true}
-                        draggable={true}
+                        draggable={false}
                         onMouseover={onPolygonEdit}
                     />
                 ))
