@@ -1,12 +1,20 @@
 import * as React from "react";
-import {Button, FormControlLabel, IconButton, TextField} from '@material-ui/core';
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    IconButton,
+    Radio,
+    RadioGroup,
+    TextField
+} from '@material-ui/core';
 import {StylesDictionary} from "../../utils/stylesDictionary";
 import {useState} from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import * as GeofenceApi from "../../../api/geofenceApi";
 import {getDbUserCompanyId} from "../../../utils/userUtil";
 import Geofence from "../../../models/geofence";
-import Checkbox from '@material-ui/core/Checkbox';
 import { GithubPicker } from 'react-color'
 import Colors from "../../../constants/colors";
 
@@ -22,23 +30,21 @@ export const PropertiesGeneralGeofenceForm: React.FunctionComponent<InterfacePro
     const {geofence} = props;
 
     const [name, setName] = useState<string>(geofence.name);
-    const [isLeaveRestricted, setIsLeaveRestricted] = useState<boolean>(geofence.isLeaveRestricted);
-    const [isEnterRestricted, setIsEnterRestricted] = useState<boolean>(geofence.isEnterRestricted);
-
     const [displayColorPicker, setDisplayColorPicker] = useState<boolean>(false);
     const [selectedColor, setSelectedColor] = useState<string>(geofence.color ? geofence.color : Colors.geofenceDefault);
+    const [selectedRestrictionId, setSelectedRestrictionId] = useState<number>(geofence.restrictionId);
+
 
     function isSaveButtonDisabled() {
         return name === geofence.name
-            && isEnterRestricted === geofence.isEnterRestricted
-            && isLeaveRestricted === geofence.isLeaveRestricted
+            && selectedRestrictionId === geofence.restrictionId
             && selectedColor === geofence.color;
     }
 
     async function editGeofence() {
         const companyId = await getDbUserCompanyId();
         if (companyId) {
-            const newGeofence = new Geofence(geofence.id, companyId, name, geofence.coords, isLeaveRestricted, isEnterRestricted, selectedColor)
+            const newGeofence = new Geofence(geofence.id, companyId, name, geofence.coords, selectedRestrictionId, selectedColor)
             await GeofenceApi.editGeofence(newGeofence);
             props.closeModal();
             props.updateGeofences();
@@ -52,7 +58,6 @@ export const PropertiesGeneralGeofenceForm: React.FunctionComponent<InterfacePro
     }
 
     const handleColorChange = async ({hex}) => {
-        console.log('new color: ' + hex)
         await setSelectedColor(hex);
     }
 
@@ -79,21 +84,14 @@ export const PropertiesGeneralGeofenceForm: React.FunctionComponent<InterfacePro
                 style={styles.textInput}
             />
 
-            <FormControlLabel
-                control={<Checkbox checked={isEnterRestricted}
-                                   onChange={event => setIsEnterRestricted(event.target.checked)}
-                                   name="isEnterRestricted" />}
-                label="Is Enter Restricted"
-                style={styles.textInput}
-            />
-
-            <FormControlLabel
-                control={<Checkbox checked={isLeaveRestricted}
-                                   onChange={event => setIsLeaveRestricted(event.target.checked)}
-                                   name="isLeaveRestricted" />}
-                label="Is Leave Restricted"
-                style={styles.textInput}
-            />
+            <FormControl component="fieldset" style={styles.textInput}>
+                <FormLabel component="legend">Restrictions</FormLabel>
+                <RadioGroup value={selectedRestrictionId} onChange={(event, value) => setSelectedRestrictionId(+value)}>
+                    <FormControlLabel value={0} control={<Radio />} label="None" />
+                    <FormControlLabel value={1} control={<Radio />} label="Enter restricted" />
+                    <FormControlLabel value={2} control={<Radio />} label="Leave restricted" />
+                </RadioGroup>
+            </FormControl>
 
 
             <div style={styles.colorPickerContainer}>

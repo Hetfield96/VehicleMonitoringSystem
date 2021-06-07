@@ -41,7 +41,7 @@ export const SidebarGeofences: React.FunctionComponent = () => {
                     new GeoCoordinate(56.0, 37.9),
                     new GeoCoordinate(56.0, 37.8),
                 ],
-                false, false, Colors.geofenceDefault);
+                0, Colors.geofenceDefault);
             await GeofencesApi.createGeofence(newGeofence);
             await updateGeofences();
         }

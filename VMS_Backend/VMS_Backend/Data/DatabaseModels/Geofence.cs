@@ -23,12 +23,9 @@ namespace VMS_Backend.Data.DatabaseModels
         [Column("coords")]
         public string Coords { get; set; }
         
-        [Column("is_leave_restricted")]
-        public bool IsLeaveRestricted { get; set; }
-        
-        [Column("is_enter_restricted")]
-        public bool IsEnterRestricted { get; set; }
-        
+        [Column("restriction_id")]
+        public byte RestrictionId { get; set; }
+
         [Column("color")]
         [MaxLength(20)]
         public string Color { get; set; }

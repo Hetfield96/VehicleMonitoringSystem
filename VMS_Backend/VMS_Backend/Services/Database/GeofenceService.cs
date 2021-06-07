@@ -29,8 +29,7 @@ namespace VMS_Backend.Services.Database
             
             dbGeofence.Name = geofence.Name;
             dbGeofence.Coords = geofence.Coords;
-            dbGeofence.IsEnterRestricted = geofence.IsEnterRestricted;
-            dbGeofence.IsLeaveRestricted = geofence.IsLeaveRestricted;
+            dbGeofence.RestrictionId = geofence.RestrictionId;
             dbGeofence.Color = geofence.Color;
             await _dbContext.SaveChangesAsync();
             return dbGeofence;
