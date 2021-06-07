@@ -8,12 +8,12 @@ export default class Task {
   public operatorId: string | undefined;
   public createDate: Date | undefined;
   public dueDate: Date | undefined;
-  public name: string | undefined;
+  public name: string;
   public description: string | undefined;
   public statusId: number | undefined;
 
   constructor(companyId:number|undefined, driverId:string|undefined,operatorId:string|undefined,
-              createDate:Date|undefined,dueDate:Date|undefined,name:string|undefined,
+              createDate:Date|undefined,dueDate:Date|undefined,name:string,
               description:string|undefined,statusId:number|undefined) {
     this.companyId = companyId;
     this.driverId = driverId;

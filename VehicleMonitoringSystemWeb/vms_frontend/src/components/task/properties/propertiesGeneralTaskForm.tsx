@@ -20,7 +20,7 @@ export const PropertiesGeneralTaskFormName = 'General';
 
 export const PropertiesGeneralTaskForm: React.FunctionComponent<InterfaceProps> = (props) => {
     const {task} = props;
-    const [name, setName] = useState<string|undefined>(task.name);
+    const [name, setName] = useState<string>(task.name);
     const [description, setDescription] = useState<string|undefined>(task.description);
     const [dueDatetime, setDueDatetime] = useState<Date|undefined>(task.dueDate);
     const [drivers, setDrivers] = useState<Employee[]|null>(null);

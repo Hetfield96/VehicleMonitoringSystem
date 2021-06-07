@@ -12,12 +12,14 @@ import "../../styles/sidebarDrivers.scss";
 import {getDbUser, getRoleRestrictionTooltip, isUserOperator} from "../../utils/userUtil";
 import Role from "../../models/role";
 import Collapsible from "react-collapsible";
+import SearchBar from "material-ui-search-bar";
+
 
 export const SidebarEmployees: React.FunctionComponent = () => {
     const roles = Role.getAllRoles();
-
     const [dbUser, setDbUser] = useState<Employee|null>();
     const [employees, setEmployees] = useState<Employee[]|null>(null);
+    const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         (async function() {
@@ -77,14 +79,27 @@ export const SidebarEmployees: React.FunctionComponent = () => {
                 }}
             </Popup>
 
+            <SearchBar
+                value={searchText}
+                placeholder='Employee name'
+                onChange={(newValue) => setSearchText(newValue.toLowerCase())}
+                onCancelSearch={() => setSearchText('')}
+                style={styles.searchBar}
+            />
+
             {
                 roles.map(r =>
                     <Collapsible
-                        trigger={`${r.name}: ${employees && employees.filter((e) => e.roleId === r.id).length || 0}`}
+                        trigger={
+                            `${r.name}: 
+                            ${employees 
+                            && employees.filter((e) => e.roleId === r.id 
+                                && (!searchText || e.getFullName().toLowerCase().includes(searchText))).length || 0}`
+                        }
                         key={r.id}>
                         <List style={{backgroundColor: Colors.white}}>
                             {employees && employees
-                                .filter((e) => e.roleId === r.id)
+                                .filter((e) => e.roleId === r.id && (!searchText || e.getFullName().toLowerCase().includes(searchText)))
                                 .sort((a, b) => compareEmployeesForSort(a, b))
                                 .map((e) => (<EmployeeListItem key={e.id} employee={e} updateEmployees={updateEmployees}/>))
                             }
@@ -110,6 +125,9 @@ const styles: StylesDictionary  = {
     flexible: {
         flex: 1,
         display: 'flex'
+    },
+    searchBar: {
+        marginBottom: 10
     }
 };
 

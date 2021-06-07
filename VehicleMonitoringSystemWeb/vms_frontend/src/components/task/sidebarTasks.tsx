@@ -12,10 +12,12 @@ import Task from "../../models/task";
 import {TaskListItem} from "./taskListItem";
 import Collapsible from 'react-collapsible';
 import TaskStatus from "../../models/taskStatus";
+import SearchBar from "material-ui-search-bar";
 
 export const SidebarTasks: React.FunctionComponent = () => {
     const statuses = TaskStatus.getDefaultStatuses();
     const [tasks, setTasks] = useState<Task[]|null>(null);
+    const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         (async function() {
@@ -25,8 +27,7 @@ export const SidebarTasks: React.FunctionComponent = () => {
 
     async function updateTasks() {
         const resTasks = await TaskApi.getAllTasks();
-        setTasks(resTasks);
-        // console.log(`updateTask: ${JSON.stringify(resTasks)}`);
+        await setTasks(resTasks);
     }
 
     function compareTasksForSort(a: Task, b: Task): number {
@@ -70,14 +71,36 @@ export const SidebarTasks: React.FunctionComponent = () => {
                 }}
             </Popup>
 
+            <SearchBar
+                value={searchText}
+                placeholder='Task id, name or driver name'
+                onChange={(newValue) => setSearchText(newValue.toLowerCase())}
+                onCancelSearch={() => setSearchText('')}
+                style={styles.searchBar}
+            />
+
             {
                 statuses.map(s =>
                     <Collapsible
-                        trigger={`${s.name}: ${tasks && tasks.filter((task) => task.statusId === s.id).length || 0}`}
+                        trigger={
+                            `${s.name}: 
+                            ${tasks 
+                            && tasks.filter((task) => task.statusId === s.id
+                                && (!searchText
+                                    || task.name.toLowerCase().includes(searchText)
+                                    || task.id && task.id.toString() === searchText
+                                    || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : "none".includes(searchText)))
+                            ).length || 0}`
+                        }
                         key={s.id}>
                         <List style={{backgroundColor: Colors.white}}>
                             {tasks && tasks
-                                .filter((task) => task.statusId === s.id)
+                                .filter((task) => task.statusId === s.id
+                                    && (!searchText
+                                        || task.name.toLowerCase().includes(searchText)
+                                        || task.id && task.id.toString() === searchText
+                                        || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : "none".includes(searchText))
+                                    ))
                                 .sort((a, b) => compareTasksForSort(a, b))
                                 .map((task) => (<TaskListItem key={task.id} updateTasks={updateTasks} task={task}/>))
                             }
@@ -97,6 +120,9 @@ const styles: StylesDictionary  = {
         flex: 1,
         marginTop: 10,
         marginBottom: 10,
+    },
+    searchBar: {
+        marginBottom: 10
     }
 };
 

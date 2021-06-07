@@ -12,11 +12,13 @@ import "../../styles/sidebarDrivers.scss";
 import 'react-minimal-datetime-range/lib/react-minimal-datetime-range.min.css';
 import Employee from "../../models/employee";
 import {getDbUser, getRoleRestrictionTooltip, isUserOperator} from "../../utils/userUtil";
+import SearchBar from "material-ui-search-bar";
 
 export const SidebarVehicles: React.FunctionComponent = () => {
     const [dbUser, setDbUser] = useState<Employee|null>();
     const [vehicles, setVehicles] = useState<Vehicle[]|null>(null);
     const [vehiclesDrivers, setVehiclesDrivers] = useState<Map<number, Employee[]>|null>(null);
+    const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         (async function() {
@@ -64,14 +66,31 @@ export const SidebarVehicles: React.FunctionComponent = () => {
                 }}
             </Popup>
 
+            <SearchBar
+                value={searchText}
+                placeholder='Vehicle name or driver name'
+                onChange={(newValue) => setSearchText(newValue.toLowerCase())}
+                onCancelSearch={() => setSearchText('')}
+                style={styles.searchBar}
+            />
+
             <List>
-                {vehicles && vehicles.map((vehicle) => (
-                    <VehicleListItem
-                        key={vehicle.id}
-                        drivers={vehiclesDrivers && vehiclesDrivers.get(vehicle.id)}
-                        vehicle={vehicle}
-                        updateVehicles={updateVehicles}
-                    />
+                {vehicles && vehicles
+                    .filter((vehicle) =>
+                        !searchText
+                        || vehicle.getFormattedName().toLowerCase().includes(searchText)
+                        || (!!vehiclesDrivers && !!vehiclesDrivers.get(vehicle.id)
+                        // @ts-ignore
+                        ? vehiclesDrivers.get(vehicle.id).map(d => d.getFullName()).join(', ').toLowerCase().includes(searchText)
+                        : 'none'.includes(searchText))
+                    )
+                    .map((vehicle) => (
+                        <VehicleListItem
+                            key={vehicle.id}
+                            drivers={vehiclesDrivers && vehiclesDrivers.get(vehicle.id)}
+                            vehicle={vehicle}
+                            updateVehicles={updateVehicles}
+                        />
                 ))}
             </List>
         </div>
@@ -95,6 +114,9 @@ const styles: StylesDictionary  = {
     flexible: {
         flex: 1,
         display: 'flex'
+    },
+    searchBar: {
+        marginBottom: 10
     }
 };
 

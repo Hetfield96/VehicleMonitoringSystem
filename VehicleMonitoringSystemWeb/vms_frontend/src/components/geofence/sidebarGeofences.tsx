@@ -11,10 +11,12 @@ import {getDbUserCompanyId} from "../../utils/userUtil";
 import GeoCoordinate from "../../models/geoCoordinate";
 import Vehicle from "../../models/vehicle";
 import * as GeofenceVehicleLinkApi from "../../api/geofenceVehicleLinkApi";
+import SearchBar from "material-ui-search-bar";
 
 export const SidebarGeofences: React.FunctionComponent = () => {
     const [geofences, setGeofences] = useState<Geofence[]|null>(null);
     const [geofenceVehicles, setGeofenceVehicles] = useState<Map<number, Vehicle[]>|null>(null);
+    const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         (async function() {
@@ -55,8 +57,24 @@ export const SidebarGeofences: React.FunctionComponent = () => {
                 </Button>
             </div>
 
+            <SearchBar
+                value={searchText}
+                placeholder='Geofence or vehicle name'
+                onChange={(newValue) => setSearchText(newValue.toLowerCase())}
+                onCancelSearch={() => setSearchText('')}
+                style={styles.searchBar}
+            />
+
             <List style={{backgroundColor: Colors.white}}>
                 {geofences && geofences
+                    .filter((g) =>
+                        !searchText
+                        || g.name.toLowerCase().includes(searchText)
+                        || (geofenceVehicles && g.id && geofenceVehicles.get(g.id)
+                        // @ts-ignore
+                        ? geofenceVehicles.get(g.id).map(v => v.getFormattedName()).join(', ').toLowerCase().includes(searchText)
+                        : 'none'.includes(searchText))
+                    )
                     .map((g) => (
                        g.id && <GeofenceListItem
                             key={g.id}
@@ -84,6 +102,9 @@ const styles: StylesDictionary  = {
     flexible: {
         flex: 1,
         display: 'flex'
+    },
+    searchBar: {
+        marginBottom: 10
     }
 };
 
