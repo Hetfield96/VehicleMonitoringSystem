@@ -2,7 +2,7 @@ import * as React from "react";
 import Task from "../../models/task";
 import Colors from "../../constants/colors";
 import {StylesDictionary} from "../../components/utils/stylesDictionary";
-import {IconButton, ListItem, ListItemSecondaryAction} from "@material-ui/core";
+import {IconButton, ListItem, ListItemSecondaryAction, Tooltip} from "@material-ui/core";
 import Popup from "reactjs-popup";
 import SettingsIcon from "@material-ui/icons/Settings";
 import {PropertiesTaskForm} from "../../components/task/properties/propertiesTaskForm";
@@ -22,6 +22,13 @@ export const TaskCardItem: React.FunctionComponent<InterfaceProps> = (props) => 
 
     return (
         <div style={styles.container}>
+            {
+                task.dueDate && new Date(task.dueDate) < new Date()
+                    ? <Tooltip title={strings.delayed}>
+                        <div style={styles.delayedMark}/>
+                    </Tooltip>
+                    : null
+            }
             <ListItem
                 key={task.id}
                 button={true}
@@ -78,5 +85,11 @@ const styles: StylesDictionary  = {
     listItem: {
         height: 50,
         flex: 1,
+    },
+    delayedMark: {
+        backgroundColor: Colors.red,
+        alignSelf: 'flex-end',
+        width: 30,
+        height: 15
     }
 };

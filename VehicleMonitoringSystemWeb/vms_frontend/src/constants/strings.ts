@@ -86,6 +86,7 @@ const strings = new LocalizedStrings({
         permanentTroubleCodes: 'Engine permanent trouble codes',
         troubleCodes: 'Engine trouble codes',
         all: 'All',
+        delayed: 'Delayed',
     },
     ru: {
         driver: 'Водитель',
@@ -172,6 +173,7 @@ const strings = new LocalizedStrings({
         permanentTroubleCodes: 'Коды постоянных ошибок двигателя',
         troubleCodes: 'Коды ошибок двигателя',
         all: 'Все',
+        delayed: 'Просрочена',
     }
 });
 
