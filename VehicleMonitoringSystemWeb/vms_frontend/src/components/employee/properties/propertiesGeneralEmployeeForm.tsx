@@ -7,6 +7,7 @@ import Employee from "../../../models/employee";
 import * as EmployeeApi from "../../../api/employeeApi";
 import {getDbUser, getDbUserCompanyId, isUserOperator} from "../../../utils/userUtil";
 import {RoleRestriction} from "../../utils/roleRestriction";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     employee: Employee;
@@ -18,6 +19,7 @@ export const PropertiesGeneralEmployeeFormName = 'General';
 
 export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfaceProps> = (props) => {
     const {employee} = props;
+
 
     const [dbUser, setDbUser] = useState<Employee|null>();
 
@@ -68,8 +70,8 @@ export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfacePro
                 value={firstName}
                 onChange={event => setFirstName(event.target.value)}
                 type="text"
-                placeholder="First name"
-                label="First name"
+                placeholder={strings.firstName}
+                label={strings.firstName}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -78,8 +80,8 @@ export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfacePro
                 value={lastName}
                 onChange={event => setLastName(event.target.value)}
                 type="text"
-                placeholder="Last name"
-                label="Last name"
+                placeholder={strings.lastName}
+                label={strings.lastName}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -88,8 +90,8 @@ export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfacePro
                 value={email}
                 onChange={event => setEmail(event.target.value)}
                 type="text"
-                placeholder="Email"
-                label="Email"
+                placeholder={strings.email}
+                label={strings.email}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -98,7 +100,7 @@ export const PropertiesGeneralEmployeeForm: React.FunctionComponent<InterfacePro
                 disabled={isSaveButtonDisabled()}
                 onClick={editEmployee}
                 variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                {strings.save}
             </Button>
         </div>
     );

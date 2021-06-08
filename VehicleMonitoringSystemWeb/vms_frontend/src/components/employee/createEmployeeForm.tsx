@@ -9,6 +9,7 @@ import Colors from "../../constants/colors";
 import {StylesDictionary} from "../utils/stylesDictionary";
 import {useEffect, useState} from "react";
 import {getDbUserCompanyId} from "../../utils/userUtil";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   closeModal: () => void;
@@ -26,9 +27,10 @@ export const CreateEmployeeForm: React.FunctionComponent<InterfaceProps> = (prop
 
     useEffect(() => {
         (async function() {
-            setRoles(await RolesApi.getRoles())
+            await setRoles(await RolesApi.getRoles());
         })();
     }, []);
+
 
   async function onSubmit(event: any) {
       event.preventDefault();
@@ -58,39 +60,39 @@ export const CreateEmployeeForm: React.FunctionComponent<InterfaceProps> = (prop
                 value={email}
                 onChange={event => setEmail(event.target.value)}
                 type="text"
-                placeholder="Email Address"
+                placeholder={strings.email}
                 style={styles.textInput}
             />
             <TextField
                 value={firstName}
                 onChange={event => setFirstName(event.target.value)}
                 type="text"
-                placeholder="First Name"
+                placeholder={strings.firstName}
                 style={styles.textInput}
             />
             <TextField
                 value={lastName}
                 onChange={event => setLastName(event.target.value)}
                 type="text"
-                placeholder="Last Name"
+                placeholder={strings.lastName}
                 style={styles.textInput}
             />
             <TextField
                 value={passwordOne}
                 onChange={event => setPasswordOne(event.target.value)}
                 type="password"
-                placeholder="Password"
+                placeholder={strings.password}
                 style={styles.textInput}
             />
             <TextField
                 value={passwordTwo}
                 onChange={event => setPasswordTwo(event.target.value)}
                 type="password"
-                placeholder="Confirm Password"
+                placeholder={strings.passwordConfirm}
                 style={styles.textInput}
             />
             <FormControl style={styles.formControl}>
-                <InputLabel id="role-name-label">Role</InputLabel>
+                <InputLabel id="role-name-label">{strings.role}</InputLabel>
                 <Select
                     color={"secondary"}
                     value={roleId}
@@ -104,7 +106,7 @@ export const CreateEmployeeForm: React.FunctionComponent<InterfaceProps> = (prop
             </FormControl>
 
             <Button disabled={isSignUpDisabled()} variant='contained' type='submit' color='primary' style={styles.button}>
-                Create
+                {strings.create}
             </Button>
 
             {error && <p>{error.message}</p>}

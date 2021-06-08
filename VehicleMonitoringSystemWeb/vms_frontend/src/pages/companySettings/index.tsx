@@ -7,6 +7,7 @@ import {getDbUser, isUserAdministrator} from "../../utils/userUtil";
 import {RoleRestriction} from "../../components/utils/roleRestriction";
 import {StylesDictionary} from "../../components/utils/stylesDictionary";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 export const CompanySettingsComponent : React.FunctionComponent = () => {
     const [dbUser, setDbUser] = useState<Employee|null>();
@@ -19,7 +20,7 @@ export const CompanySettingsComponent : React.FunctionComponent = () => {
 
     return (
         <div style={styles.container}>
-            <h1>Company Settings</h1>
+            <h1>{strings.companySettings}</h1>
             {
                 isUserAdministrator(dbUser)
                     ? <CompanySettingsForm/>

@@ -1,12 +1,13 @@
 import * as React from "react";
 import * as routes from "../../constants/routes";
 import { auth } from "../../firebase";
-import {Button, TextField} from "@material-ui/core";
+import {Button, IconButton, TextField} from "@material-ui/core";
 import {StylesDictionary} from "../../components/utils/stylesDictionary";
 import {PasswordForgetLink} from "../passwordForget";
 import {HOME} from "../../constants/routes";
 import * as AuthApi from "../../api/authApi";
 import {getDbUser, isUserDriver} from "../../utils/userUtil";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   error?: any;
@@ -75,28 +76,41 @@ export class SignInForm extends React.Component<InterfaceProps, InterfaceState> 
       });
   };
 
+  public async switchLanguage(language: string) {
+      strings.setLanguage(language);
+      await localStorage.setItem('language', language);
+  }
+
   public render() {
     const { email, password, error } = this.state;
 
     return (
       <form onSubmit={event => this.onSubmit(event)} style={styles.container}>
-        <h1>Sign In</h1>
+          <div style={styles.language}>
+              <IconButton onClick={() => this.switchLanguage('ru')}>
+                  <img src='/russia.png' width={30} height={20}/>
+              </IconButton>
+              <IconButton onClick={() => this.switchLanguage('en')}>
+                  <img src='/britain.svg' width={30} height={20}/>
+              </IconButton>
+          </div>
+        <h1>{strings.signIn}</h1>
         <TextField
           value={email}
           onChange={event => this.setStateWithEvent(event, "email")}
           type="text"
-          placeholder="Email Address"
+          placeholder={strings.email}
           style={styles.textInput}
         />
         <TextField
           value={password}
           onChange={event => this.setStateWithEvent(event, "password")}
           type="password"
-          placeholder="Password"
+          placeholder={strings.password}
           style={styles.textInput}
         />
         <Button disabled={this.isSignInDisabled()} variant='contained' type='submit' color='primary'>
-          Sign In
+            {strings.signIn}
         </Button>
 
         {error && <p>{error.message}</p>}
@@ -129,5 +143,10 @@ const styles: StylesDictionary  = {
     width: 200,
     marginTop: 5,
     marginBottom: 5,
+  },
+  language: {
+      alignSelf: 'flex-end',
+      flexDirection: 'row',
+      margin: 5
   }
 };

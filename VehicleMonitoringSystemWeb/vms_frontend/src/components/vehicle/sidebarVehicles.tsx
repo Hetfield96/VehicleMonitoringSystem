@@ -13,15 +13,16 @@ import 'react-minimal-datetime-range/lib/react-minimal-datetime-range.min.css';
 import Employee from "../../models/employee";
 import {getDbUser, getRoleRestrictionTooltip, isUserOperator} from "../../utils/userUtil";
 import SearchBar from "material-ui-search-bar";
+import strings from "../../constants/strings";
 
 export const SidebarVehicles: React.FunctionComponent = () => {
-    const [dbUser, setDbUser] = useState<Employee|null>();
-    const [vehicles, setVehicles] = useState<Vehicle[]|null>(null);
-    const [vehiclesDrivers, setVehiclesDrivers] = useState<Map<number, Employee[]>|null>(null);
+    const [dbUser, setDbUser] = useState<Employee | null>();
+    const [vehicles, setVehicles] = useState<Vehicle[] | null>(null);
+    const [vehiclesDrivers, setVehiclesDrivers] = useState<Map<number, Employee[]> | null>(null);
     const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
-        (async function() {
+        (async function () {
             await setDbUser(await getDbUser());
             await updateVehicles();
         })();
@@ -35,14 +36,15 @@ export const SidebarVehicles: React.FunctionComponent = () => {
 
     return (
         <div style={styles.container}>
-            <h2>Vehicles</h2>
+            <h2>{strings.vehicles}</h2>
             <Popup
                 trigger={
                     <div style={styles.flexible}>
                         <Tooltip title={getRoleRestrictionTooltip(dbUser)}>
                             <div style={styles.flexible}>
-                                <Button variant="contained" color='primary' style={styles.addButton} disabled={isUserOperator(dbUser)} >
-                                    Create vehicle
+                                <Button variant="contained" color='primary' style={styles.addButton}
+                                        disabled={isUserOperator(dbUser)}>
+                                    {strings.createVehicle}
                                 </Button>
                             </div>
                         </Tooltip>
@@ -57,7 +59,7 @@ export const SidebarVehicles: React.FunctionComponent = () => {
                             <button className="close" onClick={close}>
                                 &times;
                             </button>
-                            <div className="header">Create vehicle</div>
+                            <div className="header">{strings.createVehicle}</div>
                             <div className="content">
                                 <CreateVehicleForm closeModal={close} updateVehicles={updateVehicles}/>
                             </div>
@@ -68,7 +70,7 @@ export const SidebarVehicles: React.FunctionComponent = () => {
 
             <SearchBar
                 value={searchText}
-                placeholder='Vehicle name or driver name'
+                placeholder={strings.vehicleSearchPlaceholder}
                 onChange={(newValue) => setSearchText(newValue.toLowerCase())}
                 onCancelSearch={() => setSearchText('')}
                 style={styles.searchBar}
@@ -82,7 +84,7 @@ export const SidebarVehicles: React.FunctionComponent = () => {
                         || (!!vehiclesDrivers && !!vehiclesDrivers.get(vehicle.id)
                         // @ts-ignore
                         ? vehiclesDrivers.get(vehicle.id).map(d => d.getFullName()).join(', ').toLowerCase().includes(searchText)
-                        : 'none'.includes(searchText))
+                        : (strings.none).includes(searchText))
                     )
                     .map((vehicle) => (
                         <VehicleListItem
@@ -91,7 +93,7 @@ export const SidebarVehicles: React.FunctionComponent = () => {
                             vehicle={vehicle}
                             updateVehicles={updateVehicles}
                         />
-                ))}
+                    ))}
             </List>
         </div>
     );

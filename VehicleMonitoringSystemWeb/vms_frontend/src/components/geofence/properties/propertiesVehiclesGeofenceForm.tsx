@@ -9,6 +9,7 @@ import * as GeofenceVehicleLinkApi from "../../../api/geofenceVehicleLinkApi";
 import Colors from "../../../constants/colors";
 import {reactSelectStyles} from "../../../styles/reactSelectStyles";
 import Geofence from "../../../models/geofence";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     geofence: Geofence;
@@ -62,7 +63,7 @@ export const PropertiesVehiclesGeofenceForm: React.FunctionComponent<InterfacePr
             </FormControl>
 
             <Button onClick={saveVehicleLinks} variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                {strings.save}
             </Button>
         </div>
     );

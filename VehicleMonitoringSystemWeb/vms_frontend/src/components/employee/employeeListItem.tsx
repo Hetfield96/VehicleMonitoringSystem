@@ -20,7 +20,6 @@ export const EmployeeListItem: React.FunctionComponent<InterfaceProps> = (props)
             <ListItem
                 key={employee.id}
                 button={true}
-                // onPress={() => this.onLearnMore(driver)}
                 style={styles.listItem}
             >
                 {employee.getFullName()}

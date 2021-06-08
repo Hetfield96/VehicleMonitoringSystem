@@ -17,6 +17,7 @@ import {getDbUserCompanyId} from "../../../utils/userUtil";
 import Geofence from "../../../models/geofence";
 import { GithubPicker } from 'react-color'
 import Colors from "../../../constants/colors";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     geofence: Geofence;
@@ -79,17 +80,17 @@ export const PropertiesGeneralGeofenceForm: React.FunctionComponent<InterfacePro
                 value={name}
                 onChange={event => setName(event.target.value)}
                 type="text"
-                placeholder="Name"
-                label="Name"
+                placeholder={strings.name}
+                label={strings.name}
                 style={styles.textInput}
             />
 
             <FormControl component="fieldset" style={styles.textInput}>
-                <FormLabel component="legend">Restrictions</FormLabel>
+                <FormLabel component="legend">{strings.restrictions}</FormLabel>
                 <RadioGroup value={selectedRestrictionId} onChange={(event, value) => setSelectedRestrictionId(+value)}>
-                    <FormControlLabel value={0} control={<Radio />} label="None" />
-                    <FormControlLabel value={1} control={<Radio />} label="Enter restricted" />
-                    <FormControlLabel value={2} control={<Radio />} label="Leave restricted" />
+                    <FormControlLabel value={0} control={<Radio />} label={strings.none} />
+                    <FormControlLabel value={1} control={<Radio />} label={strings.enterRestricted} />
+                    <FormControlLabel value={2} control={<Radio />} label={strings.leaveRestricted} />
                 </RadioGroup>
             </FormControl>
 
@@ -111,7 +112,7 @@ export const PropertiesGeneralGeofenceForm: React.FunctionComponent<InterfacePro
                 disabled={isSaveButtonDisabled()}
                 onClick={editGeofence}
                 variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                {strings.save}
             </Button>
         </div>
     );

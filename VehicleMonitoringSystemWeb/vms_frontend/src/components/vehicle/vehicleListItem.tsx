@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import * as VehicleDriverLinkApi from "../../api/vehicleDriverLinkApi";
 import Employee from "../../models/employee";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -29,9 +30,9 @@ export const VehicleListItem: React.FunctionComponent<InterfaceProps> = (props) 
                 <div style={{marginRight: 20}}>
                     {vehicle.getFormattedName()}
                     {<br/>}
-                    <b>Drivers: </b>
+                    <b>{strings.driver}: </b>
                     {<br/>}
-                    {`${!!drivers ? drivers.map(d => d.getFullName()).join(', ') : 'none'}`}
+                    {`${!!drivers ? drivers.map(d => d.getFullName()).join(', ') : (strings.none)}`}
                 </div>
                 <Popup
                     trigger={

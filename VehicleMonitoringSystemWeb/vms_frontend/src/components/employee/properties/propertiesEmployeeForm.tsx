@@ -2,9 +2,9 @@ import * as React from "react";
 import {StylesDictionary} from "../../utils/stylesDictionary";
 import {useState} from "react";
 import {PropertiesGeneralEmployeeForm, PropertiesGeneralEmployeeFormName} from "./propertiesGeneralEmployeeForm";
-import Task from "../../../models/task";
 import "../../../styles/navigation.scss";
 import Employee from "../../../models/employee";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
   employee: Employee;
@@ -29,7 +29,7 @@ export const PropertiesEmployeeForm: React.FunctionComponent<InterfaceProps> = (
             <div className="TopBarNavigation">
                 <ul>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesGeneralEmployeeFormName)}>{PropertiesGeneralEmployeeFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesGeneralEmployeeFormName)}>{strings.general}</a>
                     </li>
                 </ul>
             </div>

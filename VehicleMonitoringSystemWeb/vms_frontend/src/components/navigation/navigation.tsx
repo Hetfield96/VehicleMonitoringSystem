@@ -19,6 +19,7 @@ import {SidebarVehicles} from "../vehicle/sidebarVehicles";
 import {SidebarTasks} from "../task/sidebarTasks";
 import {isUserAdministrator, isUserOperator} from "../../utils/userUtil";
 import {SidebarGeofences} from "../geofence/sidebarGeofences";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     dbUser: Employee|null;
@@ -44,37 +45,37 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
         <div className="TopBarNavigation">
             <ul>
                 <li>
-                    <a onClick={homeClick}>Home</a>
+                    <a onClick={homeClick}>{strings.home}</a>
                 </li>
                 <li>
-                    <a onClick={employeesClick}>Employees</a>
+                    <a onClick={employeesClick}>{strings.employees}</a>
                 </li>
                 <li>
-                    <a onClick={vehiclesClick}>Vehicles</a>
+                    <a onClick={vehiclesClick}>{strings.vehicles}</a>
                 </li>
                 <li>
-                    <a onClick={geofencesClick}>Geofences</a>
+                    <a onClick={geofencesClick}>{strings.geofences}</a>
                 </li>
                 <li>
-                    <a onClick={tasksClick}>Tasks</a>
+                    <a onClick={tasksClick}>{strings.tasks}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(TASKBOARD)}>Taskboard</a>
+                    <a onClick={() => navigateWithoutSidebar(TASKBOARD)}>{strings.taskboard}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(CHAT)}>Chat</a>
+                    <a onClick={() => navigateWithoutSidebar(CHAT)}>{strings.chat}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(NOTIFICATIONS)}>Notifications</a>
+                    <a onClick={() => navigateWithoutSidebar(NOTIFICATIONS)}>{strings.notifications}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(REPORTS)}>Reports</a>
+                    <a onClick={() => navigateWithoutSidebar(REPORTS)}>{strings.reports}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(ACCOUNT)}>Account</a>
+                    <a onClick={() => navigateWithoutSidebar(ACCOUNT)}>{strings.account}</a>
                 </li>
                 <li>
-                    <a onClick={signOutClick}>Sign Out</a>
+                    <a onClick={signOutClick}>{strings.signOut}</a>
                 </li>
             </ul>
         </div>
@@ -84,40 +85,40 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
         <div className="TopBarNavigation">
             <ul>
                 <li>
-                    <a onClick={homeClick}>Home</a>
+                    <a onClick={homeClick}>{strings.home}</a>
                 </li>
                 <li>
-                    <a onClick={employeesClick}>Employees</a>
+                    <a onClick={employeesClick}>{strings.employees}</a>
                 </li>
                 <li>
-                    <a onClick={vehiclesClick}>Vehicles</a>
+                    <a onClick={vehiclesClick}>{strings.vehicles}</a>
                 </li>
                 <li>
-                    <a onClick={geofencesClick}>Geofences</a>
+                    <a onClick={geofencesClick}>{strings.geofences}</a>
                 </li>
                 <li>
-                    <a onClick={tasksClick}>Tasks</a>
+                    <a onClick={tasksClick}>{strings.tasks}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(TASKBOARD)}>Taskboard</a>
+                    <a onClick={() => navigateWithoutSidebar(TASKBOARD)}>{strings.taskboard}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(CHAT)}>Chat</a>
+                    <a onClick={() => navigateWithoutSidebar(CHAT)}>{strings.chat}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(NOTIFICATIONS)}>Notifications</a>
+                    <a onClick={() => navigateWithoutSidebar(NOTIFICATIONS)}>{strings.notifications}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(REPORTS)}>Reports</a>
+                    <a onClick={() => navigateWithoutSidebar(REPORTS)}>{strings.reports}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(COMPANY_SETTINGS)}>Company Settings</a>
+                    <a onClick={() => navigateWithoutSidebar(COMPANY_SETTINGS)}>{strings.companySettings}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(ACCOUNT)}>Account</a>
+                    <a onClick={() => navigateWithoutSidebar(ACCOUNT)}>{strings.account}</a>
                 </li>
                 <li>
-                    <a onClick={signOutClick}>Sign Out</a>
+                    <a onClick={signOutClick}>{strings.signOut}</a>
                 </li>
             </ul>
         </div>
@@ -127,10 +128,10 @@ export const Navigation: React.FunctionComponent<InterfaceProps> = (props) => {
         <div className="TopBarNavigation">
             <ul>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(LANDING)}>Landing</a>
+                    <a onClick={() => navigateWithoutSidebar(LANDING)}>{strings.landingPage}</a>
                 </li>
                 <li>
-                    <a onClick={() => navigateWithoutSidebar(SIGN_IN)}>Sign In</a>
+                    <a onClick={() => navigateWithoutSidebar(SIGN_IN)}>{strings.signIn}</a>
                 </li>
             </ul>
         </div>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { auth } from "../../firebase";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   error?: any;
@@ -59,16 +60,16 @@ export class PasswordChangeForm extends React.Component<
           value={passwordOne}
           onChange={event => this.setStateWithEvent(event, "passwordOne")}
           type="password"
-          placeholder="New Password"
+          placeholder={strings.newPassword}
         />
         <input
           value={passwordTwo}
           onChange={event => this.setStateWithEvent(event, "passwordTwo")}
           type="password"
-          placeholder="Confirm New Password"
+          placeholder={strings.newPasswordConfirm}
         />
         <button disabled={isInvalid} type="submit">
-          Reset My Password
+          {strings.resetPassword}
         </button>
 
         {error && <p>{error.message}</p>}

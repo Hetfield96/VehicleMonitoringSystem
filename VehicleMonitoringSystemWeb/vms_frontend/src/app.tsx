@@ -23,6 +23,7 @@ import Colors from "./constants/colors";
 import {ReportsScreen} from "./pages/reports/reportsScreen";
 import {TaskboardScreen} from "./pages/taskboard/taskboardScreen";
 import {NotificationsScreen} from "./pages/notifications/notificationsScreen";
+import strings from "./constants/strings";
 
 interface AppComponentState {
   firebaseUser: any;
@@ -52,6 +53,8 @@ class AppComponent extends React.Component<{}, AppComponentState> {
   }
 
   public async componentDidMount() {
+    // Localization
+    await this.setLocalizationLanguage();
     await clearUsers();
 
     firebase.auth.onAuthStateChanged(async firebaseUser => {
@@ -119,6 +122,14 @@ class AppComponent extends React.Component<{}, AppComponentState> {
         </BrowserRouter>
       </MuiThemeProvider>
     );
+  }
+
+  private setLocalizationLanguage = async () => {
+    // Localization
+    const language = await localStorage.getItem("language");
+    if (language) {
+      strings.setLanguage(language);
+    }
   }
 }
 

@@ -5,6 +5,7 @@ import {PropertiesGeneralGeofenceForm, PropertiesGeneralGeofenceFormName} from "
 import "../../../styles/navigation.scss";
 import Geofence from "../../../models/geofence";
 import {PropertiesVehiclesGeofenceForm, PropertiesVehiclesGeofenceFormName} from "./propertiesVehiclesGeofenceForm";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
   geofence: Geofence;
@@ -31,10 +32,10 @@ export const PropertiesGeofenceForm: React.FunctionComponent<InterfaceProps> = (
             <div className="TopBarNavigation">
                 <ul>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesGeneralGeofenceFormName)}>{PropertiesGeneralGeofenceFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesGeneralGeofenceFormName)}>{strings.general}</a>
                     </li>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesVehiclesGeofenceFormName)}>{PropertiesVehiclesGeofenceFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesVehiclesGeofenceFormName)}>{strings.vehicles}</a>
                     </li>
                 </ul>
             </div>

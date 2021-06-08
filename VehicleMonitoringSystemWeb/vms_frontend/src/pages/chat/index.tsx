@@ -17,6 +17,7 @@ import Employee from "../../models/employee";
 import Colors from "../../constants/colors";
 import {AttachImageForm} from "../../components/utils/attachImageForm";
 import {MessageTypeConstants} from "../../utils/attachmentUtil";
+import strings from "../../constants/strings";
 
 export const ChatComponent = () => {
     const [chatContacts, setChatContacts] = useState<ChatContact[]>();
@@ -162,7 +163,7 @@ export const ChatComponent = () => {
           <div style={styles.input}>
             <Input
                 inputRef={node => (messageInputRef = node)}
-                placeholder="Type here..."
+                placeholder={strings.typeHere}
                 onChange={event => setInputMessage(event.target.value)}
                 multiline={true}
 
@@ -174,7 +175,7 @@ export const ChatComponent = () => {
                                 <Button
                                     color='white'
                                     backgroundColor={Colors.primary}
-                                    text='Attach'
+                                    text={strings.attach}
                                 />
                             }
                             modal={true}
@@ -197,13 +198,13 @@ export const ChatComponent = () => {
                             // TODO may be removed
                             color='white'
                             backgroundColor={Colors.primary}
-                            text='Update'
+                            text={strings.update}
                             onClick={updateChat}
                         />
                         <Button
                             color='white'
                             backgroundColor={Colors.primary}
-                            text='Send'
+                            text={strings.send}
                             onClick={onSendMessageClick}
                         />
                     </div>

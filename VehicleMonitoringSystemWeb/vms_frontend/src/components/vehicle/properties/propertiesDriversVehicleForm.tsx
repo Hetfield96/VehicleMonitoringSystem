@@ -9,6 +9,7 @@ import Employee from "../../../models/employee";
 import * as VehicleDriverLinkApi from "../../../api/vehicleDriverLinkApi";
 import Colors from "../../../constants/colors";
 import {reactSelectStyles} from "../../../styles/reactSelectStyles";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -62,7 +63,7 @@ export const PropertiesDriversVehicleForm: React.FunctionComponent<InterfaceProp
             </FormControl>
 
             <Button onClick={saveDriversLinks} variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                {strings.save}
             </Button>
         </div>
     );

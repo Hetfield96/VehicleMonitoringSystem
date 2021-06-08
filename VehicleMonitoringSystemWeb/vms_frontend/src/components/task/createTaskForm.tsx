@@ -9,6 +9,7 @@ import * as EmployeeApi from "../../api/employeeApi";
 import Select from "../../../node_modules/@material-ui/core/Select/Select";
 import moment from "moment";
 import {getDbUser} from "../../utils/userUtil";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   closeModal: () => void;
@@ -55,19 +56,19 @@ export const CreateTaskForm: React.FunctionComponent<InterfaceProps> = (props) =
             value={name}
             onChange={event => setName(event.target.value)}
             type="text"
-            placeholder="Name"
+            placeholder={strings.name}
             style={styles.textInput}
         />
         <TextField
             value={description}
             onChange={event => setDescription(event.target.value)}
             type="text"
-            placeholder="Description"
+            placeholder={strings.description}
             style={styles.textInput}
         />
 
         <TextField
-            label="Due datetime"
+            label={strings.dueTime}
             type="datetime-local"
             style={styles.textInput}
             value={dueDatetime}
@@ -87,11 +88,11 @@ export const CreateTaskForm: React.FunctionComponent<InterfaceProps> = (props) =
                     </MenuItem>
                 ))}
             </Select>
-            <FormHelperText>Driver</FormHelperText>
+            <FormHelperText>{strings.driver}</FormHelperText>
         </FormControl>
 
         <Button disabled={isCreateButtonDisabled()} variant='contained' type='submit' color='primary' style={styles.button}>
-            Create
+            {strings.create}
         </Button>
 
         {error && <p>{error.message}</p>}

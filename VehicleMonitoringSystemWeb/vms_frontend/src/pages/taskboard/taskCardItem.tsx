@@ -6,6 +6,7 @@ import {IconButton, ListItem, ListItemSecondaryAction} from "@material-ui/core";
 import Popup from "reactjs-popup";
 import SettingsIcon from "@material-ui/icons/Settings";
 import {PropertiesTaskForm} from "../../components/task/properties/propertiesTaskForm";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     updateTasks: () => void;
@@ -28,8 +29,10 @@ export const TaskCardItem: React.FunctionComponent<InterfaceProps> = (props) => 
             >
                 <div>
                     {`${task.id}. ${task.name}`}
-                    {<br/>}
-                    {`Driver: ${!!task.driver ? task.driver.getFullName() : 'none'}`}
+                    <br/>
+                    <b>{strings.driver}: </b>
+                    <br/>
+                    {!!task.driver ? task.driver.getFullName() : strings.none}
                 </div>
                 <Popup
                     trigger={

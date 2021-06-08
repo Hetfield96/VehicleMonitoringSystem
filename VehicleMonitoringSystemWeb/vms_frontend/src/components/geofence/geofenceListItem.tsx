@@ -7,6 +7,7 @@ import Colors from "../../constants/colors";
 import Geofence from "../../models/geofence";
 import {PropertiesGeofenceForm} from "./properties/propertiesGeofenceForm";
 import Vehicle from "../../models/vehicle";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     geofence: Geofence;
@@ -27,9 +28,9 @@ export const GeofenceListItem: React.FunctionComponent<InterfaceProps> = (props)
                 <div style={{marginRight: 20}}>
                     {geofence.name}
                     {<br/>}
-                    <b>Vehicles: </b>
+                    <b>{strings.vehicles}: </b>
                     {<br/>}
-                    {`${!!vehicles ? vehicles.map(v => v.getFormattedName()).join(', ') : 'none'}`}
+                    {`${!!vehicles ? vehicles.map(v => v.getFormattedName()).join(', ') : (strings.none)}`}
                 </div>
 
                 <Popup

@@ -9,6 +9,7 @@ import Employee from "../../../models/employee";
 import moment from "moment";
 import Select from "@material-ui/core/Select/Select";
 import * as EmployeeApi from "../../../api/employeeApi";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     closeModal: () => void;
@@ -67,19 +68,19 @@ export const PropertiesGeneralTaskForm: React.FunctionComponent<InterfaceProps> 
                 value={name}
                 onChange={event => setName(event.target.value)}
                 type="text"
-                placeholder="Name"
+                placeholder={strings.name}
                 style={styles.textInput}
             />
             <TextField
                 value={description}
                 onChange={event => setDescription(event.target.value)}
                 type="text"
-                placeholder="Description"
+                placeholder={strings.description}
                 style={styles.textInput}
             />
 
             <TextField
-                label="Due datetime"
+                label={strings.dueTime}
                 type="datetime-local"
                 style={styles.textInput}
                 value={moment(dueDatetime).format('yyyy-MM-DDTHH:mm')}
@@ -88,7 +89,7 @@ export const PropertiesGeneralTaskForm: React.FunctionComponent<InterfaceProps> 
             />
 
             <FormControl>
-                <FormHelperText style={styles.helperText}>Driver</FormHelperText>
+                <FormHelperText style={styles.helperText}>{strings.driver}</FormHelperText>
                 <Select
                     value={selectedDriver}
                     onChange={event => setSelectedDriver(event.target.value)}
@@ -106,7 +107,7 @@ export const PropertiesGeneralTaskForm: React.FunctionComponent<InterfaceProps> 
                 disabled={isSaveButtonDisabled()}
                 onClick={editTask}
                 variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                    {strings.save}
             </Button>
         </div>
     );

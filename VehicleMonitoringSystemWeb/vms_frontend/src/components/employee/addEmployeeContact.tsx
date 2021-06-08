@@ -9,6 +9,7 @@ import {List} from "@material-ui/core";
 import Colors from "../../constants/colors";
 import {getDbUser} from "../../utils/userUtil";
 import {EmployeeContactListItem} from "./employeeContactListItem";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     closeModal: () => void;
@@ -45,7 +46,7 @@ export const AddEmployeeContactForm: React.FunctionComponent<InterfaceProps> = (
 
     return (
         <div style={styles.container}>
-            <h2>Start chat with...</h2>
+            <h2>{strings.startChatWith}</h2>
             {
                 roles.map(r =>
                     <Collapsible

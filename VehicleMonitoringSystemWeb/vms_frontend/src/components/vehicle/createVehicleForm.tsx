@@ -5,6 +5,7 @@ import Colors from "../../constants/colors";
 import {StylesDictionary} from "../utils/stylesDictionary";
 import Vehicle from "../../models/vehicle";
 import {useState} from "react";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   closeModal: () => void;
@@ -40,21 +41,21 @@ export const CreateVehicleForm: React.FunctionComponent<InterfaceProps> = (props
             value={name}
             onChange={event => setName(event.target.value)}
             type="text"
-            placeholder="Name"
+            placeholder={strings.name}
             style={styles.textInput}
         />
         <TextField
             value={number}
             onChange={event => setNumber(event.target.value)}
             type="text"
-            placeholder="Number"
+            placeholder={strings.number}
             style={styles.textInput}
         />
         <TextField
             value={model}
             onChange={event => setModel(event.target.value)}
             type="text"
-            placeholder="Model"
+            placeholder={strings.model}
             style={styles.textInput}
         />
         {/*TODO select form*/}
@@ -62,12 +63,12 @@ export const CreateVehicleForm: React.FunctionComponent<InterfaceProps> = (props
             value={productionYear}
             onChange={event => setProductionYear(event.target.value)}
             type="number"
-            placeholder="Production year"
+            placeholder={strings.productionYear}
             style={styles.textInput}
         />
 
         <Button disabled={isCreateButtonDisabled()} variant='contained' type='submit' color='primary' style={styles.button}>
-            Create
+            {strings.create}
         </Button>
 
         {error && <p>{error.message}</p>}

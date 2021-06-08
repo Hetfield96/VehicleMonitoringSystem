@@ -1,5 +1,13 @@
 export default class NotificationType {
 	public static getStandardTemplates() {
+		const language = localStorage.getItem("language");
+		if (language === 'ru') {
+			return [
+				new NotificationType(0, 'Все уведомления'),
+				new NotificationType(1, 'Уведомления о геозонах'),
+				new NotificationType(2, 'Уведомления о уровне топлива')
+			]
+		}
 		return [
 			new NotificationType(0, 'All notifications'),
 			new NotificationType(1, 'Geofence notifications'),

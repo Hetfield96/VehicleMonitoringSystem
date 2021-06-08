@@ -1,6 +1,14 @@
 
 export default class Role {
   public static getAllRoles() {
+    const language = localStorage.getItem("language");
+    if (language === 'ru') {
+      return [
+        new Role(1, 'Администратор'),
+        new Role(2, 'Оператор'),
+        new Role(3, 'Водитель'),
+      ]
+    }
     return [
       new Role(1, 'Administrator'),
       new Role(2, 'Operator'),

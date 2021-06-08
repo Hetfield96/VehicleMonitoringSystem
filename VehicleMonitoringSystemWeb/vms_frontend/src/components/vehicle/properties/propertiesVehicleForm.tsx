@@ -5,6 +5,7 @@ import {PropertiesGeneralVehicleForm, PropertiesGeneralVehicleFormName} from "./
 import {PropertiesDriversVehicleForm, PropertiesDriversVehicleFormName} from "./propertiesDriversVehicleForm";
 import Vehicle from "../../../models/vehicle";
 import "../../../styles/navigation.scss";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
   vehicle: Vehicle;
@@ -31,10 +32,10 @@ export const PropertiesVehicleForm: React.FunctionComponent<InterfaceProps> = (p
             <div className="TopBarNavigation">
                 <ul>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesGeneralVehicleFormName)}>{PropertiesGeneralVehicleFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesGeneralVehicleFormName)}>{strings.general}</a>
                     </li>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesDriversVehicleFormName)}>{PropertiesDriversVehicleFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesDriversVehicleFormName)}>{strings.drivers}</a>
                     </li>
                 </ul>
             </div>

@@ -21,6 +21,7 @@ import {
 import {AllVehicleDataReportGrid} from "../../components/reportGrids/allVehicleDataReportGrid";
 import {reactSelectStyles} from "../../styles/reactSelectStyles";
 import {VehicleWorkingTimeDataReportGrid} from "../../components/reportGrids/vehicleWorkingTimeDataReportGrid";
+import strings from "../../constants/strings";
 
 export const ReportsComponent : React.FunctionComponent = () => {
     const [reportOptions, setReportOptions] = useState<Report[]|null>(null);
@@ -82,7 +83,7 @@ export const ReportsComponent : React.FunctionComponent = () => {
     return (
         <div style={styles.container}>
             <div style={styles.reportSettings}>
-                <h1>Reports</h1>
+                <h1>{strings.reports}</h1>
 
                 {/*TODO change all select on selects like this one*/}
                 <Select
@@ -94,7 +95,7 @@ export const ReportsComponent : React.FunctionComponent = () => {
                     }
                     styles={reactSelectStyles(320)}
                 />
-                <FormHelperText>Template</FormHelperText>
+                <FormHelperText>{strings.template}</FormHelperText>
 
                 <Select
                     value={
@@ -106,7 +107,7 @@ export const ReportsComponent : React.FunctionComponent = () => {
                     isClearable={true}
                     styles={reactSelectStyles(320)}
                 />
-                <FormHelperText>Vehicle</FormHelperText>
+                <FormHelperText>{strings.vehicle}</FormHelperText>
 
                 <RangePicker
                     locale="en-us"
@@ -125,7 +126,7 @@ export const ReportsComponent : React.FunctionComponent = () => {
                     disabled={isGenerateButtonDisabled()}
                     onClick={generateReport}
                     variant='contained' type='submit' color='primary' style={styles.button}>
-                    Generate
+                        {strings.generate}
                 </Button>
             </div>
 

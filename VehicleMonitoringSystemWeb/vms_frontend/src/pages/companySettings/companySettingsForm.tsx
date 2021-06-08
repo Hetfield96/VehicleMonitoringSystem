@@ -6,6 +6,7 @@ import * as CompanySettingsApi from "../../api/companySettingsApi";
 import {getDbUserCompanyId} from "../../utils/userUtil";
 import CompanySettings from "../../models/companySettings";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 export const CompanySettingsForm: React.FunctionComponent = (props) => {
   // TODO add error on too small values
@@ -35,14 +36,14 @@ export const CompanySettingsForm: React.FunctionComponent = (props) => {
 
   return (
       <form onSubmit={(event) => onSubmit(event)} style={styles.container}>
-        <div>Android: frequency of data recording to local DB, мс</div>
+        <div>{strings.androidLocalFrequency}</div>
         <TextField
             value={androidIntervalRecording}
             onChange={event => setAndroidIntervalRecording(+event.target.value)}
             type="number"
             style={styles.textInput}
         />
-        <div>Android: frequency of data synchronization with Data processing service, мс</div>
+        <div>{strings.androidSyncFrequency}</div>
         <TextField
             value={androidIntervalSynchronization}
             onChange={event => setAndroidIntervalSynchronization(+event.target.value)}
@@ -51,7 +52,7 @@ export const CompanySettingsForm: React.FunctionComponent = (props) => {
         />
 
         <Button disabled={!androidIntervalRecording || !androidIntervalSynchronization} variant='contained' type='submit' color='primary' style={styles.button}>
-          Save
+          {strings.save}
         </Button>
       </form>
   );

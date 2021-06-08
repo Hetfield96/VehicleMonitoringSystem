@@ -12,6 +12,7 @@ import {TaskCardItem} from "./taskCardItem";
 import Popup from "reactjs-popup";
 import {Button} from "@material-ui/core";
 import {CreateTaskForm} from "../../components/task/createTaskForm";
+import strings from "../../constants/strings";
 
 export const TaskboardComponent : React.FunctionComponent = () => {
     const statuses = TaskStatus.getDefaultStatuses();
@@ -81,7 +82,7 @@ export const TaskboardComponent : React.FunctionComponent = () => {
             <Popup
                 trigger={
                     <Button variant="contained" color='primary' style={styles.addButton} disabled={!board}>
-                        Create task
+                        {strings.createTask}
                     </Button>
                 }
                 modal={true}
@@ -93,7 +94,7 @@ export const TaskboardComponent : React.FunctionComponent = () => {
                             <button className="close" onClick={close}>
                                 &times;
                             </button>
-                            <div className="header">Create task</div>
+                            <div className="header">{strings.createTask}</div>
                             <div className="content">
                                 <CreateTaskForm updateTasks={updateTasks} closeModal={close}/>
                             </div>

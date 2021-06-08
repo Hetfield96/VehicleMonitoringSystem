@@ -21,6 +21,7 @@ import {
 import {reactSelectStyles} from "../../styles/reactSelectStyles";
 import NotificationType from "../../models/notificationType";
 import {NotificationGrid} from "../../components/notificationGrids/notificationGrid";
+import strings from "../../constants/strings";
 
 export const NotificationsComponent : React.FunctionComponent = () => {
     const [notificationOptions, setNotificationOptions] = useState<NotificationType[]|null>(null);
@@ -76,7 +77,7 @@ export const NotificationsComponent : React.FunctionComponent = () => {
     return (
         <div style={styles.container}>
             <div style={styles.reportSettings}>
-                <h1>Notifications</h1>
+                <h1>{strings.notifications}</h1>
 
                 <Select
                     value={
@@ -87,7 +88,7 @@ export const NotificationsComponent : React.FunctionComponent = () => {
                     }
                     styles={reactSelectStyles(320)}
                 />
-                <FormHelperText>Notification type</FormHelperText>
+                <FormHelperText>{strings.notificationType}</FormHelperText>
 
                 <Select
                     value={
@@ -99,7 +100,7 @@ export const NotificationsComponent : React.FunctionComponent = () => {
                     isClearable={true}
                     styles={reactSelectStyles(320)}
                 />
-                <FormHelperText>Vehicle</FormHelperText>
+                <FormHelperText>{strings.vehicle}</FormHelperText>
 
                 <RangePicker
                     locale="en-us"
@@ -118,7 +119,7 @@ export const NotificationsComponent : React.FunctionComponent = () => {
                     disabled={isGenerateButtonDisabled()}
                     onClick={generateNotifications}
                     variant='contained' type='submit' color='primary' style={styles.button}>
-                    Generate
+                        {strings.generate}
                 </Button>
             </div>
 

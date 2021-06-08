@@ -1,5 +1,6 @@
 import * as React from "react";
 import {StylesDictionary} from "./stylesDictionary";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     closeModal: () => void;
@@ -15,7 +16,7 @@ export const AttachImageForm: React.FunctionComponent<InterfaceProps> = (props) 
 
     return (
         <div style={styles.container}>
-            <h3>Select image...</h3>
+            <h3>{strings.selectImage}</h3>
             <div>
                 <input type='file' accept="image/*" onChange={handleChangeAttachment}/>
             </div>

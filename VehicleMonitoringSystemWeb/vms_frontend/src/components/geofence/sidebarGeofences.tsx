@@ -12,6 +12,7 @@ import GeoCoordinate from "../../models/geoCoordinate";
 import Vehicle from "../../models/vehicle";
 import * as GeofenceVehicleLinkApi from "../../api/geofenceVehicleLinkApi";
 import SearchBar from "material-ui-search-bar";
+import strings from "../../constants/strings";
 
 export const SidebarGeofences: React.FunctionComponent = () => {
     const [geofences, setGeofences] = useState<Geofence[]|null>(null);
@@ -49,17 +50,17 @@ export const SidebarGeofences: React.FunctionComponent = () => {
 
     return (
         <div style={styles.container}>
-            <h2>Geofences</h2>
+            <h2>{strings.geofences}</h2>
 
             <div style={styles.flexible}>
                 <Button variant="contained" color='primary' style={styles.addButton} onClick={createGeofence}>
-                    Create geofence
+                    {strings.createGeofence}
                 </Button>
             </div>
 
             <SearchBar
                 value={searchText}
-                placeholder='Geofence or vehicle name'
+                placeholder={strings.geofenceOrVehicle}
                 onChange={(newValue) => setSearchText(newValue.toLowerCase())}
                 onCancelSearch={() => setSearchText('')}
                 style={styles.searchBar}
@@ -73,7 +74,7 @@ export const SidebarGeofences: React.FunctionComponent = () => {
                         || (geofenceVehicles && g.id && geofenceVehicles.get(g.id)
                         // @ts-ignore
                         ? geofenceVehicles.get(g.id).map(v => v.getFormattedName()).join(', ').toLowerCase().includes(searchText)
-                        : 'none'.includes(searchText))
+                        : (strings.none).includes(searchText))
                     )
                     .map((g) => (
                        g.id && <GeofenceListItem

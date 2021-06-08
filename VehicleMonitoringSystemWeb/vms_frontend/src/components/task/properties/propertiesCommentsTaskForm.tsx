@@ -10,6 +10,7 @@ import {getDbUser} from "../../../utils/userUtil";
 import Popup from "reactjs-popup";
 import {AttachImageForm} from "../../utils/attachImageForm";
 import {MessageTypeConstants} from "../../../utils/attachmentUtil";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     closeModal: () => void;
@@ -82,7 +83,7 @@ export const PropertiesCommentsTaskForm: React.FunctionComponent<InterfaceProps>
             <div style={styles.input}>
                 <Input
                     inputRef={node => (messageInputRef = node)}
-                    placeholder="Type here..."
+                    placeholder={strings.typeHere}
                     onChange={event => setInputMessage(event.target.value)}
                     multiline={true}
 
@@ -94,7 +95,7 @@ export const PropertiesCommentsTaskForm: React.FunctionComponent<InterfaceProps>
                                     <Button
                                         color='white'
                                         backgroundColor={Colors.primary}
-                                        text='Attach'
+                                        text={strings.attach}
                                     />
                                 }
                                 modal={true}
@@ -115,13 +116,13 @@ export const PropertiesCommentsTaskForm: React.FunctionComponent<InterfaceProps>
                                 // TODO may be removed
                                 color='white'
                                 backgroundColor={Colors.primary}
-                                text='Update'
+                                text={strings.update}
                                 onClick={updateComments}
                             />
                             <Button
                                 color='white'
                                 backgroundColor={Colors.primary}
-                                text='Send'
+                                text={strings.send}
                                 onClick={onSendMessageClick}
                             />
                         </div>

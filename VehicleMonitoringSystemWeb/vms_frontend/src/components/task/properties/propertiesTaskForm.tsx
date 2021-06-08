@@ -5,6 +5,7 @@ import {PropertiesGeneralTaskForm, PropertiesGeneralTaskFormName} from "./proper
 import Task from "../../../models/task";
 import "../../../styles/navigation.scss";
 import {PropertiesCommentsTaskForm, PropertiesCommentsTaskFormName} from "./propertiesCommentsTaskForm";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
   closeModal: () => void;
@@ -31,10 +32,10 @@ export const PropertiesTaskForm: React.FunctionComponent<InterfaceProps> = (prop
             <div className="TopBarNavigation">
                 <ul>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesGeneralTaskFormName)}>{PropertiesGeneralTaskFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesGeneralTaskFormName)}>{strings.general}</a>
                     </li>
                     <li>
-                        <a onClick={() => setContentComponentName(PropertiesCommentsTaskFormName)}>{PropertiesCommentsTaskFormName}</a>
+                        <a onClick={() => setContentComponentName(PropertiesCommentsTaskFormName)}>{strings.comments}</a>
                     </li>
                 </ul>
             </div>

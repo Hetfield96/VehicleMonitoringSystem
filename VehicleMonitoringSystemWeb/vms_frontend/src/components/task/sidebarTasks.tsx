@@ -13,6 +13,7 @@ import {TaskListItem} from "./taskListItem";
 import Collapsible from 'react-collapsible';
 import TaskStatus from "../../models/taskStatus";
 import SearchBar from "material-ui-search-bar";
+import strings from "../../constants/strings";
 
 export const SidebarTasks: React.FunctionComponent = () => {
     const statuses = TaskStatus.getDefaultStatuses();
@@ -46,11 +47,11 @@ export const SidebarTasks: React.FunctionComponent = () => {
 
     return (
         <div style={styles.container}>
-            <h2>Tasks</h2>
+            <h2>{strings.tasks}</h2>
             <Popup
                 trigger={
                     <Button variant="contained" color='primary' style={styles.addButton}>
-                        Create task
+                        {strings.createTask}
                     </Button>
                 }
                 modal={true}
@@ -62,7 +63,7 @@ export const SidebarTasks: React.FunctionComponent = () => {
                             <button className="close" onClick={close}>
                                 &times;
                             </button>
-                            <div className="header">Create task</div>
+                            <div className="header">{strings.createTask}</div>
                             <div className="content">
                                 <CreateTaskForm updateTasks={updateTasks} closeModal={close}/>
                             </div>
@@ -73,7 +74,7 @@ export const SidebarTasks: React.FunctionComponent = () => {
 
             <SearchBar
                 value={searchText}
-                placeholder='Task id, name or driver name'
+                placeholder={strings.tasksSearchPlaceholder}
                 onChange={(newValue) => setSearchText(newValue.toLowerCase())}
                 onCancelSearch={() => setSearchText('')}
                 style={styles.searchBar}
@@ -89,7 +90,7 @@ export const SidebarTasks: React.FunctionComponent = () => {
                                 && (!searchText
                                     || task.name.toLowerCase().includes(searchText)
                                     || task.id && task.id.toString() === searchText
-                                    || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : "none".includes(searchText)))
+                                    || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : (strings.none).includes(searchText)))
                             ).length || 0}`
                         }
                         key={s.id}>
@@ -99,7 +100,7 @@ export const SidebarTasks: React.FunctionComponent = () => {
                                     && (!searchText
                                         || task.name.toLowerCase().includes(searchText)
                                         || task.id && task.id.toString() === searchText
-                                        || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : "none".includes(searchText))
+                                        || (!!task.driver ? task.driver.getFullName().toLowerCase().includes(searchText) : (strings.none).includes(searchText))
                                     ))
                                 .sort((a, b) => compareTasksForSort(a, b))
                                 .map((task) => (<TaskListItem key={task.id} updateTasks={updateTasks} task={task}/>))

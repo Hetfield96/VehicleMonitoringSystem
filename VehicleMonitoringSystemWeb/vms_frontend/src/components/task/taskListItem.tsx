@@ -6,6 +6,7 @@ import Popup from "reactjs-popup";
 import Task from "../../models/task";
 import {PropertiesTaskForm} from "./properties/propertiesTaskForm";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
     updateTasks: () => void;
@@ -24,8 +25,10 @@ export const TaskListItem: React.FunctionComponent<InterfaceProps> = (props) => 
             >
                 <div>
                     {`${task.id}. ${task.name}`}
-                    {<br/>}
-                    {`Driver: ${!!task.driver ? task.driver.getFullName() : 'none'}`}
+                    <br/>
+                    <b>{strings.driver}: </b>
+                    <br/>
+                    {!!task.driver ? task.driver.getFullName() : strings.none}
                 </div>
                 <Popup
                     trigger={

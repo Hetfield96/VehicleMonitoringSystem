@@ -21,6 +21,7 @@ import * as VehicleApi from "../../api/vehicleApi";
 import Select from "@material-ui/core/Select/Select";
 import { makeStyles } from "@material-ui/core/styles";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 const useStyles = makeStyles({
     root: {
@@ -106,7 +107,7 @@ export const HomeComponent: React.FunctionComponent = (props) => {
                     style={styles.select}
                     classes={{root: classes.root, select: classes.select}}
                 >
-                    <MenuItem key='all_item' value={0}>All vehicles</MenuItem>
+                    <MenuItem key='all_item' value={0}>{strings.all}</MenuItem>
                     {vehicleOptions && vehicleOptions.map((v: Vehicle) => (
                         <MenuItem key={v.id} value={v.id}>
                             {v.getFormattedName()}

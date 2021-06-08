@@ -4,6 +4,7 @@ import "../../styles/navigation.scss";
 import Employee from "../../models/employee";
 import {isUserOperator} from "../../utils/userUtil";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 interface InterfaceProps {
   dbUser: Employee|null|undefined;
@@ -14,7 +15,7 @@ export const RoleRestriction: React.FunctionComponent<InterfaceProps> = (props) 
         <div style={styles.container}>
             {
                 isUserOperator(props.dbUser)
-                && <div style={styles.textStyle}>Access only for the Administrators</div>
+                && <div style={styles.textStyle}>{strings.roleRestriction}</div>
             }
         </div>
     );

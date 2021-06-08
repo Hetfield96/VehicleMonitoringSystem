@@ -5,12 +5,13 @@ import { PasswordForgetForm } from "../passwordForget/passwordForgetForm";
 import { PasswordChangeForm } from "./passwordChangeForm";
 import {StylesDictionary} from "../../components/utils/stylesDictionary";
 import Colors from "../../constants/colors";
+import strings from "../../constants/strings";
 
 export const AccountComponent = () => (
   <AuthUserContext.Consumer>
     {authUser => (
       <div style={styles.container}>
-        <h1>Account: {(authUser as any).email}</h1>
+        <h1>{strings.account}: {(authUser as any).email}</h1>
         <PasswordForgetForm />
         <PasswordChangeForm />
       </div>

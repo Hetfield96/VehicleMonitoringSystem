@@ -13,6 +13,7 @@ import {getDbUser, getRoleRestrictionTooltip, isUserOperator} from "../../utils/
 import Role from "../../models/role";
 import Collapsible from "react-collapsible";
 import SearchBar from "material-ui-search-bar";
+import strings from "../../constants/strings";
 
 
 export const SidebarEmployees: React.FunctionComponent = () => {
@@ -48,14 +49,14 @@ export const SidebarEmployees: React.FunctionComponent = () => {
 
     return (
         <div style={styles.container}>
-            <h2>Employees</h2>
+            <h2>{strings.employees}</h2>
             <Popup
                 trigger={
                     <div style={styles.flexible}>
                         <Tooltip title={getRoleRestrictionTooltip(dbUser)}>
                             <div style={styles.flexible}>
                                 <Button variant="contained" color='primary' style={styles.addButton} disabled={isUserOperator(dbUser)} >
-                                    Create employee
+                                    {strings.createEmployee}
                                 </Button>
                             </div>
                         </Tooltip>
@@ -70,7 +71,7 @@ export const SidebarEmployees: React.FunctionComponent = () => {
                             <button className="close" onClick={close}>
                                 &times;
                             </button>
-                            <div className="header"> Create employee</div>
+                            <div className="header">{strings.createEmployee}</div>
                             <div className="content">
                                 <CreateEmployeeForm closeModal={close}/>
                             </div>
@@ -81,7 +82,7 @@ export const SidebarEmployees: React.FunctionComponent = () => {
 
             <SearchBar
                 value={searchText}
-                placeholder='Employee name'
+                placeholder={strings.employeeName}
                 onChange={(newValue) => setSearchText(newValue.toLowerCase())}
                 onCancelSearch={() => setSearchText('')}
                 style={styles.searchBar}

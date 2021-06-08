@@ -1,5 +1,6 @@
 import * as React from "react";
 import { auth } from "../../firebase";
+import strings from "../../constants/strings";
 
 export class PasswordForgetForm extends React.Component {
   private static INITIAL_STATE = {
@@ -42,10 +43,10 @@ export class PasswordForgetForm extends React.Component {
           value={email}
           onChange={(event) => this.setStateWithEvent(event, "email")}
           type="text"
-          placeholder="Email Address"
+          placeholder={strings.email}
         />
         <button disabled={isInvalid} type="submit">
-          Reset My Password
+          {strings.resetPassword}
         </button>
 
         {error && <p>{error.message}</p>}

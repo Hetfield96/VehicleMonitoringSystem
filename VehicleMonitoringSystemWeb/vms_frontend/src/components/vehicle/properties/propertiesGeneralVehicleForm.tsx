@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Employee from "../../../models/employee";
 import {getDbUser, isUserOperator} from "../../../utils/userUtil";
 import {RoleRestriction} from "../../utils/roleRestriction";
+import strings from "../../../constants/strings";
 
 interface InterfaceProps {
     vehicle: Vehicle;
@@ -67,7 +68,7 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
                 value={name}
                 onChange={event => setName(event.target.value)}
                 type="text"
-                placeholder="Name"
+                placeholder={strings.name}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -75,7 +76,7 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
                 value={number}
                 onChange={event => setNumber(event.target.value)}
                 type="text"
-                placeholder="Number"
+                placeholder={strings.number}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -83,7 +84,7 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
                 value={model}
                 onChange={event => setModel(event.target.value)}
                 type="text"
-                placeholder="Model"
+                placeholder={strings.model}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -91,7 +92,7 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
                 value={productionYear}
                 onChange={event => setProductionYear(+event.target.value)}
                 type="number"
-                placeholder="Production year"
+                placeholder={strings.productionYear}
                 style={styles.textInput}
                 disabled={isUserOperator(dbUser)}
             />
@@ -100,7 +101,7 @@ export const PropertiesGeneralVehicleForm: React.FunctionComponent<InterfaceProp
                 disabled={isSaveButtonDisabled()}
                 onClick={editVehicle}
                 variant='contained' type='submit' color='primary' style={styles.button}>
-                Save
+                    {strings.save}
             </Button>
         </div>
     );
