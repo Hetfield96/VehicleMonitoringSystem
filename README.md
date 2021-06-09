@@ -11,7 +11,7 @@ The solution provides services for vehicle fleet managment. It can be used to mo
 ### Repository content:
 - [Android application](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VehicleMonitoringSystemMobile) (Java 8.0) - for the drivers
 - [Web client application](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VMS_Web/VMS_Web/ClientApp) (React + TypeScript) - for the operators and administrators
-- [Server side](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VMS_Web) (ASP .NET Core 3.1)
+- [Server side](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/VMS_Web/VMS_Web) (ASP .NET Core 3.1)
 - [Data processing service](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/DataProcessingService) (ASP .NET Core 3.1) - inner app for vehicle data processing.  
 - [Documentation](https://github.com/Hetfield96/VehicleMonitoringSystem/tree/main/Documentation) - diploma documentation
        
