@@ -74,15 +74,11 @@ namespace VMS_Backend
             // CORS middleware
             app.UseCors(builder =>
             {
-                // TODO hide ips
                 builder
-                    .WithOrigins("http://localhost:3000") //Web-frontend Source
-                    .WithOrigins("http://192.168.1.71") // Mobile source
-                    .WithOrigins("http://localhost")
-                    .WithOrigins("http://192.168.104.6:5000") // Mobile source
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST", "DELETE", "PUT")
-                    .AllowCredentials();
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(hostName => true);
             });
 
             // app.UseHttpsRedirection();
