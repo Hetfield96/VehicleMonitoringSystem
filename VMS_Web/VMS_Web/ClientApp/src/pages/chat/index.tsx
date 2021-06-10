@@ -85,6 +85,8 @@ export const ChatComponent = () => {
                 messageInputRef.value = '';
             }
             setInputMessage('');
+            setAttachmentFile(null);
+            setAttachmentFileName(null);
             await updateChat();
         }
     }

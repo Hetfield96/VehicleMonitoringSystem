@@ -37,6 +37,10 @@ namespace VMS_Web.Controllers
             var newMessage = await _chatService.AddNewItem(message);
 
             var res = await _chatService.GetMessageById(newMessage.Id);
+            
+            // SignalR message to client
+            await ChatHub.SendMessage(_hubContext, res.ReceiverId, res);
+            
             return Ok(res);
         }
 
