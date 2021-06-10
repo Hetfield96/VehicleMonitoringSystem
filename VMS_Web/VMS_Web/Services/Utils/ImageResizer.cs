@@ -34,7 +34,7 @@ namespace VMS_Web.Services.Utils
                 }
                 else
                 {
-                    return imagePath;
+                    return fileName;
                 }
 
                 image.Mutate(x => x.Resize(resizedImageWidth, resizedImageHeight));
