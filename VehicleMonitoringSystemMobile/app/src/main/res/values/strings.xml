@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VehicleMonitoringSystemMobile</string>
+    <string name="app_name">VehicleMonitoringSystem</string>
 
     <!--    Errors-->
     <string name="error_handler__timeout">No connection error</string>
