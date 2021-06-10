@@ -97,36 +97,36 @@ public class VehicleData {
         JSONObject item = new JSONObject();
 
         try {
-            item.put("vehicle_id", vehicle_id);
-            item.put("employee_id", employee_id);
+            item.put("vehicleId", vehicle_id);
+            item.put("employeeId", employee_id);
             String datetimeFormat = new SimpleDateFormat("yyMMddHHmmss", Locale.US).format(datetime);
-            item.put("datetime", datetimeFormat);
+            item.put("datetimeString", datetimeFormat);
             item.put("latitude", latitude);
             item.put("longitude", longitude);
 
             // OBD related data
             if (AppController.getInstance().useOBD) {
                 // Control
-                item.put("distance_mil_control", distance_mil_control);
-                item.put("distance_since_cc_control", distance_since_cc_control);
-                item.put("dtc_number", dtc_number);
-                item.put("pending_trouble_codes", pending_trouble_codes);
-                item.put("permanent_trouble_codes", permanent_trouble_codes);
-                item.put("trouble_codes", trouble_codes);
+                item.put("distanceMilControl", distance_mil_control);
+                item.put("distanceSinceCcControl", distance_since_cc_control);
+                item.put("dtcNumber", dtc_number);
+                item.put("pendingTroubleCodes", pending_trouble_codes);
+                item.put("permanentTroubleCodes", permanent_trouble_codes);
+                item.put("troubleCodes", trouble_codes);
 
                 // Engine
-                item.put("rpm_engine", rpm_engine);
-                item.put("absolute_load", absolute_load);
+                item.put("rpmEngine", rpm_engine);
+                item.put("absoluteLoad", absolute_load);
                 item.put("load", load);
 
                 // Fuel
-                item.put("level_fuel", level_fuel);
-                item.put("air_fuel_ratio", air_fuel_ratio);
+                item.put("levelFuel", level_fuel);
+                item.put("airFuelRatio", air_fuel_ratio);
 
                 // Temperature
-                item.put("engine_coolant_Temperature", engine_coolant_temperature);
-                item.put("air_intake_temperature", air_intake_temperature);
-                item.put("ambient_air_temperature", ambient_air_temperature);
+                item.put("engineCoolantTemperature", engine_coolant_temperature);
+                item.put("airIntakeTemperature", air_intake_temperature);
+                item.put("ambientAirTemperature", ambient_air_temperature);
 
                 // Speed
                 item.put("speed", speed);
