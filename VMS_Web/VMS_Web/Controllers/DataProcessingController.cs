@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Dapper.Contrib.Extensions;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
 using VMS_Web.Data.DatabaseModels;
+using VMS_Web.Services.Database;
 
 namespace VMS_Web.Controllers
 {
@@ -12,27 +12,26 @@ namespace VMS_Web.Controllers
     [Route("api/[controller]")]
     public class DataProcessingController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly VehicleDataService _vehicleDataService;
 
-        public DataProcessingController(IConfiguration configuration)
+        public DataProcessingController(VehicleDataService vehicleDataService)
         {
-            _configuration = configuration;
+            _vehicleDataService = vehicleDataService;
         }
 
         [HttpPost]
-        public ActionResult<string> Post([FromBody] VehicleData[] vehicleData)
+        public async Task<ActionResult<string>> Post([FromBody] VehicleData[] vehicleData)
         {
             foreach (var vd in vehicleData)
             {
                 vd.Datetime = DateTime.ParseExact(vd.DatetimeString, "yyMMddHHmmss", CultureInfo.InvariantCulture);
             }
             
-            using var con = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            con.Insert(vehicleData);
+            await _vehicleDataService.InsertVehicleData(vehicleData);
             
-            var msg = $"DataProcessingController: synced, length = {vehicleData.Length}, datetime = {DateTime.Now:YYYY-MM-DD HH:mm}";
+            var msg = $"DataProcessingController: synced, length = {vehicleData.Length}, datetime = {DateTime.Now:yyyy-MM-dd HH:mm}";
             Console.WriteLine(msg);
-            return Ok(msg);
+            return Ok(new List<string> {msg});
         }
     }
 }

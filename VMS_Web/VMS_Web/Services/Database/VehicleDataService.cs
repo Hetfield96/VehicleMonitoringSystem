@@ -18,6 +18,12 @@ namespace VMS_Web.Services.Database
             DefaultConnectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task InsertVehicleData(VehicleData[] vehicleData)
+        {
+            await _dbContext.VehicleData.AddRangeAsync(vehicleData);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<VehicleData>> GetVehiclesLastData(int companyId, int? vehicleId, string startDateTime, string endDateTime)
         {
             var vehicleFilter = vehicleId.HasValue ? "and v.id = @vehicleId" : string.Empty;

@@ -25,6 +25,7 @@ namespace VMS_Web.Data.DatabaseModels
         [Column("datetime")] 
         public DateTime Datetime { get; set; }
         
+        [NotMapped]
         public string DatetimeString { get; set; }
         
         [Column("latitude", TypeName = "numeric")] 

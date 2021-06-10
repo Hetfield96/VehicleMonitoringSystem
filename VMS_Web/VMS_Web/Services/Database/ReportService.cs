@@ -50,7 +50,7 @@ namespace VMS_Web.Services.Database
                     join employee e on e.id = vd.employee_id
                     where vd.datetime >= to_timestamp(@startDateTime, 'YYYY-MM-DD hh24:mi')
                           and vd.datetime <= to_timestamp(@endDateTime, 'YYYY-MM-DD hh24:mi')
-                    order by vd.datetime, vd.vehicle_id desc;",
+                    order by vd.id desc;",
                 (vehicleData, vehicle, employee) =>
                 {
                     vehicleData.Vehicle = vehicle;

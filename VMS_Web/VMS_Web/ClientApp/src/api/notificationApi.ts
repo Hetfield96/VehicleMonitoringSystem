@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Employee from "../models/employee";
 import {getDbUserCompanyId} from "../utils/userUtil";
-import VehicleData from "../models/vehicleData";
 import Vehicle from "../models/vehicle";
 import {dateTimeToString} from "../utils/dateFunctions";
 import NotificationType from "../models/notificationType";
@@ -44,7 +43,8 @@ function formatNotificationsData(data: any) {
             speed: n.speed,
             message: n.message,
             notificationType: NotificationType.getNotificationTypeName(n.type),
-            geofenceName: n.geofenceId === 1 ? 'New geofence' : null
+            geofenceName: n.geofenceId === 1 ? 'New geofence' : n.geofenceId === 8 ? 'Enter restricted geofence' : null
+            // TODO save geofences name at DB
         }));
 
     return notificationData;

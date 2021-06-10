@@ -151,12 +151,18 @@ public class VehicleFragment extends Fragment {
     }
 
     public void updateObdConnected(boolean obdConnected) {
-        if (obdConnected) {
-            this.bluetoothStatusText.setText(R.string.vehicle__obd_connected);
-            this.bluetoothStatusIcon.setImageResource(R.drawable.ic_bluetooth_24);
-        } else {
-            this.bluetoothStatusText.setText(R.string.vehicle__obd_not_connected);
-            this.bluetoothStatusIcon.setImageResource(R.drawable.ic_black_bluetooth_24);
-        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (obdConnected) {
+                    bluetoothStatusText.setText(R.string.vehicle__obd_connected);
+                    bluetoothStatusIcon.setImageResource(R.drawable.ic_bluetooth_24);
+                } else {
+                    bluetoothStatusText.setText(R.string.vehicle__obd_not_connected);
+                    bluetoothStatusIcon.setImageResource(R.drawable.ic_black_bluetooth_24);
+                }
+            }
+        });
+
     }
 }
