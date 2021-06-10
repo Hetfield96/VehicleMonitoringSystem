@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
+import com.microsoft.signalr.TransportEnum;
 import com.siroytman.vehiclemonitoringsystemmobile.api.ApiController;
 import com.siroytman.vehiclemonitoringsystemmobile.model.ChatMessage;
 
@@ -25,6 +26,7 @@ public class SignalRService {
 
     public SignalRService() {
         hubConnection = HubConnectionBuilder.create(ApiController.BACKEND_URL + "/chatHub")
+                .withTransport(TransportEnum.LONG_POLLING)
                 .build();
 
         hubConnection.start().blockingAwait();
