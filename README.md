@@ -6,6 +6,9 @@ Moscow, 2021*
 **VehicleMonitoringSystem** is a system for vehicles monitoring based on the Android devices.
 The solution provides services for vehicle fleet managment. It can be used to monitor and manage: taxi fleet, buses, delivery trucks, business trips and others.
 
+### Demo
+Demo version is avaliable at https://fms.infostrategic.com/. In order to see some data on the map time range from 2021-01-01 should be picked
+
 ### Presentation
 - **Demonstration videos:**
     - [Web client application - English](https://youtu.be/ZCvslu-jak0)
